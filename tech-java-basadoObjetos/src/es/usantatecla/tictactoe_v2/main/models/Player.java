@@ -1,7 +1,4 @@
 package es.usantatecla.tictactoe_v2.main.models;
-
-import es.usantatecla.tictactoe_v2.utils.Coordinate;
-
 public class Player {
 
 	private Color color;
@@ -14,14 +11,6 @@ public class Player {
 		this.color = color;
 		this.board = board;
 	}
-
-	// public void play() {
-	// 	if (!this.board.isComplete(color)) {
-	// 		this.putToken();
-	// 	} else {
-	// 		this.moveToken();
-	// 	}
-	// }
 
 	public boolean isComplete(){
 		return this.board.isComplete(color);
@@ -71,16 +60,7 @@ public class Player {
 		return error;
 	}
 
-	// public void writeWinner() {
-	// 	Message.PLAYER_WIN.writeln(this.color.name());
-	// }
-
 	public Color getColor() {
 		return this.color;
 	}
-
-	public Board getBoard(){
-		return this.board;
-	}
-
 }
