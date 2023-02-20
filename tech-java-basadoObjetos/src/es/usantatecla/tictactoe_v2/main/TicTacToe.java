@@ -28,10 +28,9 @@ class TicTacToe {
 	}
 
 	private void playGame() {
-		Message.TITLE.writeln();
 		this.boardView.write();
 		do {
-			this.turn.play();
+			this.turnView.play();
 			this.boardView.write();
 		} while (!this.board.isTicTacToe(this.turn.getActiveColor()));
 		this.turn.writeWinner();

@@ -11,6 +11,7 @@ public class BoardView {
 
 	public BoardView(Board board) {
 		this.board = board;
+		Message.TITLE.writeln();
 	}
 
 
