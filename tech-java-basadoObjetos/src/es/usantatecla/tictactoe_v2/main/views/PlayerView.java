@@ -7,15 +7,7 @@ import es.usantatecla.tictactoe_v2.main.models.Player;
 
 class PlayerView {
 
-	public void play(Player player) {
-		if (!player.isComplete()) {
-			this.putToken(player);
-		} else {
-			this.moveToken(player);
-		}
-	}
-
-	private void putToken(Player player) {
+	public void putToken(Player player) {
 		Message.TURN.writeln(player.getColor().name());
 		BoundedCoordinate boundedCoordinate;
 		Error error;
@@ -35,7 +27,7 @@ class PlayerView {
 		return boundedCoordinate;
 	}
 
-	private void moveToken(Player player) {
+	public void moveToken(Player player) {
 		Message.TURN.writeln(player.getColor().name());
 		BoundedCoordinate origin;
 		Error error;

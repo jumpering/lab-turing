@@ -13,10 +13,12 @@ public class TurnView {
     }
 
     public void play(){
-        this.playerView.play(this.turn.getActivePlayer());
-        if(!this.turn.isTicTacToe()){
-            this.turn.changeTurn();
-        }      
+        if(this.turn.isComplete()){
+            this.playerView.putToken(this.turn.getActivePlayer());
+		} else {
+			this.playerView.moveToken(this.turn.getActivePlayer());
+		}
+        this.turn.setNextPlayer();    
     } 
     
     public void writeWinner() {

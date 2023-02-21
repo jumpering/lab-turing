@@ -9,7 +9,7 @@ public class Turn {
 
 	public Turn(Board board) {
 		assert board != null;
-		
+
 		this.board = board;
 		this.players = new Player[Turn.NUMBER_PLAYERS];
 		this.reset();
@@ -22,20 +22,21 @@ public class Turn {
 		this.activePlayer = 0;
 	}
 
-	public boolean isTicTacToe(){
-		return this.board.isTicTacToe(this.getActiveColor());
-	}
-
-	public void changeTurn(){
-		this.activePlayer = (this.activePlayer + 1) % Turn.NUMBER_PLAYERS;
-	}
-
 	public Color getActiveColor() {
 		return this.players[this.activePlayer].getColor();
 	}
 
-	public Player getActivePlayer(){
+	public Player getActivePlayer() {
 		return this.players[activePlayer];
 	}
 
+	public void setNextPlayer() {
+		if (!this.board.isTicTacToe(this.getActiveColor())) {
+			this.activePlayer = (this.activePlayer + 1) % Turn.NUMBER_PLAYERS;
+		}
+	}
+
+	public boolean isComplete(){
+		return this.players[this.activePlayer].isComplete();
+	}
 }
