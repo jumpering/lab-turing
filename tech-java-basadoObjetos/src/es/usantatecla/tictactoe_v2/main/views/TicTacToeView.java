@@ -29,6 +29,7 @@ public class TicTacToeView {
     }
 
     public void writeWinner() {
+        this.boardView.write();
         this.turnView.writeWinner();
     }
 
