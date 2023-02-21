@@ -60,4 +60,8 @@ public class Player {
 	public Color getColor() {
 		return this.color;
 	}
+
+	public String getName(){
+		return this.color.name();
+	}
 }

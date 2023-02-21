@@ -47,7 +47,7 @@ class PlayerView {
 		return boundedCoordinate;
 	}
 
-	public void writeWinner(Player player) {
-		Message.PLAYER_WIN.writeln(player.getColor().name());
-	}
+	// public void writeWinner(Player player) {
+	// 	Message.PLAYER_WIN.writeln(player.getColor().name());
+	// }
 }
