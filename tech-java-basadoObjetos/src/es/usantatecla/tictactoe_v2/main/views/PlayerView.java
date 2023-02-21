@@ -14,7 +14,7 @@ class PlayerView {
 		do {
 			boundedCoordinate = this.getCoordinate(Message.ENTER_COORDINATE_TO_PUT);
 			error = player.getPutTokenError(boundedCoordinate);
-			error.toString();
+			error.writeln();
 		} while (!error.isNull());
 		return boundedCoordinate;
 	}
@@ -27,13 +27,13 @@ class PlayerView {
 		do {
 			origin = this.getCoordinate(Message.COORDINATE_TO_REMOVE);
 			error = player.getOriginMoveTokenError(origin);
-			error.toString();
+			error.writeln();
 		} while (error != Error.NULL);
 		BoundedCoordinate target;
 		do {
 			target = this.getCoordinate(Message.COORDINATE_TO_MOVE);
 			error = player.getTargetMoveTokenError(origin, target);
-			error.toString();
+			error.writeln();
 		} while (error != Error.NULL);
 		boundedCoordinates[0] = origin;
 		boundedCoordinates[1] = target;
