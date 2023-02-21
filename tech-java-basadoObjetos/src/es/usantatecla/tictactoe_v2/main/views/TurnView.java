@@ -9,10 +9,17 @@ public class TurnView {
 
     public TurnView(Turn turn){
         this.turn = turn;
-        this.playerView = new PlayerView(this.turn.getActivePlayer());
+        this.playerView = new PlayerView();
     }
 
     public void play(){
-        this.playerView.play();
-    }  
+        this.playerView.play(this.turn.getActivePlayer());
+        if(!this.turn.isTicTacToe()){
+            this.turn.changeTurn();
+        }      
+    } 
+    
+    public void writeWinner() {
+		this.playerView.writeWinner(this.turn.getActivePlayer());
+	}
 }

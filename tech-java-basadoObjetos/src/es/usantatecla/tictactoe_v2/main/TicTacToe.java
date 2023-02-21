@@ -33,7 +33,7 @@ class TicTacToe {
 			this.turnView.play();
 			this.boardView.write();
 		} while (!this.board.isTicTacToe(this.turn.getActiveColor()));
-		this.turn.writeWinner();
+		this.turnView.writeWinner();
 	}
 
 	private boolean isResumedGame() {
@@ -49,18 +49,4 @@ class TicTacToe {
 	public static void main(String[] args) {
 		new TicTacToe().play();
 	}
-
 }
-
-
-/*
-
-Eliminar la clase "YesNoDialog",
-Añadir una clase "Piece"
-Añadir la clase "Square"
-Hacer una clase "Color"
-Elimina la clase "Turn"...
-O si tienes otra propuesta, también se acepta.
-
-*/
-

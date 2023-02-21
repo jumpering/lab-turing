@@ -4,7 +4,7 @@ import es.usantatecla.tictactoe_v2.utils.ClosedInterval;
 import es.usantatecla.tictactoe_v2.utils.Console;
 
 public enum Color {
-
+	
 	X,
 	O,
 	NULL;

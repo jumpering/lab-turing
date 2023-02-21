@@ -32,7 +32,7 @@ public class Player {
 		if (!this.board.isEmpty(boundedCoordinate)) {
 			error = Error.NOT_EMPTY;
 		}
-¡		return error;
+		return error;
 	}
 
 	public Error getOriginMoveTokenError(BoundedCoordinate origin) {

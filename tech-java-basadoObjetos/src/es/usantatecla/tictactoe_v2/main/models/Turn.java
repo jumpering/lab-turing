@@ -22,15 +22,12 @@ public class Turn {
 		this.activePlayer = 0;
 	}
 
-	public void play() {
-		this.players[this.activePlayer].play();
-		if (!this.board.isTicTacToe(this.getActiveColor())) {
-			this.activePlayer = (this.activePlayer + 1) % Turn.NUMBER_PLAYERS;
-		}
+	public boolean isTicTacToe(){
+		return this.board.isTicTacToe(this.getActiveColor());
 	}
 
-	public void writeWinner() {
-		this.players[this.activePlayer].writeWinner();
+	public void changeTurn(){
+		this.activePlayer = (this.activePlayer + 1) % Turn.NUMBER_PLAYERS;
 	}
 
 	public Color getActiveColor() {

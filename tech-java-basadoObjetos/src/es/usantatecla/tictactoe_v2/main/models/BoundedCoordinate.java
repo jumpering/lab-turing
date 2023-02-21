@@ -34,8 +34,47 @@ public class BoundedCoordinate {
 		return Error.WRONG_COORDINATES.toString();
 	}
 
-	public Direction getDirection(Coordinate coordinate) {
-		return this.coordinate.getDirection(coordinate);
+	public Direction getDirection(BoundedCoordinate boundedCoordinate) {
+		assert boundedCoordinate != null;
+
+		if (this.equals(boundedCoordinate)) {
+			return Direction.NULL;
+		}
+		if (this.inHorizontal(boundedCoordinate)) {
+			return Direction.HORIZONTAL;
+		}
+		if (this.inVertical(boundedCoordinate)) {
+			return Direction.VERTICAL;
+		}
+		if (this.inMainDiagonal() && boundedCoordinate.inMainDiagonal()) {
+			return Direction.MAIN_DIAGONAL;
+		}
+		if (this.inInverseDiagonal() && boundedCoordinate.inInverseDiagonal()) {
+			return Direction.INVERSE_DIAGONAL;
+		}
+		return Direction.NULL;
+	}
+
+	private boolean inHorizontal(BoundedCoordinate boundedCoordinate) {
+		if (boundedCoordinate == null) {
+			return false;
+		}
+		return this.coordinate.getRow() == boundedCoordinate.getRow();
+	}
+
+	private boolean inVertical(BoundedCoordinate boundedCoordinate) {
+		if (boundedCoordinate == null) {
+			return false;
+		}
+		return this.coordinate.getColumn() == boundedCoordinate.getColumn();
+	}
+
+	private boolean inMainDiagonal() {
+		return this.coordinate.getRow() - this.coordinate.getColumn() == 0;
+	}
+
+	private boolean inInverseDiagonal() {
+		return this.coordinate.getRow() + this.coordinate.getColumn() == BoundedCoordinate.DIMENSION - 1;
 	}
 
 	public int getRow() {
@@ -45,4 +84,5 @@ public class BoundedCoordinate {
 	public int getColumn() {
 		return this.coordinate.getColumn();
 	}
+
 }
