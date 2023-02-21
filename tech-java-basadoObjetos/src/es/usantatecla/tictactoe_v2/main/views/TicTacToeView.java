@@ -8,28 +8,28 @@ import es.usantatecla.tictactoe_v2.utils.YesNoDialog;
 public class TicTacToeView {
 
     private BoardView boardView;
-	private TurnView turnView;
+    private TurnView turnView;
     private PlayerView playerView;
 
-    public TicTacToeView(Turn turn, Board board){
+    public TicTacToeView(Turn turn, Board board) {
         this.boardView = new BoardView(board);
         this.turnView = new TurnView(turn);
         this.playerView = new PlayerView();
     }
 
-    public void play(){
+    public void play() {
         this.boardView.write();
         this.turnView.play(this.playerView);
     }
 
     public boolean isResumedGame() {
-		YesNoDialog yesNoDialog = new YesNoDialog();
-		yesNoDialog.read(Message.RESUME.toString());
-		return yesNoDialog.isAffirmative();
-	}
+        YesNoDialog yesNoDialog = new YesNoDialog();
+        yesNoDialog.read(Message.RESUME.toString());
+        return yesNoDialog.isAffirmative();
+    }
 
     public void writeWinner() {
         this.turnView.writeWinner();
     }
-    
+
 }

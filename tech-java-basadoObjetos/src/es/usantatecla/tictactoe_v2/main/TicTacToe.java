@@ -3,6 +3,7 @@ package es.usantatecla.tictactoe_v2.main;
 import es.usantatecla.tictactoe_v2.main.models.Board;
 import es.usantatecla.tictactoe_v2.main.models.Turn;
 import es.usantatecla.tictactoe_v2.main.views.TicTacToeView;
+
 class TicTacToe {
 
 	private Board board;
