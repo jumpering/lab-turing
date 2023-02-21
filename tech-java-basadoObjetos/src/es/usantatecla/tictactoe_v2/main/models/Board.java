@@ -1,6 +1,5 @@
 package es.usantatecla.tictactoe_v2.main.models;
 
-import es.usantatecla.tictactoe_v2.utils.Coordinate;
 import es.usantatecla.tictactoe_v2.utils.Direction;
 
 public class Board {
