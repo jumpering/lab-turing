@@ -7,7 +7,7 @@ import es.usantatecla.tictactoe_v2.main.models.Player;
 
 class PlayerView {
 
-	public void putToken(Player player) {
+	public BoundedCoordinate getPutBoundedCoordinate(Player player) {
 		Message.TURN.writeln(player.getColor().name());
 		BoundedCoordinate boundedCoordinate;
 		Error error;
@@ -16,18 +16,11 @@ class PlayerView {
 			error = player.getPutTokenError(boundedCoordinate);
 			error.toString();
 		} while (!error.isNull());
-		player.putToken(boundedCoordinate);
-	}
-
-	private BoundedCoordinate getCoordinate(Message message) {
-		assert message != null;
-
-		BoundedCoordinate boundedCoordinate = new BoundedCoordinate();
-		boundedCoordinate.read(message.toString());
 		return boundedCoordinate;
 	}
 
-	public void moveToken(Player player) {
+	public BoundedCoordinate[] getMoveBoundedCoordinates(Player player) {
+		BoundedCoordinate[] boundedCoordinates = new BoundedCoordinate[2];// todo maguc number
 		Message.TURN.writeln(player.getColor().name());
 		BoundedCoordinate origin;
 		Error error;
@@ -42,7 +35,17 @@ class PlayerView {
 			error = player.getTargetMoveTokenError(origin, target);
 			error.toString();
 		} while (error != Error.NULL);
-		player.moveToken(origin, target);
+		boundedCoordinates[0] = origin;
+		boundedCoordinates[1] = target;
+		return boundedCoordinates;
+	}
+
+	private BoundedCoordinate getCoordinate(Message message) {
+		assert message != null;
+
+		BoundedCoordinate boundedCoordinate = new BoundedCoordinate();
+		boundedCoordinate.read(message.toString());
+		return boundedCoordinate;
 	}
 
 	public void writeWinner(Player player) {
