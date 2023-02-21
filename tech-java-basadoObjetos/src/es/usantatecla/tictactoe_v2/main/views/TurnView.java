@@ -9,7 +9,7 @@ public class TurnView {
 
     public TurnView(Turn turn){
         this.turn = turn;
-        this.playerView = new PlayerView(this.turn.getActivePlayer())
+        this.playerView = new PlayerView(this.turn.getActivePlayer());
     }
 
     public void play(){

@@ -1,4 +1,5 @@
 package es.usantatecla.tictactoe_v2.main.models;
+
 public class Player {
 
 	private Color color;
@@ -12,8 +13,8 @@ public class Player {
 		this.board = board;
 	}
 
-	public boolean isComplete(){
-		return this.board.isComplete(color);
+	public boolean isComplete() {
+		return this.board.isComplete(this.color);
 	}
 
 	public void putToken(BoundedCoordinate boundedCoordinate) {
@@ -31,8 +32,7 @@ public class Player {
 		if (!this.board.isEmpty(boundedCoordinate)) {
 			error = Error.NOT_EMPTY;
 		}
-		error.writeln();
-		return error;
+¡		return error;
 	}
 
 	public Error getOriginMoveTokenError(BoundedCoordinate origin) {
@@ -42,7 +42,6 @@ public class Player {
 		if (!this.board.isOccupied(origin, this.color)) {
 			error = Error.NOT_OWNER;
 		}
-		error.writeln();
 		return error;
 	}
 
@@ -56,7 +55,6 @@ public class Player {
 		} else if (!this.board.isEmpty(target)) {
 			error = Error.NOT_EMPTY;
 		}
-		error.writeln();
 		return error;
 	}
 
