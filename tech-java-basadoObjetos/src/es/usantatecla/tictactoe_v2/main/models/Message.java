@@ -22,7 +22,7 @@ public enum Message {
 	RESUME("Do you want to continue"),
 	YES_NO_SUFFIX("? (" + Message.AFFIRMATIVE + "/" + Message.NEGATIVE + "): "),
 	YES_NO_ERROR("The value must be '" + Message.AFFIRMATIVE + "' or '" + Message.NEGATIVE + "'");
-  
+
 	public static final char AFFIRMATIVE = 'y';
 	public static final char NEGATIVE = 'n';
 	public static final String $COLOR = "#color";
@@ -35,7 +35,7 @@ public enum Message {
 
 	private Message(String message) {
 		assert message != null;
-		
+
 		this.message = message;
 	}
 
@@ -51,7 +51,7 @@ public enum Message {
 		assert string != null;
 		assert this == Message.PLAYER_WIN || this == Message.TURN;
 
-		String parameter = this==Message.PLAYER_WIN ? Message.$PLAYER : Message.$COLOR;
+		String parameter = this == Message.PLAYER_WIN ? Message.$PLAYER : Message.$COLOR;
 		Console.getInstance().writeln(this.message.replaceAll(parameter, string));
 	}
 

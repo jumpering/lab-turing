@@ -4,7 +4,6 @@ import es.usantatecla.tictactoe_v2.main.models.Board;
 import es.usantatecla.tictactoe_v2.main.models.BoundedCoordinate;
 import es.usantatecla.tictactoe_v2.main.models.Message;
 import es.usantatecla.tictactoe_v2.utils.Console;
-
 public class BoardView {
 
 	private Board board;
@@ -13,7 +12,6 @@ public class BoardView {
 		this.board = board;
 		Message.TITLE.writeln();
 	}
-
 
 	public void write() {
 		Message.HORIZONTAL_LINE.writeln();
@@ -27,6 +25,4 @@ public class BoardView {
 		}
 		Message.HORIZONTAL_LINE.writeln();
 	}
-
 }
-

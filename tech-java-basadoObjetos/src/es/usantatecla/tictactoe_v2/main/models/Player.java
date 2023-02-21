@@ -1,5 +1,4 @@
 package es.usantatecla.tictactoe_v2.main.models;
-
 public class Player {
 
 	private Color color;

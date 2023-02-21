@@ -84,5 +84,4 @@ public class BoundedCoordinate {
 	public int getColumn() {
 		return this.coordinate.getColumn();
 	}
-
 }

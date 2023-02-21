@@ -4,13 +4,13 @@ import es.usantatecla.tictactoe_v2.utils.ClosedInterval;
 import es.usantatecla.tictactoe_v2.utils.Console;
 
 public enum Color {
-	
+
 	X,
 	O,
 	NULL;
 
 	public static Color get(int ordinal) {
-		assert new ClosedInterval(0, Color.NULL.ordinal()-1).isIncluded(ordinal);
+		assert new ClosedInterval(0, Color.NULL.ordinal() - 1).isIncluded(ordinal);
 
 		return Color.values()[ordinal];
 	}

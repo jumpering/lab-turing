@@ -19,15 +19,14 @@ public class Board {
 		}
 	}
 
-  public boolean isComplete(Color color) {
-		for(BoundedCoordinate boundedCoordinate : this.getCoordinates(color)) {
-			if (boundedCoordinate == null){
+	public boolean isComplete(Color color) {
+		for (BoundedCoordinate boundedCoordinate : this.getCoordinates(color)) {
+			if (boundedCoordinate == null) {
 				return false;
 			}
 		}
 		return true;
 	}
-		
 
 	private BoundedCoordinate[] getCoordinates(Color color) {
 		assert !color.isNull();
@@ -108,4 +107,3 @@ public class Board {
 	}
 
 }
-

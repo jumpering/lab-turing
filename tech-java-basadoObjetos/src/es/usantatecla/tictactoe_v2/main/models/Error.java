@@ -17,7 +17,7 @@ public enum Error {
 
 	private Error(String message) {
 		assert message != null;
-		
+
 		this.message = message;
 	}
 

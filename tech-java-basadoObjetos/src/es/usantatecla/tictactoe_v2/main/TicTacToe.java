@@ -6,7 +6,6 @@ import es.usantatecla.tictactoe_v2.main.models.Turn;
 import es.usantatecla.tictactoe_v2.main.views.BoardView;
 import es.usantatecla.tictactoe_v2.main.views.TurnView;
 import es.usantatecla.tictactoe_v2.utils.YesNoDialog;
-
 class TicTacToe {
 
 	private Board board;

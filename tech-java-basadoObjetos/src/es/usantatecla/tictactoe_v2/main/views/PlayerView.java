@@ -4,7 +4,6 @@ import es.usantatecla.tictactoe_v2.main.models.Message;
 import es.usantatecla.tictactoe_v2.main.models.BoundedCoordinate;
 import es.usantatecla.tictactoe_v2.main.models.Error;
 import es.usantatecla.tictactoe_v2.main.models.Player;
-
 class PlayerView {
 
 	public BoundedCoordinate getPutBoundedCoordinate(Player player) {

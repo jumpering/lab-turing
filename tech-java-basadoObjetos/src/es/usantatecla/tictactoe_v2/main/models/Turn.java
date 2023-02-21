@@ -36,15 +36,15 @@ public class Turn {
 		}
 	}
 
-	public boolean isComplete(){
+	public boolean isComplete() {
 		return this.players[this.activePlayer].isComplete();
 	}
 
-	public void putToken(BoundedCoordinate boundedCoordinate){
-        this.players[this.activePlayer].putToken(boundedCoordinate);
-    }
+	public void putToken(BoundedCoordinate boundedCoordinate) {
+		this.players[this.activePlayer].putToken(boundedCoordinate);
+	}
 
-	public void moveToken(BoundedCoordinate[] boundedCoordinates){
+	public void moveToken(BoundedCoordinate[] boundedCoordinates) {
 		this.players[this.activePlayer].moveToken(boundedCoordinates[0], boundedCoordinates[1]);
 	}
 }
