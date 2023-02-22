@@ -8,7 +8,6 @@ public class Board {
 
 	public Board() {
 		this.colors = new Color[BoundedCoordinate.getDimension()][BoundedCoordinate.getDimension()];
-		this.reset();
 	}
 
 	public void reset() {
