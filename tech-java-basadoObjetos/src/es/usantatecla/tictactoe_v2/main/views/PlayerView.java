@@ -41,10 +41,7 @@ class PlayerView {
 			error = player.getTargetMoveTokenError(origin, target);
 			error.writeln();
 		} while (error != Error.NULL);
-		BoundedCoordinate[] boundedCoordinates = new BoundedCoordinate[]{
-			origin,
-			target
-		};
+		BoundedCoordinate[] boundedCoordinates = new BoundedCoordinate[]{origin,target};
 		return boundedCoordinates;
 	}
 
