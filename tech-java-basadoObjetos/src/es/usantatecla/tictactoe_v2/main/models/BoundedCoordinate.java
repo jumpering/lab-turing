@@ -1,7 +1,5 @@
 package es.usantatecla.tictactoe_v2.main.models;
 
-import es.usantatecla.tictactoe_v2.utils.BoundedIntDialog;
-import es.usantatecla.tictactoe_v2.utils.Console;
 import es.usantatecla.tictactoe_v2.utils.Coordinate;
 import es.usantatecla.tictactoe_v2.utils.Direction;
 
@@ -20,14 +18,6 @@ public class BoundedCoordinate {
 
 	public static int getDimension() {
 		return BoundedCoordinate.DIMENSION;
-	}
-
-	public void read(String title) {
-		BoundedIntDialog boundedIntDialog = new BoundedIntDialog(1, BoundedCoordinate.getDimension());
-		new Console().writeln(title);
-		this.coordinate.setRow(boundedIntDialog.read(Message.ROW.toString()) - 1);
-		this.coordinate.setColumn(boundedIntDialog.read(Message.COLUMN.toString()) - 1);
-
 	}
 
 	public String getErrorMessage() {
@@ -83,5 +73,13 @@ public class BoundedCoordinate {
 
 	public int getColumn() {
 		return this.coordinate.getColumn();
+	}
+
+	public void setRow(int row){
+		this.coordinate.setRow(row);
+	}
+
+	public void setColumn(int column){
+		this.coordinate.setColumn(column);
 	}
 }

@@ -31,5 +31,4 @@ public class BoundedIntDialog {
 		return Message.LIMITS.toString()
 			.replace(Message.$CLOSED_INTERVAL, this.LIMITS.toString());
 	}
-
 }
