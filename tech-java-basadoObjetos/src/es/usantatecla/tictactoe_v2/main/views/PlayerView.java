@@ -27,7 +27,6 @@ class PlayerView {
 	}
 
 	public BoundedCoordinate[] getMoveBoundedCoordinates(Player player) {
-		BoundedCoordinate[] boundedCoordinates = new BoundedCoordinate[2];// todo magic number
 		Message.TURN.writeln(player.getColor().name());
 		BoundedCoordinate origin;
 		Error error;
@@ -42,6 +41,7 @@ class PlayerView {
 			error = player.getTargetMoveTokenError(origin, target);
 			error.writeln();
 		} while (error != Error.NULL);
+		BoundedCoordinate[] boundedCoordinates = new BoundedCoordinate[2];// todo magic number
 		boundedCoordinates[0] = origin;
 		boundedCoordinates[1] = target;
 		return boundedCoordinates;
