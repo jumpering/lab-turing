@@ -1,7 +1,6 @@
 package es.usantatecla.tictactoe_v2.main.views;
 
 import es.usantatecla.tictactoe_v2.main.models.Message;
-import es.usantatecla.companyManagement2.utils.Console;
 import es.usantatecla.tictactoe_v2.main.models.BoundedCoordinate;
 import es.usantatecla.tictactoe_v2.main.models.Error;
 import es.usantatecla.tictactoe_v2.main.models.Player;
@@ -42,7 +41,7 @@ class PlayerView {
 	private BoundedCoordinate getCoordinate(Message message) {
 		assert message != null;
 
-		new Console().writeln(message.toString());
+		new MessageView(message).writeln();
 		BoundedIntDialogView boundedIntDialog = new BoundedIntDialogView(1, BoundedCoordinate.getDimension());
 		int row = boundedIntDialog.read(Message.ROW.toString()) - 1;
 		int column = boundedIntDialog.read(Message.COLUMN.toString()) - 1;

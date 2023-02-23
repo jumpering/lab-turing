@@ -195,14 +195,14 @@ class ClosedInterval {
 
 TicTacToe *--> Turn
 TicTacToe *--> Board
-TicTacToe --> TurnController
+TicTacToe --> TurnView
 TicTacToe --> BoardView
 TicTacToe ..> YesNoDialogView
-TurnController *--> Turn
-TurnController --> BoundedCoordinate
-TurnController ..> MessageView
-TurnController ..> PlayerView
-TurnController ..> Message
+TurnView *--> Turn
+TurnView --> BoundedCoordinate
+TurnView ..> MessageView
+TurnView ..> PlayerView
+TurnView ..> Message
 Turn *--> "2" Player
 Player --> Board
 Player --> Color
