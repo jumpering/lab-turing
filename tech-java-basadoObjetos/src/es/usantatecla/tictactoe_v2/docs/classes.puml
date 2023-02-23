@@ -166,12 +166,6 @@ class TicTacToe {
 	' + {static} void main(String[])
 }
 
-class TicTacToeView {
-	' - TicTacToe ticTacToe;
-	' - TicTacToe()
-	' + {static} void main(String[])
-}
-
 class Turn {
 	' - {static} int NUMBER_PLAYERS = 2
 	' - int activePlayer
@@ -201,10 +195,9 @@ class ClosedInterval {
 
 TicTacToe *--> Turn
 TicTacToe *--> Board
-TicTacToe ..> TicTacToeView
-TicTacToeView *--> TurnView
-TicTacToeView *--> BoardView
-TicTacToeView *--> YesNoDialogView
+TicTacToe --> TurnView
+TicTacToe --> BoardView
+TicTacToe ..> YesNoDialogView
 TurnView *--> Turn
 TurnView --> BoundedCoordinate
 TurnView ..> MessageView
