@@ -2,11 +2,11 @@ package es.usantatecla.tictactoe_v2.utils;
 
 import es.usantatecla.tictactoe_v2.main.models.Message;
 
-public class BoundedIntDialog {
+public class BoundedIntDialogView {
 
 	private ClosedInterval LIMITS;
 
-	public BoundedIntDialog(int min, int max) {
+	public BoundedIntDialogView(int min, int max) {
 		assert min <= max;
 
 		this.LIMITS = new ClosedInterval(min, max);

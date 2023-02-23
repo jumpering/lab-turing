@@ -2,7 +2,7 @@ package es.usantatecla.tictactoe_v2.utils;
 
 import es.usantatecla.tictactoe_v2.main.models.Message;
 
-public class YesNoDialog {
+public class YesNoDialogView {
 
 	private String answer;
 

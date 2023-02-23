@@ -11,7 +11,8 @@ public class TurnView {
         this.turn = turn;
     }
 
-    public void play(PlayerView playerView) {
+    public void play() {
+        PlayerView playerView = new PlayerView();
         if (!this.turn.isComplete()) {
             BoundedCoordinate boundedCoordinate = playerView
                     .getPutBoundedCoordinate(this.turn.getActivePlayer());
