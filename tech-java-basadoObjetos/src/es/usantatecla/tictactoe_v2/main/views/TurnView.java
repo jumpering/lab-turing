@@ -3,7 +3,6 @@ package es.usantatecla.tictactoe_v2.main.views;
 import es.usantatecla.tictactoe_v2.main.models.BoundedCoordinate;
 import es.usantatecla.tictactoe_v2.main.models.Message;
 import es.usantatecla.tictactoe_v2.main.models.Turn;
-
 public class TurnView {
 
     private Turn turn;
@@ -26,6 +25,7 @@ public class TurnView {
     }
 
     public void writeWinner() {
-		Message.PLAYER_WIN.writeln(this.turn.getActivePlayer().getName());
+        MessageView messageView = new MessageView();
+        messageView.writeln(Message.PLAYER_WIN, this.turn.getActivePlayer().getName());
 	}
 }

@@ -39,22 +39,6 @@ public enum Message {
 		this.message = message;
 	}
 
-	public void write() {
-		Console.getInstance().write(this.message);
-	}
-
-	public void writeln() {
-		Console.getInstance().writeln(this.message);
-	}
-
-	public void writeln(String string) {
-		assert string != null;
-		assert this == Message.PLAYER_WIN || this == Message.TURN;
-
-		String parameter = this == Message.PLAYER_WIN ? Message.$PLAYER : Message.$COLOR;
-		Console.getInstance().writeln(this.message.replaceAll(parameter, string));
-	}
-
 	public String toString() {
 		return message;
 	}

@@ -8,14 +8,10 @@ import es.usantatecla.tictactoe_v2.main.models.Player;
 import es.usantatecla.tictactoe_v2.utils.BoundedIntDialog;
 class PlayerView {
 
-	private BoundedIntDialog boundedIntDialog;
-
-	public PlayerView(BoundedIntDialog boundedIntDialog){
-		this.boundedIntDialog = boundedIntDialog;
-	}
+	private MessageView messageView = new MessageView();
 
 	public BoundedCoordinate getPutBoundedCoordinate(Player player) {
-		Message.TURN.writeln(player.getColor().name());
+		this.messageView.writeln(Message.TURN, player.getName());
 		BoundedCoordinate boundedCoordinate;
 		Error error;
 		do {
@@ -27,7 +23,7 @@ class PlayerView {
 	}
 
 	public BoundedCoordinate[] getMoveBoundedCoordinates(Player player) {
-		Message.TURN.writeln(player.getColor().name());
+		this.messageView.writeln(Message.TURN, player.getName());
 		BoundedCoordinate origin;
 		Error error;
 		do {
@@ -49,9 +45,12 @@ class PlayerView {
 		assert message != null;
 
 		new Console().writeln(message.toString());
+		BoundedIntDialog boundedIntDialog = new BoundedIntDialog(1, BoundedCoordinate.getDimension());
+		int row = boundedIntDialog.read(Message.ROW.toString()) - 1;
+		int column = boundedIntDialog.read(Message.COLUMN.toString()) - 1;
 		BoundedCoordinate boundedCoordinate = new BoundedCoordinate();
-		boundedCoordinate.setRow(this.boundedIntDialog.read(Message.ROW.toString()) - 1);
-		boundedCoordinate.setColumn(this.boundedIntDialog.read(Message.COLUMN.toString()) - 1);
+		boundedCoordinate.setRow(row);
+		boundedCoordinate.setColumn(column);
 		return boundedCoordinate;
 	}
 }
