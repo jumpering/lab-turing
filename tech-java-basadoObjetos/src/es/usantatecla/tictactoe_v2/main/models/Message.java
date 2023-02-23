@@ -1,7 +1,5 @@
 package es.usantatecla.tictactoe_v2.main.models;
 
-import es.usantatecla.tictactoe_v2.utils.Console;
-
 public enum Message {
 
 	TITLE("--- TIC TAC TOE ---"),
