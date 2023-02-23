@@ -15,11 +15,11 @@ public class TurnView {
         PlayerView playerView = new PlayerView();
         if (!this.turn.isComplete()) {
             BoundedCoordinate boundedCoordinate = playerView
-                    .getPutBoundedCoordinate(this.turn.getActivePlayer());
+                    .getBoundedCoordinateToPut(this.turn.getActivePlayer());
             this.turn.putToken(boundedCoordinate);
         } else {
             BoundedCoordinate[] boundedCoordinates = playerView
-                    .getMoveBoundedCoordinates(this.turn.getActivePlayer());
+                    .getBoundedCoordinatesToMove(this.turn.getActivePlayer());
             this.turn.moveToken(boundedCoordinates);
         }
         this.turn.setNextPlayer();
