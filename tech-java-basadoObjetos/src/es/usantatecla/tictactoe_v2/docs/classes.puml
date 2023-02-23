@@ -218,12 +218,13 @@ PlayerView ..> ErrorView
 PlayerView ..> Error
 PlayerView ..> MessageView
 PlayerView ..> Message
+PlayerView ..> BoundedCoordinateView
 ErrorView *--> Error
 Board *--> "3x3" Color
 Board ..> BoundedCoordinate
 Board ..> Direction
 BoardView ..> Message
-BoardView ..> BoundedCoordinateView
+BoardView ..> BoundedCoordinate
 BoardView *--> Board
 BoardView ..> ColorView
 BoundedCoordinate *--> Coordinate
