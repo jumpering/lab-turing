@@ -5,15 +5,21 @@ import es.usantatecla.tictactoe_v2.utils.Console;
 
 public class MessageView {
 
-    public void write(Message message) {
+	private Message message;
+
+	public MessageView(Message message){
+		this.message = message;
+	}
+
+    public void write() {
 		Console.getInstance().write(message.toString());
 	}
 
-	public void writeln(Message message) {
+	public void writeln() {
 		Console.getInstance().writeln(message.toString());
 	}
 
-	public void writeln(Message message, String string) {
+	public void writeln(String string) {
 		assert string != null;
 		assert message == Message.PLAYER_WIN || message == Message.TURN;
 

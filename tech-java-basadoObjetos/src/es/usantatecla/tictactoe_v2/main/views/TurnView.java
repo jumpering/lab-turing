@@ -25,7 +25,6 @@ public class TurnView {
     }
 
     public void writeWinner() {
-        MessageView messageView = new MessageView();
-        messageView.writeln(Message.PLAYER_WIN, this.turn.getActivePlayer().getName());
+        new MessageView(Message.PLAYER_WIN).writeln(this.turn.getActivePlayer().getName());
 	}
 }

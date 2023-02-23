@@ -8,10 +8,8 @@ import es.usantatecla.tictactoe_v2.main.models.Player;
 import es.usantatecla.tictactoe_v2.utils.BoundedIntDialog;
 class PlayerView {
 
-	private MessageView messageView = new MessageView();
-
 	public BoundedCoordinate getPutBoundedCoordinate(Player player) {
-		this.messageView.writeln(Message.TURN, player.getName());
+		new MessageView(Message.TURN).writeln(player.getName());
 		BoundedCoordinate boundedCoordinate;
 		Error error;
 		do {
@@ -23,7 +21,7 @@ class PlayerView {
 	}
 
 	public BoundedCoordinate[] getMoveBoundedCoordinates(Player player) {
-		this.messageView.writeln(Message.TURN, player.getName());
+		new MessageView(Message.TURN).writeln(player.getName());
 		BoundedCoordinate origin;
 		Error error;
 		do {

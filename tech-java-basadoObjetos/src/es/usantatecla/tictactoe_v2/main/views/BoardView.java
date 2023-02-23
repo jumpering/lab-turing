@@ -7,23 +7,22 @@ import es.usantatecla.tictactoe_v2.utils.Console;
 public class BoardView {
 
 	private Board board;
-	private MessageView messageView = new MessageView();
 
 	public BoardView(Board board) {
 		this.board = board;
-		this.messageView.writeln(Message.TITLE);
+		new MessageView(Message.TITLE).write();
 	}
 
 	public void write() {
-		this.messageView.writeln(Message.HORIZONTAL_LINE);
+		new MessageView(Message.HORIZONTAL_LINE).writeln();
 		for (int i = 0; i < BoundedCoordinate.getDimension(); i++) {
-			this.messageView.write(Message.VERTICAL_LINE);
+			new MessageView(Message.VERTICAL_LINE).write();
 			for (int j = 0; j < BoundedCoordinate.getDimension(); j++) {
 				new ColorView(this.board.getColor(new BoundedCoordinate(i, j))).write();
-				this.messageView.write(Message.VERTICAL_LINE);
+				new MessageView(Message.VERTICAL_LINE).write();
 			}
 			Console.getInstance().writeln();
 		}
-		this.messageView.writeln(Message.HORIZONTAL_LINE);
+		new MessageView(Message.HORIZONTAL_LINE).writeln();
 	}
 }
