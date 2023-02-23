@@ -205,7 +205,7 @@ TurnView ..> PlayerView
 TurnView ..> Message
 Turn *--> "2" Player
 Player o--> Board
-Player --> Color
+Player ..> Color
 PlayerView ..> Player
 PlayerView ..> ErrorView
 PlayerView ..> Error
