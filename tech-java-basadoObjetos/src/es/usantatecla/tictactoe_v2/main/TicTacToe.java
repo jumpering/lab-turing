@@ -4,7 +4,7 @@ import es.usantatecla.tictactoe_v2.main.models.Board;
 import es.usantatecla.tictactoe_v2.main.models.Message;
 import es.usantatecla.tictactoe_v2.main.models.Turn;
 import es.usantatecla.tictactoe_v2.main.views.BoardView;
-import es.usantatecla.tictactoe_v2.main.views.TurnView;
+import es.usantatecla.tictactoe_v2.main.views.TurnController;
 import es.usantatecla.tictactoe_v2.utils.YesNoDialogView;
 
 class TicTacToe {
@@ -12,13 +12,13 @@ class TicTacToe {
 	private Board board;
 	private Turn turn;
 	private BoardView boardView;
-	private TurnView turnView;
+	private TurnController turnController;
 
 	private TicTacToe() {
 		this.board = new Board();
 		this.turn = new Turn(this.board);
 		this.boardView = new BoardView(this.board);
-		this.turnView = new TurnView(this.turn);
+		this.turnController = new TurnController(this.turn);
 	}
 
 	private void play() {
@@ -32,10 +32,10 @@ class TicTacToe {
 		this.turn.reset();
 		do {
 			this.boardView.write();
-			this.turnView.play();
+			this.turnController.play();
 		} while (!this.board.isTicTacToe(this.turn.getActiveColor()));
 		this.boardView.write();
-		this.turnView.writeWinner();
+		this.turnController.writeWinner();
 	}
 
 	public boolean isResumedGame() {

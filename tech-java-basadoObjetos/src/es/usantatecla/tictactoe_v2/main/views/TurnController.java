@@ -3,11 +3,11 @@ package es.usantatecla.tictactoe_v2.main.views;
 import es.usantatecla.tictactoe_v2.main.models.BoundedCoordinate;
 import es.usantatecla.tictactoe_v2.main.models.Message;
 import es.usantatecla.tictactoe_v2.main.models.Turn;
-public class TurnView {
+public class TurnController {
 
     private Turn turn;
 
-    public TurnView(Turn turn) {
+    public TurnController(Turn turn) {
         this.turn = turn;
     }
 
