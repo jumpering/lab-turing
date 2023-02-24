@@ -30,7 +30,7 @@ public class Turn {
 		return this.players[activePlayer];
 	}
 
-	public void setNextPlayer() {
+	public void nextPlayer() {
 		if (!this.board.isTicTacToe(this.getActiveColor())) {
 			this.activePlayer = (this.activePlayer + 1) % Turn.NUMBER_PLAYERS;
 		}

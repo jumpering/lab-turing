@@ -37,7 +37,7 @@ class TicTacToe {
 			} else {
 				this.turn.moveToken(this.turnView.getBoundedCoordinatesToMove());
 			}
-			this.turn.setNextPlayer();
+			this.turn.nextPlayer();
 		} while (!this.board.isTicTacToe(this.turn.getActiveColor()));
 		this.boardView.write();
 		this.turnView.writeWinner();
