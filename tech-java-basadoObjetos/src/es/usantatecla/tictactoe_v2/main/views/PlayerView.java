@@ -42,9 +42,9 @@ class PlayerView {
 		assert message != null;
 
 		new MessageView(message).writeln();
-		BoundedIntDialogView boundedIntDialog = new BoundedIntDialogView(1, BoundedCoordinate.getDimension());
-		int row = boundedIntDialog.read(Message.ROW.toString()) - 1;
-		int column = boundedIntDialog.read(Message.COLUMN.toString()) - 1;
+		BoundedIntDialogView boundedIntDialogView = new BoundedIntDialogView(1, BoundedCoordinate.getDimension());
+		int row = boundedIntDialogView.read(Message.ROW.toString()) - 1;
+		int column = boundedIntDialogView.read(Message.COLUMN.toString()) - 1;
 		BoundedCoordinate boundedCoordinate = new BoundedCoordinate();
 		boundedCoordinate.setRow(row);
 		boundedCoordinate.setColumn(column);

@@ -44,9 +44,9 @@ class TicTacToe {
 	}
 
 	public boolean isResumedGame() {
-		YesNoDialogView yesNoDialog = new YesNoDialogView();
-		yesNoDialog.read(Message.RESUME.toString());
-		return yesNoDialog.isAffirmative();
+		YesNoDialogView yesNoDialogView = new YesNoDialogView();
+		yesNoDialogView.read(Message.RESUME.toString());
+		return yesNoDialogView.isAffirmative();
 	}
 
 	public static void main(String[] args) {
