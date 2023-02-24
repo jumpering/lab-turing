@@ -6,23 +6,23 @@ import es.usantatecla.tictactoe_v2.main.models.Turn;
 public class TurnView {
 
     private Turn turn;
+    private PlayerView playerView;
 
     public TurnView(Turn turn) {
         this.turn = turn;
+        this.playerView = new PlayerView();
     }
 
-    public void play() {
-        PlayerView playerView = new PlayerView();
-        if (!this.turn.isComplete()) {
-            BoundedCoordinate boundedCoordinate = playerView
-                    .getBoundedCoordinateToPut(this.turn.getActivePlayer());
-            this.turn.putToken(boundedCoordinate);
-        } else {
-            BoundedCoordinate[] boundedCoordinates = playerView
-                    .getBoundedCoordinatesToMove(this.turn.getActivePlayer());
-            this.turn.moveToken(boundedCoordinates);
-        }
-        this.turn.setNextPlayer();
+    public BoundedCoordinate getBoundedCoordinateToPut(){
+        BoundedCoordinate boundedCoordinate = this.playerView
+            .getBoundedCoordinateToPut(this.turn.getActivePlayer());
+        return boundedCoordinate;
+    }
+
+    public BoundedCoordinate[] getBoundedCoordinatesToMove(){
+        BoundedCoordinate[] boundedCoordinates = this.playerView
+            .getBoundedCoordinatesToMove(this.turn.getActivePlayer());
+            return boundedCoordinates;
     }
 
     public void writeWinner() {
