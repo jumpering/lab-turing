@@ -1,0 +1,13 @@
+@startuml EducationPlatform
+class EducationPlatform
+class Student
+class Teacher
+class Theme
+class Chart
+class Index
+class KnowledgeDataBase
+class Subject
+class ClassRoom
+class Note
+class Test
+@enduml

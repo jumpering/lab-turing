@@ -1,4 +1,0 @@
-@startuml testDiagram
-class Person
-class Student
-@enduml
