@@ -1,18 +1,26 @@
 @startuml EducationPlatform
 class EducationPlatform
+
 class Student
 class Teacher
+
 class GroupTheme
 class Theme
+
 class Chat
-class Index
 class KnowledgeDataBase
-class ClassRoom
+class Classroom
+
 class Test
 class Question
 class Answer
+class Grade
+class Evaluation
+
 class Definition
 class Concept
+
 class Sample
+
 class Multimedia
 @enduml
