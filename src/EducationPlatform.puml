@@ -2,12 +2,17 @@
 class EducationPlatform
 class Student
 class Teacher
+class GroupTheme
 class Theme
-class Chart
+class Chat
 class Index
 class KnowledgeDataBase
-class Subject
 class ClassRoom
-class Note
 class Test
+class Question
+class Answer
+class Definition
+class Concept
+class Sample
+class Multimedia
 @enduml
