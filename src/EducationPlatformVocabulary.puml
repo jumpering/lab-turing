@@ -1,12 +1,21 @@
-@startuml EducationPlatform
+@startuml EducationPlatformVocabulary
 class EducationPlatform
 
 class Student
+class StudentGroup
+class ConcreteStudent
 class Teacher
 
+'ojo diferentes nomenclaturas:  materia, tema, clase, etc
+class Subject
+class Course
 class GroupTheme
 class Theme
+class Topic
+class EducationalContent
 
+
+class EducationalResources
 class Chat
 class KnowledgeDataBase
 class Classroom

@@ -1,0 +1,19 @@
+@startuml
+class EducationalContent
+abstract Theme
+class ConcreteTheme
+class GroupTheme
+Enum Content{
+    Index
+    Description
+    ContentText
+    Multimedia
+    Vocabulary
+    References
+}
+
+EducationalContent o--"n" Theme
+Theme <|-- ConcreteTheme
+Theme <|-- GroupTheme
+Theme *-- Content
+@enduml
