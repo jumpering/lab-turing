@@ -1,0 +1,17 @@
+@startuml
+class EducationalResources
+class Model
+class Online
+class Presencial
+class Chat
+class Test
+class Classroom
+
+EducationalResources *-- Model
+Model <|-- Online
+Model <|-- Presencial
+Model o-- "n" Test
+Model o-- "n" Classroom
+Online o-- "n" Chat
+
+@enduml

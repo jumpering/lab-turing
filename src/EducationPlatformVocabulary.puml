@@ -13,6 +13,8 @@ class GroupTheme
 class Theme
 class Topic
 class EducationalContent
+class LEarningTopic
+class StudyUnit
 
 
 class EducationalResources

@@ -1,19 +1,25 @@
 @startuml
 class EducationalContent
-abstract Theme
-class ConcreteTheme
-class GroupTheme
+abstract Subject
+class Course
+class LearningUnit
+class Topic
+class Subtopic
 Enum Content{
     Index
+    Title
     Description
     ContentText
     Multimedia
     Vocabulary
     References
+    Links
 }
 
-EducationalContent o--"n" Theme
-Theme <|-- ConcreteTheme
-Theme <|-- GroupTheme
-Theme *-- Content
+EducationalContent o--"n" Subject
+Subject o--"n" Course
+Course o--"n" LearningUnit
+LearningUnit <|-- Topic
+LearningUnit <|-- Subtopic
+LearningUnit *-- Content
 @enduml

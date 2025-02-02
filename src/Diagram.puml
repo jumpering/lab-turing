@@ -1,17 +1,17 @@
 @startuml
 !include EducationalContent.puml
+!include EducationalResources.puml
 
 class EducationPlatform
+class User
 class Teacher
 class Student
 class EducationalResources
-class Chat
-class Test
 
-EducationPlatform o-- "n" Teacher
-EducationPlatform  o-- "n" Student
+EducationPlatform o-- "n" User
+User <|-- Teacher
+User <|-- Student
 EducationPlatform o-- "n" EducationalContent
 EducationPlatform o-- "n" EducationalResources
-EducationalResources --> Chat 
-EducationalResources --> Test
+
 @enduml
