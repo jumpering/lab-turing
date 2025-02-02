@@ -1,4 +1,4 @@
-@startuml
+@startuml Educational Platfom Domain Model
 !include EducationalContent.puml
 !include EducationalResources.puml
 
