@@ -1,0 +1,13 @@
+@startuml
+class LearningResource
+class CardTest
+class DomainExercise
+class Exercise
+class GroupExercise
+
+LearningResource o-- "n" CardTest
+LearningResource o-- "n" DomainExercise
+DomainExercise <|-- Exercise
+DomainExercise <|-- GroupExercise
+
+@enduml

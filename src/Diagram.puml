@@ -1,17 +1,18 @@
 @startuml Educational Platfom Domain Model
-!include EducationalContent.puml
-!include EducationalResources.puml
+!include Course.puml
+!include LearningResource.puml
 
 class EducationPlatform
 class User
 class Teacher
 class Student
-class EducationalResources
 
 EducationPlatform o-- "n" User
 User <|-- Teacher
 User <|-- Student
-EducationPlatform o-- "n" EducationalContent
-EducationPlatform o-- "n" EducationalResources
+EducationPlatform o-- "n" Course
+EducationPlatform o-- "n" LearningResource
+
+CardTest ..> DefinitionConceptPair
 
 @enduml
