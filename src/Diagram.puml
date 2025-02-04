@@ -1,5 +1,4 @@
 @startuml Educational Platfom Domain Model
-!include Course.puml
 !include LearningResource.puml
 
 class EducationPlatform
@@ -10,8 +9,10 @@ class Student
 EducationPlatform o-- "n" User
 User <|-- Teacher
 User <|-- Student
-EducationPlatform o-- "n" Course
-EducationPlatform o-- "n" LearningResource
+EducationPlatform o-- LearningResource
+
+User ..> LearningResource
+User ..> Course
 
 CardTest ..> DefinitionConceptPair
 

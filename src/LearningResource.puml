@@ -1,13 +1,25 @@
 @startuml
-class LearningResource
-class CardTest
-class DomainExercise
-class Exercise
-class GroupExercise
+!include Course.puml
 
-LearningResource o-- "n" CardTest
-LearningResource o-- "n" DomainExercise
-DomainExercise <|-- Exercise
-DomainExercise <|-- GroupExercise
+class LearningResource
+class Exercise
+class CardTestDefinitionDomain
+class CardTestGroup
+class CardTest
+class RegularTestDomain
+class RegularTestGroup
+class RegularTest
+
+LearningResource o-- "n" Course
+LearningResource o-- "n" Exercise
+Exercise o-- "n" CardTestDefinitionDomain
+CardTestDefinitionDomain ..>"n" DefinitionConceptPair
+CardTestDefinitionDomain <|-- CardTestGroup
+CardTestDefinitionDomain <|-- CardTest
+Exercise o-- "n" RegularTestDomain
+RegularTestDomain ..>"n" Unit
+RegularTestDomain <|-- RegularTestGroup
+RegularTestDomain <|-- RegularTest
+
 
 @enduml
