@@ -1,37 +1,78 @@
 @startuml EducationPlatformVocabulary
 class EducationPlatform
-
-class Student
-class StudentGroup
-class ConcreteStudent
-class Teacher
-
-'ojo diferentes nomenclaturas:  materia, tema, clase, etc
-class Subject
+class Syllabus
+class Index
 class Course
-class GroupTheme
-class Theme
+class Class
+class Section
 class Topic
-class EducationalContent
-class LEarningTopic
-class StudyUnit
-
-
-class EducationalResources
-class Chat
-class KnowledgeDataBase
-class Classroom
-
-class Test
-class Question
-class Answer
-class Grade
-class Evaluation
-
-class Definition
-class Concept
-
-class Sample
-
+class Unit
+class Documentation
 class Multimedia
+class Podcast
+class Transcription
+class Block
+class Exercice
+class Domain
+class Category
+class Version
+class Link
+class Definition{
+    -boolean fake
+}
+class Concept
+class Teacher
+class Student
+
+
+class Itinerary 
+class Custom
+class Defined
+
+EducationPlatform *--> "n" Teacher
+EducationPlatform *--> "n" Student
+EducationPlatform *--> "n" Course
+EducationPlatform o--> "n" Itinerary
+EducationPlatform o--> "n" Tools
+
+
+Itinerary o--> Course
+
+Itinerary <|-- Custom
+Itinerary <|-- Defined
+
+Course *--> Syllabus
+Syllabus *--> "n" Topic
+Topic *--> "n" Unit
+Unit *--> Index
+Index o--> "n" Section
+
+Section *--> "n" Concept
+Concept *--> "n" Multimedia
+Concept *--> "n" Definition
+Definition *--> Link
+Link <|-- Use
+Link <|-- Association
+Link <|-- Agregation
+Link <|-- Composition
+Link <|-- Inheritance
+
+
+'Use ..> Concept
+'Association --> Concept
+'Agregation o--> Concept
+'Composition *--> Concept
+
+Link ..> Concept
+
+
+Multimedia <|-- Podcast
+Multimedia <|-- Video
+Video o--> Transcription
+Multimedia <|-- Images
+Multimedia <|-- Text
+
+
+
+
 @enduml
