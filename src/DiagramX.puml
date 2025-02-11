@@ -2,18 +2,14 @@
 !include LearningResource.puml
 
 class EducationPlatform
-class User
+abstract User
 class Teacher
 class Student
 
-EducationPlatform o-- "n" User
+EducationPlatform *--> "n" User
+EducationPlatform o--> LearningResource
+
 User <|-- Teacher
 User <|-- Student
-EducationPlatform o-- LearningResource
-
-User ..> LearningResource
-User ..> Course
-
-CardTest ..> DefinitionConceptPair
 
 @enduml

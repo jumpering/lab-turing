@@ -1,16 +1,23 @@
 @startuml
 class Course
-class Module
 class Unit
 class Topic
-class GroupTopic
 class Multimedia
 
-Course o--"n" Module
-Module o--"n" Unit
-Unit <|-- Topic
-Unit <|-- GroupTopic
-Topic o-- "n" DefinitionConceptPair
-Topic o-- "n" Multimedia
+Course *-->"n" Syllabus
+Course *--> DefinitionDomain
+Syllabus *-->"n" Topic
+Topic o--> Unit
+
+Unit o--> "n" Definition
+Unit o--> "n" Multimedia
+
+DefinitionDomain o--> Definition
+
+Multimedia <|-- Video
+Multimedia <|-- Podcast
+Multimedia <|-- Image
+Multimedia <|-- Document
+
 
 @enduml

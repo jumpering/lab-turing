@@ -3,23 +3,19 @@
 
 class LearningResource
 class Exercise
-class CardTestDefinitionDomain
-class CardTestGroup
 class CardTest
-class RegularTestDomain
-class RegularTestGroup
-class RegularTest
+class NormalTest
+class Exam
 
-LearningResource o-- "n" Course
-LearningResource o-- "n" Exercise
-Exercise o-- "n" CardTestDefinitionDomain
-CardTestDefinitionDomain ..>"n" DefinitionConceptPair
-CardTestDefinitionDomain <|-- CardTestGroup
-CardTestDefinitionDomain <|-- CardTest
-Exercise o-- "n" RegularTestDomain
-RegularTestDomain ..>"n" Unit
-RegularTestDomain <|-- RegularTestGroup
-RegularTestDomain <|-- RegularTest
+LearningResource o--> "n" Course
+LearningResource o--> "n" Exercise
+LearningResource o--> "n" Exam
 
+LearningResource *--> Calendar
+
+Exercise o-- "n" CardTest
+CardTest ..>"n" DefinitionDomain
+
+Exercise o--> "n" NormalTest
 
 @enduml
