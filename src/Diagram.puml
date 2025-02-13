@@ -1,76 +1,64 @@
 @startuml EducationPlatform
-class EducationPlatform
-class Syllabus
-class Index
-class Course
-'class Class
-class Section
-class Topic
-class Unit
-'class Documentation
-class Multimedia
-class Podcast
-class Transcription
-'class Block
-'class Exercice
-'class Domain
-'class Category
-'class Version
-class Link
-class Definition{
-    -boolean fake
+interface Topic{
+    + getTableOfContents()
+    + Edit()
+    + Read()
 }
-class Concept
-class Teacher
-class Student
 
 
-class Itinerary 
-class Custom
-class Defined
+class UnitaryTopic{
+    - TableOfContents
 
-EducationPlatform *--> "n" Teacher
-EducationPlatform *--> "n" Student
-EducationPlatform *--> "n" Course
-EducationPlatform o--> "n" Itinerary
-EducationPlatform o--> "n" Tools
+}
 
+class CompositeTopic{
+    - topics : List<Topic> 
+}
 
-Itinerary o--> Course
+EducationPlatform *--> "+" Teacher
+EducationPlatform *--> "+" Student
+EducationPlatform *--> Topic
+EducationPlatform o--> "+" Itinerary
+EducationPlatform o--> Exercise
+EducationPlatform o--> Asker
+
+Exercise o--> DomainProblem
+DomainProblem o--> Concept : solution
+
+Teacher ..> Topic : Editor
+Student ...> Topic : Reader
+
+Topic <|.. CompositeTopic
+Topic <|.. UnitaryTopic
+CompositeTopic o--> "+" Topic
 
 Itinerary <|-- Custom
-Itinerary <|-- Defined
+Itinerary <|-- Predefined
 
-Course *--> Syllabus
-Syllabus *--> "n" Topic
-Topic *--> "n" Unit
-Unit *--> Index
-Index o--> "n" Section
-
-Section *--> "n" Concept
-Concept *--> "n" Multimedia
-Concept *--> "n" Definition
-Definition *--> Link
-Link <|-- Use
-Link <|-- Association
-Link <|-- Agregation
-Link <|-- Composition
-Link <|-- Inheritance
+Custom o--> "*" Topic
+Predefined o--> "*" Topic
 
 
-'Use ..> Concept
-'Association --> Concept
-'Agregation o--> Concept
-'Composition *--> Concept
+UnitaryTopic o--> "+" Concept
+UnitaryTopic o--> "+" Multimedia
+Concept *--> "+" Definition
+Definition *--> "*" Relation
+Relation <|-- Use
+Relation <|-- Association
+Relation <|-- Agregation
+Relation <|-- Composition
+Relation <|-- Inheritance
 
-Link ..> Concept
+Relation --> Concept
 
 
 Multimedia <|-- Podcast
 Multimedia <|-- Video
-Video o--> Transcription
-Multimedia <|-- Images
-Multimedia <|-- Text
+
+Podcast o--> Document : transcript
+Video o--> Document : transcript
+
+Multimedia <|-- Document
 
 
 
