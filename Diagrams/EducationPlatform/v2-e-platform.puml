@@ -1,0 +1,115 @@
+@startuml 
+
+EducationalPlatform *-- "+" Topic
+EducationalPlatform *-- "+" Itinerary
+EducationalPlatform *-- "+" User
+EducationalPlatform *-- Chat
+EducationalPlatform *-- Library
+Chat .right.> "+" Topic
+
+Library o-- "+" Document
+Library o-- "+" Exercise
+Library o-- "+" Media
+
+
+Document o-- "+" Media 
+
+abstract Media{}
+
+Media <|-- Image
+Media <|-- Audio
+Media <|-- Text
+Media <|-- Video
+
+Audio o-- "0..1" Transcription
+Text <|-- Transcription
+
+MultimediaVideo *-- Audio
+
+abstract User{}
+
+User <|-- Teacher
+User <|-- Student
+User ..> Chat: ask
+User --> "*" Itinerary
+
+Video *-- "+" Image
+Video <|-- MultimediaVideo
+
+Teacher ..> "*" Topic: Update
+Teacher ..> Application: Review
+
+Student ..> "*" Topic: Read
+
+abstract Itinerary{
+}
+
+Itinerary <|-- Custom
+Itinerary <|-- Predefined
+Itinerary o-- "+" Topic
+
+class Exercise{  
+     + getVersion()
+     + isAutomatic()
+}
+
+Exercise *-- Domain
+Exercise *-- Application
+
+
+abstract Topic{}
+
+Topic <|-down- SimpleTopic
+Topic <|-down- CompositeTopic
+
+class SimpleTopic{}
+
+SimpleTopic o-- "+" Exercise
+SimpleTopic *-- "+" Definition
+SimpleTopic o-- "*" Relation
+SimpleTopic *-- Document
+SimpleTopic *-- "*" Media
+
+class CompositeTopic{
+    + Index : List<Topic>
+}   
+
+CompositeTopic *-- "*" Topic
+
+Enum Relation{
+    INHERITANCE
+    COMPOSITION 
+    AGREGATION 
+    ASSOCIATION 
+    USE
+}
+
+Relation --> Topic
+
+class Definition{
+    - isFake()
+}
+
+Definition ..> "*" Relation
+
+Exercise <|-- MultipleChoice
+Exercise <|-- OpenEnded
+
+class MultipleChoice {
+    + getCorrectAnswer()
+}
+
+MultipleChoice <|-- ClozeQuestion
+
+note right of ClozeQuestion
+    A class is _________?
+end note
+
+MultipleChoice <|-- TopicRelation
+
+note right of TopicRelation
+    what functional programming is? [inheritance]
+    a. A paradigm
+end note
+
+@enduml
