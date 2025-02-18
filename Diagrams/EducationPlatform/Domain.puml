@@ -1,7 +1,7 @@
 @startuml EducationPlatformDomain
 
 abstract Itinerary {
-    - Session
+    - Edition
 }
 
 interface Topic{
@@ -19,14 +19,29 @@ class CompositeTopic{
     - topics : List<Topic> 
 }
 
-class Application_Exercise {
+class Excercise {
+}
+
+class Domain {
+}
+
+class Application {
     - Version
 }
 
-class Solution_Application {
-    - Version :Poemary
+class Incorrect {
     - Justification
-    isCorrect()
+}
+
+class Question {
+
+}
+
+enum Statement {
+    ClozeTest
+    Definition
+    Relation
+    JustifyApplication
 }
 
 class Document {
@@ -34,44 +49,60 @@ class Document {
 }
 
 class Concept {
-    - isAskable()
 }
 
 class Definition {
-    - isFake()
+    - isFalse()
 }
 
 class Justification {
-    - isFake()
+    - isFalse()
 }
 
 class Relation {
 
 }
 
+class Multimedia {
+
+}
+note left of Multimedia
+¿Asociar a otros temas?
+end note
+
 EducationPlatform *--> "+" Teacher
 EducationPlatform *--> "+" Student
 EducationPlatform *--> Topic
 EducationPlatform o--> "+" Itinerary
-EducationPlatform o--> Asker
-EducationPlatform o--> Application_Exercise
+EducationPlatform o--> Chat
+EducationPlatform o--> "+" Excercise
 
-Asker ..>"*" Application_Exercise
-Asker...> Student
-Student...> Asker :Chat
+Chat ..>"*" Excercise
+Student <..> Chat : topic
 
-Application_Exercise o--> Topic:Domain
-Application_Exercise <|-- Question
-Application_Exercise <|-- Practical
-Application_Exercise *--> Statement
-Application_Exercise *--> Solution_Application
+Excercise <|-- Domain
+Excercise <|-- Question 
 
-Question -->"*" Concept 
+Domain *-->"*" Application: requirements
+Application -->"+" Concept
 
-Teacher ..> Topic : Editor
-Teacher ..> Predefined : Editor
-Student ...> Topic : Reader
-Student ...> Custom : Editor
+Application <|-- Correct
+Application <|-- Incorrect
+
+Question -->"+" Concept
+Question -->"*" Application
+
+Question *--> Statement
+Question *--> Answer
+Answer <|-- Open
+Answer <|-- MultipleChoice
+
+'Teacher ..> Open : review
+
+Teacher ..> Topic : editor
+Teacher ..> Predefined : editor
+Student ...> Itinerary : reader
+Student ...> Custom : editor
 
 
 Topic <|.. CompositeTopic
@@ -81,19 +112,22 @@ CompositeTopic o--> "+" Topic
 Itinerary <|-- Custom
 Itinerary <|-- Predefined
 
-Custom o--> "1..n" Topic
-Predefined o--> "*" Topic
+Itinerary o--> "+" Topic
+'Predefined o--> "+" Topic
 
 
 SimpleTopic o--> "+" Concept
 SimpleTopic o--> "+" Multimedia
 Concept *--> "+" Definition
-Definition o--> "*" Relation
-Relation <|-- Use
-Relation <|-- Association
-Relation <|-- Agregation
-Relation <|-- Composition
-Relation <|-- Inheritance
+Concept o--> "*" Relation
+
+enum Relation {
+    Use
+    Association
+    Composition
+    Inheritance
+    Aggregation
+} 
 
 Relation -->"+" Concept
 Definition o-->"+" Justification
@@ -109,7 +143,5 @@ Video o--> Document : transcript
 Multimedia <|-- Document
 
 Document *-->"*" Concept
-Document o-->"*" Image
-
 
 @enduml
