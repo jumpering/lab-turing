@@ -36,10 +36,10 @@ User --> "*" Itinerary
 Video *-- "+" Image
 Video <|-- MultimediaVideo
 
-Teacher ..> "*" Topic: Update
-Teacher ..> Application: Review
+Teacher ..> "*" Topic: update
+Teacher ..> Application: review
 
-Student ..> "*" Topic: Read
+Student ..> "*" Topic: read
 
 abstract Itinerary{
 }
@@ -50,7 +50,6 @@ Itinerary o-- "+" Topic
 
 class Exercise{  
      + getVersion()
-     + isAutomatic()
 }
 
 Exercise *-- Domain
@@ -87,7 +86,7 @@ Enum Relation{
 Relation --> Topic
 
 class Definition{
-    - isFake()
+    - isCorrect()
 }
 
 Definition ..> "*" Relation
