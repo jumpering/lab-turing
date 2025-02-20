@@ -43,7 +43,8 @@ enum StatementType {
 }
 
 class Text {
-    - TableOfContents
+    - tableOfContents
+    - images
 }
 
 class Concept {
@@ -61,7 +62,11 @@ class Multimedia {
 
 }
 
-class Answer{
+abstract Solution{
+    - correct : boolean
+}
+
+class Answer {
     - correct : boolean
     - evaluated : boolean
 }
@@ -76,9 +81,9 @@ Chat o--> "+" Excercise
 
 
 
-'Student <..> Chat : topic
-Student ..> Chat 
-Answer ..> Student
+Teacher ..> Chat
+Student ..> Chat
+Student o-->"*" Answer
 
 Excercise <|-- Domain
 Excercise <|-- Question 
@@ -86,19 +91,14 @@ Excercise <|-- Question
 Domain *-->"*" Application: requirements
 Application -->"+" Concept
 
-'Application <|-- Correct
-'Application <|-- Incorrect
-
 Question -->"+" Concept
 Question -->"*" Application
-
+Question *--> Answer
 Question *--> StatementType
-Question *--> "*" Answer
-Answer <|-- Open
-Answer <|-- MultipleChoice
-Answer o--> "?" Justification : correct = false
-
-'Teacher ..> Open : review
+Question *--> "*" Solution
+Solution <|-- Open
+Solution <|-- MultipleChoice
+Solution o--> "?" Justification : correct = false
 
 Teacher ..> Topic : editor
 Teacher ..> Itinerary : editor
