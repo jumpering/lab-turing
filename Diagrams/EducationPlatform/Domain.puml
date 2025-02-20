@@ -1,7 +1,8 @@
 @startuml EducationPlatformDomain
 
-abstract Itinerary {
-    - Edition
+class Itinerary {
+    - custom : boolean
+    + Edit()
 }
 
 interface Topic{
@@ -19,32 +20,29 @@ class CompositeTopic{
     - topics : List<Topic> 
 }
 
-class Excercise {
+abstract Excercise {
 }
 
 class Domain {
 }
 
 class Application {
+    - correct : boolean
     - Version
 }
 
-class Incorrect {
-    - Justification
-}
-
 class Question {
-
+    - statement : StatementType
 }
 
-enum Statement {
+enum StatementType {
     ClozeTest
     Definition
     Relation
     JustifyApplication
 }
 
-class Document {
+class Text {
     - TableOfContents
 }
 
@@ -52,33 +50,35 @@ class Concept {
 }
 
 class Definition {
-    - isFalse()
+    - correct : boolean
 }
 
 class Justification {
-    - isFalse()
-}
-
-class Relation {
-
+    - correct : boolean
 }
 
 class Multimedia {
 
 }
-note left of Multimedia
-¿Asociar a otros temas?
-end note
+
+class Answer{
+    - correct : boolean
+    - evaluated : boolean
+}
 
 EducationPlatform *--> "+" Teacher
 EducationPlatform *--> "+" Student
 EducationPlatform *--> Topic
-EducationPlatform o--> "+" Itinerary
+EducationPlatform *--> Itinerary : predefined
+EducationPlatform o--> "*" Itinerary : custom
 EducationPlatform o--> Chat
-EducationPlatform o--> "+" Excercise
+Chat o--> "+" Excercise
 
-Chat ..>"*" Excercise
-Student <..> Chat : topic
+
+
+'Student <..> Chat : topic
+Student ..> Chat 
+Answer ..> Student
 
 Excercise <|-- Domain
 Excercise <|-- Question 
@@ -86,42 +86,50 @@ Excercise <|-- Question
 Domain *-->"*" Application: requirements
 Application -->"+" Concept
 
-Application <|-- Correct
-Application <|-- Incorrect
+'Application <|-- Correct
+'Application <|-- Incorrect
 
 Question -->"+" Concept
 Question -->"*" Application
 
-Question *--> Statement
-Question *--> Answer
+Question *--> StatementType
+Question *--> "*" Answer
 Answer <|-- Open
 Answer <|-- MultipleChoice
+Answer o--> "?" Justification : correct = false
 
 'Teacher ..> Open : review
 
 Teacher ..> Topic : editor
-Teacher ..> Predefined : editor
-Student ...> Itinerary : reader
-Student ...> Custom : editor
+Teacher ..> Itinerary : editor
+Student ...> Itinerary : editor
+note left of Student
+    Editor only
+    for custom 
+    itineraries
+    end note
+'Student ...> Custom : editor
 
 
 Topic <|.. CompositeTopic
 Topic <|.. SimpleTopic
 CompositeTopic o--> "+" Topic
 
-Itinerary <|-- Custom
-Itinerary <|-- Predefined
+'Itinerary <|-- Custom
+'Itinerary <|-- Predefined
 
 Itinerary o--> "+" Topic
 'Predefined o--> "+" Topic
 
 
 SimpleTopic o--> "+" Concept
-SimpleTopic o--> "+" Multimedia
-Concept *--> "+" Definition
-Concept o--> "*" Relation
+Topic o--> "+" Multimedia
+Concept *--> "+" Definition : correct
+Concept *--> "*" Definition : incorrect
+Relation *-right-> RelationType
+Concept *--> "*" Relation : origin
 
-enum Relation {
+enum RelationType {
     Use
     Association
     Composition
@@ -129,19 +137,25 @@ enum Relation {
     Aggregation
 } 
 
-Relation -->"+" Concept
-Definition o-->"+" Justification
-Justification o-->"+" Justification
+class Relation {
+    - type : RelationType
+}
+
+
+Relation --> "+" Concept : target
+Definition o-->"*" Justification
+
+'Justification o-->"+" Justification
 
 
 Multimedia <|-- Podcast
 Multimedia <|-- Video
 
-Podcast o--> Document : transcript
-Video o--> Document : transcript
+Podcast o--> Text : transcript
+Video o--> Text : transcript
 
-Multimedia <|-- Document
+Multimedia <|-- Text
 
-Document *-->"*" Concept
+Text -->"*" Concept
 
 @enduml
