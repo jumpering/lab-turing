@@ -4,13 +4,15 @@ class Itinerary {
     - isCustom
 }
 
+Itinerary o--> "+" Topic 
+Itinerary *--> Topic:[!itinerary.isCustom]
+'[!itinerary.isCustom.topics->size()=1 \nand topics->first().oclIsTypeOf(CompositeTopic)]
+
 EducationPlatform *--> "+" Teacher
 EducationPlatform *--> "*" Student
 EducationPlatform *--> "+" Topic
 EducationPlatform *--> "+" Itinerary: [itineraries->select(i | !i.isCustom)->size()=1]
 EducationPlatform *--> Chat
-
-Itinerary o--> "+" Topic
 
 class Exercise{
     + version
