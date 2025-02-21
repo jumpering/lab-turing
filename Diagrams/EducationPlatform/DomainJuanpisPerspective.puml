@@ -5,9 +5,9 @@ class Itinerary {
 }
 
 EducationPlatform *--> "+" Teacher
-EducationPlatform *--> "+" Student
+EducationPlatform *--> "*" Student
 EducationPlatform *--> "+" Topic
-EducationPlatform *--> "+" Itinerary
+EducationPlatform *--> "+" Itinerary: [itineraries->select(i | !i.isCustom)->size()=1]
 EducationPlatform *--> Chat
 
 Itinerary o--> "+" Topic
