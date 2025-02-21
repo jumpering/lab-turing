@@ -39,7 +39,7 @@ Teacher ..> Application: review \n [application.isCorrect == null]
 Teacher ..> Topic: edit
 Teacher ...> Itinerary: edit \n[!itinerary.isCustom]
 
-Chat o-- Exercise
+Chat o-- "+" Exercise
 Chat ..> Application: constrast
 
 Student ...> Itinerary: edit \n[itinerary.isCustom]
