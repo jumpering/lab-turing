@@ -1,0 +1,94 @@
+@startuml
+
+class Itinerary {
+    - isCustom
+}
+
+EducationPlatform *--> "+" Teacher
+EducationPlatform *--> "+" Student
+EducationPlatform *--> "+" Topic
+EducationPlatform *--> "+" Itinerary
+EducationPlatform *--> Chat
+
+Itinerary o--> "+" Topic
+
+class Exercise{
+    + version
+}
+Exercise *-- Domain
+
+Domain *-- "+" Answer
+Domain *-- StatementType
+
+enum StatementType{
+    ClozeTest
+    Definition
+    RelationType
+    JustifyApplication
+}
+
+class Answer{
+    - isCorrect
+}
+Answer o-- "0..1" Justification: [!answer.isCorrect]
+Answer <|-- Application
+
+Teacher ..> Application: review \n [application.isCorrect == null]
+Teacher ..> Topic: edit
+
+Chat o-- Exercise
+Chat ..> Application: constrast
+
+Teacher ...> Itinerary: edit \n[itinerary.isCustom]
+
+Student ...> Itinerary: edit \n[!itinerary.isCustom]
+Student o--> "+" Application: do
+Student ..> Chat: ask
+
+abstract Topic{
+    - index
+}
+Topic <|.. CompositeTopic
+Topic <|.. SimpleTopic
+Topic o--> "*" Concept
+Topic *--> Document
+Topic *--> "*" Relation
+Topic o--> "+" VideoWithAudio
+
+CompositeTopic o--> "+" Topic
+
+Concept *--> "+" Definition: [definitions->exits(d | d.isCorrect]
+Concept o--> "*" VideoWithAudio
+
+Relation --> Concept: origin
+Relation --> Concept: target
+Relation *--> RelationType
+
+enum RelationType {
+    Use
+    Association
+    Composition
+    Inheritance
+    Aggregation
+} 
+
+class Definition {
+    - isCorrect
+}
+Definition o-->"+" Justification: [!definition.isCorrect]
+
+Document o--> "*" VideoWithAudio
+Document o--> "*" Media
+
+VideoWithAudio *--> Audio
+VideoWithAudio *--> Video
+
+abstract Media {}
+Media <|-- Image
+Media <|-- Text
+Media <|-- Audio 
+Media <|-- Video
+
+Text -left-> "0..1" Audio: transcription
+
+@enduml
