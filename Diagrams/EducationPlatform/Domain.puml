@@ -1,133 +1,71 @@
-@startuml EducationPlatformDomain
+
+@startuml
 
 class Itinerary {
-    - custom : boolean
-    + Edit()
+    - isCustom
 }
 
-interface Topic{
-    + getTableOfContents()
-    + getSyllabus() : Concepts
-    + Edit()
-    + Read()
+Itinerary o--> "+" Topic 
+Itinerary *--> Topic:[!itinerary.isCustom]
+'[!itinerary.isCustom.topics->size()=1 \nand topics->first().oclIsTypeOf(CompositeTopic)]
+
+EducationPlatform *--> "+" Teacher
+EducationPlatform *--> "*" Student
+EducationPlatform *--> "+" Topic
+EducationPlatform *--> "+" Itinerary: [itineraries->select(i | !i.isCustom)->size()=1]
+EducationPlatform *--> Chat
+
+class Exercise{
+    + version
 }
+Exercise *-- Domain
 
+Domain *-- "+" Answer
+Domain *-- StatementType
 
-class SimpleTopic{
-}
-
-class CompositeTopic{
-    - topics : List<Topic> 
-}
-
-abstract Excercise {
-}
-
-class Domain {
-}
-
-class Application {
-    - correct : boolean
-    - Version
-}
-
-class Question {
-    - statement : StatementType
-}
-
-enum StatementType {
+enum StatementType{
     ClozeTest
     Definition
-    Relation
+    RelationType
     JustifyApplication
 }
 
-class Text {
-    - TableOfContents
-}
-
-class Concept {
-}
-
-class Definition {
-    - correct : boolean
-}
-
-class Justification {
-    - correct : boolean
-}
-
-class Multimedia {
-
-}
-
 class Answer{
-    - correct : boolean
-    - evaluated : boolean
+    - isCorrect
 }
+Answer o-- "0..1" Justification: [!answer.isCorrect]
+Answer <|-- Application
 
-EducationPlatform *--> "+" Teacher
-EducationPlatform *--> "+" Student
-EducationPlatform *--> Topic
-EducationPlatform *--> Itinerary : predefined
-EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform o--> Chat
-Chat o--> "+" Excercise
+Teacher ..> Application: review \n [application.isCorrect == null]
+Teacher ..> Topic: edit
+Teacher ...> Itinerary: edit \n[!itinerary.isCustom]
 
+Chat o-- "+" Exercise
+Chat ..> Application: contrast
 
+Student ...> Itinerary: edit \n[itinerary.isCustom]
+Student o--> "+" Application: do
+Student ..> Chat: ask
 
-'Student <..> Chat : topic
-Student ..> Chat 
-Answer ..> Student
-
-Excercise <|-- Domain
-Excercise <|-- Question 
-
-Domain *-->"*" Application: requirements
-Application -->"+" Concept
-
-'Application <|-- Correct
-'Application <|-- Incorrect
-
-Question -->"+" Concept
-Question -->"*" Application
-
-Question *--> StatementType
-Question *--> "*" Answer
-Answer <|-- Open
-Answer <|-- MultipleChoice
-Answer o--> "?" Justification : correct = false
-
-'Teacher ..> Open : review
-
-Teacher ..> Topic : editor
-Teacher ..> Itinerary : editor
-Student ...> Itinerary : editor
-note left of Student
-    Editor only
-    for custom 
-    itineraries
-    end note
-'Student ...> Custom : editor
-
-
+abstract Topic{
+    - index
+}
 Topic <|.. CompositeTopic
 Topic <|.. SimpleTopic
+Topic o--> "*" Concept
+Topic *--> Document
+Topic *--> "*" Relation
+Topic o--> "+" VideoWithAudio
+Topic o--> "+" Exercise
+
 CompositeTopic o--> "+" Topic
 
-'Itinerary <|-- Custom
-'Itinerary <|-- Predefined
+Concept *--> "+" Definition: [definitions->exits(d | d.isCorrect]
+Concept o--> "*" VideoWithAudio
 
-Itinerary o--> "+" Topic
-'Predefined o--> "+" Topic
-
-
-SimpleTopic o--> "+" Concept
-Topic o--> "+" Multimedia
-Concept *--> "+" Definition : correct
-Concept *--> "*" Definition : incorrect
-Relation *-right-> RelationType
-Concept *--> "*" Relation : origin
+Relation --> Concept: origin
+Relation --> Concept: target
+Relation *--> RelationType
 
 enum RelationType {
     Use
@@ -137,25 +75,23 @@ enum RelationType {
     Aggregation
 } 
 
-class Relation {
-    - type : RelationType
+class Definition {
+    - isCorrect
 }
+Definition o-->"+" Justification: [!definition.isCorrect]
 
+Document o--> "*" VideoWithAudio
+Document o--> "*" Media
 
-Relation --> "+" Concept : target
-Definition o-->"*" Justification
+VideoWithAudio *--> Audio
+VideoWithAudio *--> Video
 
-'Justification o-->"+" Justification
+abstract Media {}
+Media <|-- Image
+Media <|-- Text
+Media <|-- Audio 
+Media <|-- Video
 
-
-Multimedia <|-- Podcast
-Multimedia <|-- Video
-
-Podcast o--> Text : transcript
-Video o--> Text : transcript
-
-Multimedia <|-- Text
-
-Text -->"*" Concept
+Text -left-> "0..1" Audio: transcription
 
 @enduml
