@@ -5,7 +5,7 @@ class Itinerary {
     + Edit()
 }
 
-interface Topic{
+abstract Topic{
     + getTableOfContents()
     + getSyllabus() : Concepts
     + Edit()
@@ -28,6 +28,7 @@ class Domain {
 
 class Application {
     - correct : boolean
+    - evaluated: boolean
     - Version
 }
 
@@ -62,8 +63,15 @@ class Multimedia {
 
 }
 
-abstract Solution{
+class Solution{
     - correct : boolean
+    - type: SolutionType 
+}
+
+enum SolutionType {
+    Open
+    MultipleChoice
+    ApplicationCode
 }
 
 class Answer {
@@ -88,16 +96,16 @@ Student o-->"*" Answer
 Excercise <|-- Domain
 Excercise <|-- Question 
 
-Domain *-->"*" Application: requirements
+Domain o-->"*" Application: requirements
 Application -->"+" Concept
+Domain o--> "*" Solution
 
 Question -->"+" Concept
 Question -->"*" Application
-Question *--> Answer
+Question o-->"*" Answer
 Question *--> StatementType
-Question *--> "*" Solution
-Solution <|-- Open
-Solution <|-- MultipleChoice
+Question o--> "*" Solution
+Solution *--> SolutionType
 Solution o--> "?" Justification : correct = false
 
 Teacher ..> Topic : editor
@@ -143,7 +151,7 @@ class Relation {
 
 
 Relation --> "+" Concept : target
-Definition o-->"*" Justification
+Definition o-->"*" Justification :correct = false
 
 'Justification o-->"+" Justification
 
