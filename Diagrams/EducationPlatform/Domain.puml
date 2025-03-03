@@ -12,6 +12,9 @@ abstract Topic{
     + Read()
 }
 
+Topic *--> "*" Document
+
+
 
 class SimpleTopic{
 }
@@ -59,7 +62,11 @@ class Justification {
     - correct : boolean
 }
 
-class Multimedia {
+class Document{
+
+}
+
+class Media {
 
 }
 
@@ -119,8 +126,8 @@ note left of Student
 'Student ...> Custom : editor
 
 
-Topic <|.. CompositeTopic
-Topic <|.. SimpleTopic
+Topic <|-- CompositeTopic
+Topic <|-- SimpleTopic
 CompositeTopic o--> "+" Topic
 
 'Itinerary <|-- Custom
@@ -131,11 +138,12 @@ Itinerary o--> "+" Topic
 
 
 SimpleTopic o--> "+" Concept
-Topic o--> "+" Multimedia
+Document o--> "*" Media
 Concept *--> "+" Definition : correct
 Concept *--> "*" Definition : incorrect
 Relation *-right-> RelationType
-Concept *--> "*" Relation : origin
+Concept *--> "*" Relation
+Relation --> Concept : origin
 
 enum RelationType {
     Use
@@ -150,20 +158,24 @@ class Relation {
 }
 
 
-Relation --> "+" Concept : target
+Relation --> Concept : target
 Definition o-->"*" Justification :correct = false
 
 'Justification o-->"+" Justification
 
 
-Multimedia <|-- Podcast
-Multimedia <|-- Video
+Media <|-- Audio
+Media <|-- Video
+Video -left-> "?" Audio 
 
-Podcast o--> Text : transcript
-Video o--> Text : transcript
+Media <|-- Image
+Media <|-- Text
 
-Multimedia <|-- Text
+Text -right-> "?" Audio : transcription
 
-Text -->"*" Concept
+Concept o--> "*" Document
+
+Topic o--> "*" Question : ¿topic tiene preguntas?
+
 
 @enduml
