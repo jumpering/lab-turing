@@ -23,19 +23,20 @@ class CompositeTopic{
     - topics : List<Topic> 
 }
 
-abstract Excercise {
+class Excercise {
+    - version
 }
 
 class Domain {
+    - requirements : List<String>
 }
 
 class Application {
     - correct : boolean
     - evaluated: boolean
-    - Version
 }
 
-class Question {
+class Domain {
     - statement : StatementType
 }
 
@@ -43,7 +44,10 @@ enum StatementType {
     ClozeTest
     Definition
     Relation
+    Open
+    MultipleChoice
     JustifyApplication
+    ApplicationCode
 }
 
 class Text {
@@ -70,21 +74,12 @@ class Media {
 
 }
 
-class Solution{
-    - correct : boolean
-    - type: SolutionType 
-}
+EducationPlatform *--> "*" User
 
-enum SolutionType {
-    Open
-    MultipleChoice
-    ApplicationCode
-}
-
-class Answer {
-    - correct : boolean
-    - evaluated : boolean
-}
+abstract User{}
+ 
+User <|-- Teacher
+User <|-- Student
 
 EducationPlatform *--> "+" Teacher
 EducationPlatform *--> "+" Student
@@ -92,28 +87,26 @@ EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
 EducationPlatform o--> Chat
-Chat o--> "+" Excercise
-
-
+Chat ..> Topic
 
 Teacher ..> Chat
 Student ..> Chat
-Student o-->"*" Answer
 
-Excercise <|-- Domain
-Excercise <|-- Question 
+Teacher ..> Application :evaluate
+User *--> Application
 
-Domain o-->"*" Application: requirements
+Excercise *--> Domain
+
+'Domain o-->"*" Application: requirements
 Application -->"+" Concept
-Domain o--> "*" Solution
 
-Question -->"+" Concept
-Question -->"*" Application
-Question o-->"*" Answer
-Question *--> StatementType
-Question o--> "*" Solution
-Solution *--> SolutionType
-Solution o--> "?" Justification : correct = false
+Application --> "?" Justification : [!application.isCorrect]
+
+Domain -->"+" Concept
+Domain o-->"*" Application
+
+Domain *--> StatementType
+
 
 Teacher ..> Topic : editor
 Teacher ..> Itinerary : editor
@@ -124,6 +117,8 @@ note left of Student
     itineraries
     end note
 'Student ...> Custom : editor
+
+
 
 
 Topic <|-- CompositeTopic
@@ -141,7 +136,7 @@ SimpleTopic o--> "+" Concept
 Document o--> "*" Media
 Concept *--> "+" Definition : correct
 Concept *--> "*" Definition : incorrect
-Relation *-right-> RelationType
+Relation *-left-> RelationType
 Concept *--> "*" Relation
 Relation --> Concept : origin
 
@@ -175,7 +170,7 @@ Text -right-> "?" Audio : transcription
 
 Concept o--> "*" Document
 
-Topic o--> "*" Question : ¿topic tiene preguntas?
+Topic o--> "*" Excercise
 
 
 @enduml
