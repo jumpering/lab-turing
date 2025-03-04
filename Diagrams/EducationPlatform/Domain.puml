@@ -1,44 +1,78 @@
 @startuml EducationPlatformDomain
 
+EducationPlatform *--> "+" Teacher
+EducationPlatform *--> "+" Student
+EducationPlatform *--> Topic
+EducationPlatform *--> Itinerary : predefined
+EducationPlatform o--> "*" Itinerary : custom
+EducationPlatform o--> Chat
+EducationPlatform *--> "*" User
+
+
+
+
+class Chat{
+    + searchExercises()
+    + ContrastApplication()
+}
+Chat ..> Topic
+Chat ..> Application
+
+
+
+
+
 class Itinerary {
     - custom : boolean
-    + Edit()
+    - topics : List<Topic>
 }
-
-abstract Topic{
-    + getTableOfContents()
-    + getSyllabus() : Concepts
-    + Edit()
-    + Read()
-}
-
-Topic *--> "*" Document
+Itinerary o--> "+" Topic
+'Itinerary <|-- Custom
+'Itinerary <|-- Predefined
 
 
 
-class SimpleTopic{
-}
 
-class CompositeTopic{
-    - topics : List<Topic> 
-}
-
-class Excercise {
-    - version
-}
-
-class Domain {
-    - requirements : List<String>
-}
 
 class Application {
     - correct : boolean
     - evaluated: boolean
 }
+Application --> "?" Justification:[!application.correct]
+
+
+
+
+
+class Definition {
+    - correct : boolean
+}
+Definition *--> "?" Justification:[!definition.correct]
+
+
+
+
+
+class Justification {
+    - correct : boolean
+}
+
+
+
+
 
 class Domain {
     - statement : StatementType
+    - applications : List<Application>
+    - requirements : List<String>
 }
+Domain o-->"+" Concept
+Domain o-->"*" Application
+Domain *--> StatementType
+
+
+
+
 
 enum StatementType {
     ClozeTest
@@ -50,95 +84,116 @@ enum StatementType {
     ApplicationCode
 }
 
-class Text {
-    - tableOfContents
-    - images
+
+
+
+
+abstract User{
+    + askChat()
+    + sendApplication()
+    + EditItinerary()
 }
-
-class Concept {
-}
-
-class Definition {
-    - correct : boolean
-}
-
-class Justification {
-    - correct : boolean
-}
-
-class Document{
-
-}
-
-class Media {
-
-}
-
-EducationPlatform *--> "*" User
-
-abstract User{}
- 
 User <|-- Teacher
 User <|-- Student
-
-EducationPlatform *--> "+" Teacher
-EducationPlatform *--> "+" Student
-EducationPlatform *--> Topic
-EducationPlatform *--> Itinerary : predefined
-EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform o--> Chat
-Chat ..> Topic
-
-Teacher ..> Chat
-Student ..> Chat
-
-Teacher ..> Application :evaluate
 User *--> Application
+User ..> Chat
 
+
+
+
+class Teacher{
+    + EvaluateApplication()
+}
+Teacher ..> Application
+Teacher ..> Topic: editor
+Teacher ..> Itinerary: editor 
+'Teacher ..> Chat
+
+
+
+
+class Student{
+}
+Student ...> Itinerary : editor \n [itinerary.custom]
+'Student ..> Chat
+'note left of Student
+    'Editor only
+    'for custom 
+    'itineraries
+'end note
+
+
+
+
+
+class Excercise {
+    - version
+}
 Excercise *--> Domain
 
-'Domain o-->"*" Application: requirements
-Application -->"+" Concept
-
-Application --> "?" Justification : [!application.isCorrect]
-
-Domain -->"+" Concept
-Domain o-->"*" Application
-
-Domain *--> StatementType
-
-
-Teacher ..> Topic : editor
-Teacher ..> Itinerary : editor
-Student ...> Itinerary : editor
-note left of Student
-    Editor only
-    for custom 
-    itineraries
-    end note
-'Student ...> Custom : editor
 
 
 
 
+abstract Topic{
+    - documents : List<Document>
+    - exercises : List<Exercise>
+    + getIndex()
+}
+Topic *--> "*" Document
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
+Topic o--> "*" Excercise
+
+
+
+
+class SimpleTopic{
+    - concepts : List<Concept>
+}
+SimpleTopic o--> "+" Concept
+
+
+
+
+
+class CompositeTopic{
+    - topics : List<Topic> 
+}
 CompositeTopic o--> "+" Topic
 
-'Itinerary <|-- Custom
-'Itinerary <|-- Predefined
-
-Itinerary o--> "+" Topic
-'Predefined o--> "+" Topic
 
 
-SimpleTopic o--> "+" Concept
-Document o--> "*" Media
-Concept *--> "+" Definition : correct
-Concept *--> "*" Definition : incorrect
+
+
+Document o--> "+" Media
+
+
+
+
+class Concept{
+    - exercises : List<Exercise>
+}
+Concept *-down-> "+" Definition : correct
+Concept *-down-> "*" Definition : incorrect
+Concept *-down-> "*" Relation
+Concept o-down-> "*" Document
+Concept o-down-> "*" Excercise
+
+
+
+
+
+class Relation {
+    - type : RelationType
+}
+Relation --> Concept : target
 Relation *-left-> RelationType
-Concept *--> "*" Relation
 Relation --> Concept : origin
+
+
+
+
 
 enum RelationType {
     Use
@@ -148,29 +203,21 @@ enum RelationType {
     Aggregation
 } 
 
-class Relation {
-    - type : RelationType
+
+
+
+
+class Media {
 }
-
-
-Relation --> Concept : target
-Definition o-->"*" Justification :correct = false
-
-'Justification o-->"+" Justification
-
-
 Media <|-- Audio
 Media <|-- Video
-Video -left-> "?" Audio 
-
 Media <|-- Image
 Media <|-- Text
 
+
+
+
+
+Video -left-> "?" Audio 
 Text -right-> "?" Audio : transcription
-
-Concept o--> "*" Document
-
-Topic o--> "*" Excercise
-
-
 @enduml
