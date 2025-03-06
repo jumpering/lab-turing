@@ -1,7 +1,6 @@
 @startuml EducationPlatformDomain
 
 class EducationPlatform {
-
 }
 EducationPlatform *--> "+" Teacher
 EducationPlatform *--> "+" Student
@@ -9,12 +8,7 @@ EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
 EducationPlatform o--> Chat
-EducationPlatform o--> Domain
-
-class Chat {
-
-}
-Chat o--> "+" Question
+EducationPlatform o--> "*" Domain
 
 class Itinerary {
     - custom : boolean
@@ -25,7 +19,7 @@ abstract Topic{
 }
 Topic <|.. CompositeTopic
 Topic <|.. SimpleTopic
-Topic o--> "+" Multimedia
+Topic o--> "+" Attachment
 
 class SimpleTopic{
 }
@@ -35,6 +29,19 @@ class CompositeTopic{
     - topics : List<Topic> 
 }
 CompositeTopic o--> "+" Topic
+
+class Attachment {
+}
+Attachment <|-- Podcast
+Attachment <|-- Video
+Attachment <|-- Text
+Podcast o--> Text
+Video o--> Text
+
+class Text {
+    - images
+}
+Text -->"*" Concept
 
 class Domain {
     - version
@@ -49,8 +56,13 @@ class Application {
 }
 Application -->"+" Concept
 
+class Chat {
+}
+Chat o--> "+" Question
+
 class Question {
-    - statement : StatementType
+    - statement
+    - type : QuestionType
 }
 Question -->"+" Concept
 Question -->"*" Application
@@ -71,12 +83,6 @@ enum StatementType {
     JustifyApplication
 }
 
-
-class Text {
-    - images
-}
-Text -->"*" Concept
-
 class Concept {
 }
 Concept *--> "+" Definition : correct
@@ -86,28 +92,10 @@ Concept *--> "*" Relation
 class Definition {
     - correct : boolean
 }
+Definition o-->"*" Justification :correct = false
 
 class Justification {
     - correct : boolean
-}
-
-class Multimedia {
-}
-Multimedia <|-- Podcast
-Multimedia <|-- Video
-Multimedia <|-- Text
-Podcast o--> Text
-Video o--> Text
-
-class Solution{
-    - correct : boolean
-    - type: QuestionType 
-}
-Solution o--> "?" Justification : correct = false
-
-class Answer {
-    - correct : boolean
-    - evaluated : boolean
 }
 
 class Relation {
@@ -123,11 +111,17 @@ enum RelationType {
     Composition
     Inheritance
     Aggregation
-} 
-
-class Definition {
-
 }
-Definition o-->"*" Justification :correct = false
+
+class Solution{
+    - correct : boolean
+}
+Solution o--> "?" Justification : correct = false
+
+class Answer {
+    - correct : boolean
+    - evaluated : boolean
+    - author: student
+}
 
 @enduml

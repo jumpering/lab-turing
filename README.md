@@ -2,4 +2,4 @@
 
 ## Educational platform domain model
 
-![image info](./out/Domain/EducationPlatformDomain.svg)
+![image info](./out/Diagrams/Domain/EducationPlatformDomain.svg)
