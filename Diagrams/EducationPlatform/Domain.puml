@@ -1,41 +1,69 @@
 @startuml EducationPlatformDomain
 
+class EducationPlatform {
+
+}
+EducationPlatform *--> "+" Teacher
+EducationPlatform *--> "+" Student
+EducationPlatform *--> Topic
+EducationPlatform *--> Itinerary : predefined
+EducationPlatform o--> "*" Itinerary : custom
+EducationPlatform o--> Chat
+EducationPlatform o--> Domain
+
+class Chat {
+
+}
+Chat o--> "+" Question
+
 class Itinerary {
     - custom : boolean
-    + Edit()
 }
+Itinerary o--> "+" Topic
 
 abstract Topic{
-    + getTableOfContents()
-    + getSyllabus() : Concepts
-    + Edit()
-    + Read()
 }
-
+Topic <|.. CompositeTopic
+Topic <|.. SimpleTopic
+Topic o--> "+" Multimedia
 
 class SimpleTopic{
 }
+SimpleTopic o--> "+" Concept
 
 class CompositeTopic{
     - topics : List<Topic> 
 }
-
-abstract Excercise {
-}
+CompositeTopic o--> "+" Topic
 
 class Domain {
+    - version
+    - requirements
 }
+Domain o-->"*" Application
+Domain o--> "*" Solution
 
 class Application {
     - correct : boolean
     - evaluated: boolean
-    - Version
 }
+Application -->"+" Concept
 
 class Question {
     - statement : StatementType
 }
+Question -->"+" Concept
+Question -->"*" Application
+Question o-->"*" Answer
+Question *--> StatementType
+Question o--> "*" Solution
+Question *--> QuestionType
 
+enum QuestionType {
+    Open
+    MultipleChoice
+    ApplicationCode
+}
 enum StatementType {
     ClozeTest
     Definition
@@ -43,13 +71,17 @@ enum StatementType {
     JustifyApplication
 }
 
+
 class Text {
-    - tableOfContents
     - images
 }
+Text -->"*" Concept
 
 class Concept {
 }
+Concept *--> "+" Definition : correct
+Concept *--> "*" Definition : incorrect
+Concept *--> "*" Relation
 
 class Definition {
     - correct : boolean
@@ -60,82 +92,30 @@ class Justification {
 }
 
 class Multimedia {
-
 }
+Multimedia <|-- Podcast
+Multimedia <|-- Video
+Multimedia <|-- Text
+Podcast o--> Text
+Video o--> Text
 
 class Solution{
     - correct : boolean
-    - type: SolutionType 
+    - type: QuestionType 
 }
-
-enum SolutionType {
-    Open
-    MultipleChoice
-    ApplicationCode
-}
+Solution o--> "?" Justification : correct = false
 
 class Answer {
     - correct : boolean
     - evaluated : boolean
 }
 
-EducationPlatform *--> "+" Teacher
-EducationPlatform *--> "+" Student
-EducationPlatform *--> Topic
-EducationPlatform *--> Itinerary : predefined
-EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform o--> Chat
-Chat o--> "+" Excercise
-
-
-
-Teacher ..> Chat
-Student ..> Chat
-Student o-->"*" Answer
-
-Excercise <|-- Domain
-Excercise <|-- Question 
-
-Domain o-->"*" Application: requirements
-Application -->"+" Concept
-Domain o--> "*" Solution
-
-Question -->"+" Concept
-Question -->"*" Application
-Question o-->"*" Answer
-Question *--> StatementType
-Question o--> "*" Solution
-Solution *--> SolutionType
-Solution o--> "?" Justification : correct = false
-
-Teacher ..> Topic : editor
-Teacher ..> Itinerary : editor
-Student ...> Itinerary : editor
-note left of Student
-    Editor only
-    for custom 
-    itineraries
-    end note
-'Student ...> Custom : editor
-
-
-Topic <|.. CompositeTopic
-Topic <|.. SimpleTopic
-CompositeTopic o--> "+" Topic
-
-'Itinerary <|-- Custom
-'Itinerary <|-- Predefined
-
-Itinerary o--> "+" Topic
-'Predefined o--> "+" Topic
-
-
-SimpleTopic o--> "+" Concept
-Topic o--> "+" Multimedia
-Concept *--> "+" Definition : correct
-Concept *--> "*" Definition : incorrect
+class Relation {
+    - type : RelationType
+}
+Relation --> Concept : origin
+Relation --> Concept : target
 Relation *-right-> RelationType
-Concept *--> "*" Relation : origin
 
 enum RelationType {
     Use
@@ -145,25 +125,9 @@ enum RelationType {
     Aggregation
 } 
 
-class Relation {
-    - type : RelationType
+class Definition {
+
 }
-
-
-Relation --> "+" Concept : target
 Definition o-->"*" Justification :correct = false
-
-'Justification o-->"+" Justification
-
-
-Multimedia <|-- Podcast
-Multimedia <|-- Video
-
-Podcast o--> Text : transcript
-Video o--> Text : transcript
-
-Multimedia <|-- Text
-
-Text -->"*" Concept
 
 @enduml
