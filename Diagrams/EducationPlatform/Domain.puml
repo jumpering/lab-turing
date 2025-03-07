@@ -1,199 +1,127 @@
 @startuml EducationPlatformDomain
 
-EducationPlatform *--> "+" Teacher
-EducationPlatform *--> "+" Student
+EducationPlatform *--> "+" User
 EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform o--> Chat
-EducationPlatform *--> "*" User
+EducationPlatform *--> Chat
 
+abstract User{
+}
 
+User <|-- Teacher
+User <|-- Student
+User *-->"+" Solution
+User ..> Chat
+User ..> Itinerary
 
+class Teacher{
+}
+
+class Student{
+}
 
 class Chat{
-    + searchExercises()
-    + ContrastApplication()
 }
-Chat ..> Topic
-Chat ..> Application
-
-
-
-
+Chat ..> "+" Topic
 
 class Itinerary {
     - custom : boolean
     - topics : List<Topic>
 }
 Itinerary o--> "+" Topic
-'Itinerary <|-- Custom
-'Itinerary <|-- Predefined
-
-
-
-
-
-class Application {
-    - correct : boolean
-    - evaluated: boolean
-}
-Application --> "?" Justification:[!application.correct]
-
-
-
-
 
 class Definition {
     - correct : boolean
 }
-Definition *--> "?" Justification:[!definition.correct]
-
-
-
-
+Definition *--> "*" Justification:[!definition.correct]
 
 class Justification {
     - correct : boolean
 }
 
-
-
-
-
 class Domain {
-    - statement : StatementType
-    - applications : List<Application>
+    '- statement : StatementType
+    - version : int
     - requirements : List<String>
 }
-Domain o-->"+" Concept
-Domain o-->"*" Application
-Domain *--> StatementType
 
+abstract Exercise {
+    - Solutions : List<Solution>
+}
+Exercise <|-- Domain
+Exercise <|-- Question
+Exercise *-->"+" Solution
+Exercise o-->"*" Solution
+Exercise ..> Solution
 
+abstract Question{
+    - statement : Statement
+    - solutionCount : int
+}
+Question *-->Statement
+Question <|-- MultipleChoice
+Question <|-- Cloze
+Question <|-- Open
 
-
-
-enum StatementType {
-    ClozeTest
-    Definition
-    Relation
-    Open
-    MultipleChoice
-    JustifyApplication
-    ApplicationCode
+class Cloze{
+    blankCount: int
+}
+  
+class MultipleChoice{
 }
 
-
-
-
-
-abstract User{
-    + askChat()
-    + sendApplication()
-    + EditItinerary()
+class Solution{
+    - correct : boolean
+    - evaluated : boolean
 }
-User <|-- Teacher
-User <|-- Student
-User *--> Application
-User ..> Chat
-
-
-
-
-class Teacher{
-    + EvaluateApplication()
+Solution *--> "*" Justification:[!Solution.correct]
+                   
+class Statement{
+    - content : String
 }
-Teacher ..> Application
-Teacher ..> Topic: editor
-Teacher ..> Itinerary: editor 
-'Teacher ..> Chat
-
-
-
-
-class Student{
-}
-Student ...> Itinerary : editor \n [itinerary.custom]
-'Student ..> Chat
-'note left of Student
-    'Editor only
-    'for custom 
-    'itineraries
-'end note
-
-
-
-
-
-class Excercise {
-    - version
-}
-Excercise *--> Domain
-
-
-
-
+Statement <|-- Solution
 
 abstract Topic{
     - documents : List<Document>
-    - exercises : List<Exercise>
-    + getIndex()
 }
 Topic *--> "*" Document
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
-Topic o--> "*" Excercise
-
-
-
 
 class SimpleTopic{
     - concepts : List<Concept>
 }
 SimpleTopic o--> "+" Concept
 
-
-
-
-
 class CompositeTopic{
     - topics : List<Topic> 
 }
 CompositeTopic o--> "+" Topic
 
-
-
-
-
-Document o--> "+" Media
-
-
-
+class Document{}
+Document *-->"*" Audio
+Document *-->"*" Video
+Document *-->"*" Image
+Document *-->"*" Text
 
 class Concept{
     - exercises : List<Exercise>
+    - relations : List<Relation>
 }
 Concept *-down-> "+" Definition : correct
 Concept *-down-> "*" Definition : incorrect
 Concept *-down-> "*" Relation
 Concept o-down-> "*" Document
-Concept o-down-> "*" Excercise
-
-
-
-
+Concept o-down-> "*" Exercise
 
 class Relation {
     - type : RelationType
+    - connection : Dictionary<Concept,Concept>
 }
 Relation --> Concept : target
-Relation *-left-> RelationType
+Relation *-down-> RelationType
 Relation --> Concept : origin
-
-
-
-
 
 enum RelationType {
     Use
@@ -202,22 +130,4 @@ enum RelationType {
     Inheritance
     Aggregation
 } 
-
-
-
-
-
-class Media {
-}
-Media <|-- Audio
-Media <|-- Video
-Media <|-- Image
-Media <|-- Text
-
-
-
-
-
-Video -left-> "?" Audio 
-Text -right-> "?" Audio : transcription
 @enduml
