@@ -41,25 +41,23 @@ class Justification {
 }
 
 class Domain {
-    '- statement : StatementType
     - version : int
     - requirements : List<String>
 }
 
 abstract Exercise {
-    - Solutions : List<Solution>
+    - statement : String
+    - solutions : List<Solution>
 }
-Exercise <|-- Domain
-Exercise <|-- Question
+Exercise <|-down- Domain
+Exercise <|-right- Question
 Exercise *-->"+" Solution
 Exercise o-->"*" Solution
-Exercise ..> Solution
+Exercise ..> Solution : contrast
 
 abstract Question{
     - statement : Statement
-    - solutionCount : int
 }
-Question *-->Statement
 Question <|-- MultipleChoice
 Question <|-- Cloze
 Question <|-- Open
@@ -74,36 +72,34 @@ class MultipleChoice{
 class Solution{
     - correct : boolean
     - evaluated : boolean
+    - Application : String
 }
-Solution *--> "*" Justification:[!Solution.correct]
-                   
-class Statement{
-    - content : String
-}
-Statement <|-- Solution
+Solution *--> "*" Justification:[!solution.correct]
 
 abstract Topic{
     - documents : List<Document>
 }
-Topic *--> "*" Document
+Topic *-[#green]-> "*" Document
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
 
 class SimpleTopic{
     - concepts : List<Concept>
+    - exercises : List<Exercise>
 }
 SimpleTopic o--> "+" Concept
+SimpleTopic *-[#red]- "*" Exercise
 
 class CompositeTopic{
     - topics : List<Topic> 
 }
 CompositeTopic o--> "+" Topic
 
-class Document{}
-Document *-->"*" Audio
-Document *-->"*" Video
-Document *-->"*" Image
-Document *-->"*" Text
+abstract Document{}
+Document <|-- Audio
+Document <|-- Video
+Document <|-- Image
+Document <|-- Text
 
 class Concept{
     - exercises : List<Exercise>
@@ -112,12 +108,13 @@ class Concept{
 Concept *-down-> "+" Definition : correct
 Concept *-down-> "*" Definition : incorrect
 Concept *-down-> "*" Relation
-Concept o-down-> "*" Document
-Concept o-down-> "*" Exercise
+Concept o-down[#green]-> "*" Document
+Concept o-down[#red]-> "*" Exercise
 
 class Relation {
     - type : RelationType
-    - connection : Dictionary<Concept,Concept>
+    - origin : Concept
+    - traget : Concept
 }
 Relation --> Concept : target
 Relation *-down-> RelationType
