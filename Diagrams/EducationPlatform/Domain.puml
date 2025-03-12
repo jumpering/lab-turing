@@ -4,7 +4,8 @@ EducationPlatform *--> "+" User
 EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform *--> Chat
+EducationPlatform *--> Evaluator
+'EducationPlatform *--> ConceptGraph
 
 abstract User{
 }
@@ -12,22 +13,20 @@ abstract User{
 User <|-- Teacher
 User <|-- Student
 User *-->"+" Solution
-User ..> Chat
-User ..> Itinerary
 
 class Teacher{
 }
 
 class Student{
 }
+'Student --> Evaluator
+'Student --> Itinerary
 
-class Chat{
+class Evaluator{
 }
-Chat ..> "+" Topic
+Evaluator ..> Topic : main tree
 
 class Itinerary {
-    - custom : boolean
-    - topics : List<Topic>
 }
 Itinerary o--> "+" Topic
 
@@ -47,10 +46,9 @@ class Domain {
 
 abstract Exercise {
     - statement : String
-    - solutions : List<Solution>
 }
 Exercise <|-down- Domain
-Exercise <|-right- Question
+Exercise <|-down- Question
 Exercise *-->"+" Solution
 Exercise o-->"*" Solution
 Exercise ..> Solution : contrast
@@ -76,21 +74,16 @@ class Solution{
 Solution *--> "*" Justification:[!solution.correct]
 
 abstract Topic{
-    - documents : List<Document>
 }
 Topic *-[#green]-> "*" Document
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
 
 class SimpleTopic{
-    - concepts : List<Concept>
-    - exercises : List<Exercise>
 }
 SimpleTopic o--> "+" Concept
-SimpleTopic *-[#red]- "*" Exercise
 
 class CompositeTopic{
-    - topics : List<Topic> 
 }
 CompositeTopic o--> "+" Topic
 
@@ -100,24 +93,22 @@ Document <|-- Video
 Document <|-- Image
 Document <|-- Text
 
+'class ConceptGraph{
+'}
+'ConceptGraph o--> "+"Concept
+
 class Concept{
-    - exercises : List<Exercise>
-    - relations : List<Relation>
 }
 Concept *-down-> "+" Definition : correct
 Concept *-down-> "*" Definition : incorrect
-Concept *-down-> "*" Relation
-Concept o-down[#green]-> "*" Document
+Concept *-down-> "*" Relation : origin
+Concept *-down[#green]-> "*" Document
 Concept o-down[#red]-> "*" Exercise
 
 class Relation {
-    - type : RelationType
-    - origin : Concept
-    - traget : Concept
 }
 Relation --> Concept : target
 Relation *-down-> RelationType
-Relation --> Concept : origin
 
 enum RelationType {
     Use
