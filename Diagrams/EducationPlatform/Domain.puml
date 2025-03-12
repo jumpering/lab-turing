@@ -56,7 +56,6 @@ Exercise o-->"*" Solution
 Exercise ..> Solution : contrast
 
 abstract Question{
-    - statement : Statement
 }
 Question <|-- MultipleChoice
 Question <|-- Cloze
