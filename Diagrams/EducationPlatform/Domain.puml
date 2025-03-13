@@ -12,31 +12,30 @@ abstract User{
 
 User <|-- Teacher
 User <|-- Student
-'User *-->"+" Solution
+'User *-->"+" Application
 
 class Teacher{
 }
 
 class Student{
 }
-Student *--> "*" Solution
+Student *-[#red]-> "*" Application
 'Student --> Itinerary
 
 class Evaluator{
 }
-Evaluator --> Solution
+Evaluator --> Application
 
 class Itinerary {
 }
 Itinerary o--> "+" Topic
 
 class Definition {
-    - correct : boolean
+    '- correct : boolean
 }
-Definition *--> "*" Justification:[!definition.correct]
 
 class Justification {
-    - correct : boolean
+    '- correct : boolean
 }
 
 class Domain {
@@ -49,8 +48,8 @@ abstract Exercise {
 }
 Exercise <|-down- Domain
 Exercise <|-down- Question
-Exercise *-->"+" Solution
-Exercise o-->"*" Solution
+Exercise *-->"+" Application
+Exercise o-->"*" Application
 
 abstract Question{
 }
@@ -65,16 +64,22 @@ class Cloze{
 class MultipleChoice{
 }
 
-class Solution{
-    - correct : boolean
+class Application{
+    '- correct : boolean
     - evaluated : boolean
-    - Application : String
+    - solution : String
 }
-Solution *--> "*" Justification:[!solution.correct]
+
+abstract Validatable{
+    - correct : boolean
+}
+Validatable <|-- Application
+Validatable <|-- Definition
+Validatable *--> "*" Justification:[!validatable.correct]
 
 abstract Topic{
 }
-Topic *-[#green]-> "*" Document
+Topic *-[#red]-> "*" Document
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
 
@@ -101,7 +106,7 @@ class Concept{
 Concept *-down-> "+" Definition : correct
 Concept *-down-> "*" Definition : incorrect
 Concept *-down-> "*" Relation : origin
-Concept *-down[#green]-> "*" Document
+Concept *-down[#red]-> "*" Document
 Concept o-down[#red]-> "*" Exercise
 
 class Relation {
