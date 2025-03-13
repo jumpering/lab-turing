@@ -7,11 +7,10 @@ EducationPlatform *--> "+" Student
 EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform o--> Chat
+EducationPlatform o--> Evaluator
 EducationPlatform o--> "*" Domain
 
 class Itinerary {
-    - custom : boolean
 }
 Itinerary o--> "+" Topic
 
@@ -23,7 +22,7 @@ Topic o--> "+" Attachment
 
 class SimpleTopic{
 }
-SimpleTopic o--> "+" Concept
+SimpleTopic --> "+" Concept
 
 class CompositeTopic{
     - topics : List<Topic> 
@@ -48,25 +47,22 @@ class Domain {
     - requirements
 }
 Domain o-->"*" Application
-Domain o--> "*" Solution
+Application o--> "*" Solution
 
 class Application {
-    - correct : boolean
-    - evaluated: boolean
 }
 Application -->"+" Concept
 
-class Chat {
+class Evaluator {
 }
-Chat o--> "+" Question
+Evaluator --> Question
 
 class Question {
     - statement
     - type : QuestionType
 }
 Question -->"+" Concept
-Question -->"*" Application
-Question o-->"*" Answer
+Question -->"*" Answer
 Question *--> StatementType
 Question o--> "*" Solution
 Question *--> QuestionType
@@ -99,11 +95,9 @@ class Justification {
 }
 
 class Relation {
-    - type : RelationType
 }
-Relation --> Concept : origin
-Relation --> Concept : target
-Relation *-right-> RelationType
+Relation *--> Concept : target
+Relation *--> RelationType
 
 enum RelationType {
     Use
@@ -121,7 +115,7 @@ Solution o--> "?" Justification : correct = false
 class Answer {
     - correct : boolean
     - evaluated : boolean
-    - author: student
+    - author: id_Student
 }
 
 @enduml
