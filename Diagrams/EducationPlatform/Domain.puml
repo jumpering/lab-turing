@@ -12,19 +12,19 @@ abstract User{
 
 User <|-- Teacher
 User <|-- Student
-User *-->"+" Solution
+'User *-->"+" Solution
 
 class Teacher{
 }
 
 class Student{
 }
-'Student --> Evaluator
+Student *--> "*" Solution
 'Student --> Itinerary
 
 class Evaluator{
 }
-Evaluator ..> Topic : main tree
+Evaluator --> Solution
 
 class Itinerary {
 }
@@ -51,7 +51,6 @@ Exercise <|-down- Domain
 Exercise <|-down- Question
 Exercise *-->"+" Solution
 Exercise o-->"*" Solution
-Exercise ..> Solution : contrast
 
 abstract Question{
 }
