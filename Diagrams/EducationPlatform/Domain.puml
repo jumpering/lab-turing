@@ -8,6 +8,48 @@ EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
 EducationPlatform o--> Evaluator
+
+package "Knowledge-Base" {
+    class Concept {
+    }
+    Concept o--> "+" Definition : correct
+    Concept o--> "*" Definition : incorrect
+    Concept o--> "*" Relation
+
+    class Definition {
+        - correct : boolean
+    }
+    Definition o-->"*" Justification :correct = false
+
+    class Justification {
+        - correct : boolean
+        }
+
+    class Relation {
+    }
+    Relation *--> Concept : target
+    Relation *--> RelationType
+
+    enum RelationType {
+        Use
+        Association
+        Composition
+        Inheritance
+        Aggregation
+    }
+
+    class Domain {
+    }
+    Domain o-->"*" Application
+    'Application o--> "*" Solution
+
+    class Application {
+        - version
+        - requirements
+    }
+    Application -->"+" Concept
+
+}
 EducationPlatform o--> "*" Domain
 
 class Itinerary {
@@ -40,32 +82,21 @@ Video o--> Text
 class Text {
     - images
 }
-Text -->"*" Concept
 
-class Domain {
-    - version
-    - requirements
-}
-Domain o-->"*" Application
-Application o--> "*" Solution
 
-class Application {
-}
-Application -->"+" Concept
 
 class Evaluator {
 }
 Evaluator --> Question
 
 class Question {
-    - statement
-    - type : QuestionType
 }
 Question -->"+" Concept
 Question -->"*" Answer
-Question *--> StatementType
-Question o--> "*" Solution
+'Question o--> "*" Solution
+Question *--> Statement
 Question *--> QuestionType
+Statement *--> StatementType
 
 enum QuestionType {
     Open
@@ -79,38 +110,10 @@ enum StatementType {
     JustifyApplication
 }
 
-class Concept {
-}
-Concept *--> "+" Definition : correct
-Concept *--> "*" Definition : incorrect
-Concept *--> "*" Relation
-
-class Definition {
-    - correct : boolean
-}
-Definition o-->"*" Justification :correct = false
-
-class Justification {
-    - correct : boolean
-}
-
-class Relation {
-}
-Relation *--> Concept : target
-Relation *--> RelationType
-
-enum RelationType {
-    Use
-    Association
-    Composition
-    Inheritance
-    Aggregation
-}
-
-class Solution{
-    - correct : boolean
-}
-Solution o--> "?" Justification : correct = false
+'class Solution{
+'    - correct : boolean
+'}
+'Solution o--> "?" Justification : correct = false
 
 class Answer {
     - correct : boolean
