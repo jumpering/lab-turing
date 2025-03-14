@@ -38,10 +38,10 @@ class Domain {
 }
 Domain *-- "+" Version
 
-abstract Applicable{
+interface Applicable{
 }
-Applicable <|-- Version
-Applicable <|-- Question
+Applicable <|.. Version
+Applicable <|.. Question
 Applicable *-->"+" Application
 Applicable o-->"*" Application
 
