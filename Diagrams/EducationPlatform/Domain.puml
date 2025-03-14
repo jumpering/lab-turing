@@ -5,14 +5,12 @@ EducationPlatform *--> Topic
 EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
 EducationPlatform *--> Evaluator
-'EducationPlatform *--> ConceptGraph
 
 abstract User{
 }
 
 User <|-- Teacher
 User <|-- Student
-'User *-->"+" Application
 
 class Teacher{
 }
@@ -20,26 +18,34 @@ class Teacher{
 class Student{
 }
 Student *-[#red]-> "*" Application
-'Student --> Itinerary
 
 class Evaluator{
 }
-Evaluator --> Application
+Evaluator --> Question
 
 class Itinerary {
 }
 Itinerary o--> "+" Topic
 
 class Definition {
-    '- correct : boolean
 }
 
 class Justification {
-    '- correct : boolean
 }
 
 class Domain {
-    - version : int
+    - name : String
+}
+Domain *-- "+" Version
+
+abstract Applicable{
+}
+Applicable <|-- Version
+Applicable <|-- Question
+Applicable *-->"+" Application
+Applicable o-->"*" Application
+
+class Version{
     - requirements : List<String>
 }
 
@@ -48,8 +54,6 @@ abstract Exercise {
 }
 Exercise <|-down- Domain
 Exercise <|-down- Question
-Exercise *-->"+" Application
-Exercise o-->"*" Application
 
 abstract Question{
 }
@@ -65,23 +69,27 @@ class MultipleChoice{
 }
 
 class Application{
-    '- correct : boolean
     - evaluated : boolean
     - solution : String
 }
 
-abstract Validatable{
+interface Validatable{
     - correct : boolean
 }
-Validatable <|-- Application
-Validatable <|-- Definition
+Validatable <|.. Application
+Validatable <|.. Definition
 Validatable *--> "*" Justification:[!validatable.correct]
 
 abstract Topic{
+    + getConcepts()
 }
-Topic *-[#red]-> "*" Document
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
+Topic *--> "*" Attachment
+
+class Attachment{
+}
+Attachment *-[#red]-> "+" Document
 
 class SimpleTopic{
 }
@@ -91,22 +99,14 @@ class CompositeTopic{
 }
 CompositeTopic o--> "+" Topic
 
-abstract Document{}
-Document <|-- Audio
-Document <|-- Video
-Document <|-- Image
-Document <|-- Text
-
-'class ConceptGraph{
-'}
-'ConceptGraph o--> "+"Concept
+class Document{}
 
 class Concept{
 }
 Concept *-down-> "+" Definition : correct
 Concept *-down-> "*" Definition : incorrect
 Concept *-down-> "*" Relation : origin
-Concept *-down[#red]-> "*" Document
+Concept *-down[#red]-> "*" Attachment
 Concept o-down[#red]-> "*" Exercise
 
 class Relation {
