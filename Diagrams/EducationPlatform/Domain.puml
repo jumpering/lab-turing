@@ -9,12 +9,25 @@ EducationPlatform *--> Itinerary : predefined
 EducationPlatform o--> "*" Itinerary : custom
 EducationPlatform o--> Evaluator
 
+class Domain {
+    - name
+    - category [game,manager,misc]
+}
+Domain o-->"*" Application
+'Application o--> "*" Solution
+
+class Application {
+    - version
+    - requirements
+}
+
+
 package "Knowledge-Base" {
     class Concept {
     }
     Concept o--> "+" Definition : correct
     Concept o--> "*" Definition : incorrect
-    Concept o--> "*" Relation
+    Concept o--> "*" Relation : origin
 
     class Definition {
         - correct : boolean
@@ -37,20 +50,9 @@ package "Knowledge-Base" {
         Inheritance
         Aggregation
     }
-
-    class Domain {
-    }
-    Domain o-->"*" Application
-    'Application o--> "*" Solution
-
-    class Application {
-        - version
-        - requirements
-    }
-    Application -->"+" Concept
-
 }
 EducationPlatform o--> "*" Domain
+Application -->"+" Concept
 
 class Itinerary {
 }
@@ -67,7 +69,6 @@ class SimpleTopic{
 SimpleTopic --> "+" Concept
 
 class CompositeTopic{
-    - topics : List<Topic> 
 }
 CompositeTopic o--> "+" Topic
 
@@ -82,8 +83,6 @@ Video o--> Text
 class Text {
     - images
 }
-
-
 
 class Evaluator {
 }
@@ -101,13 +100,13 @@ Statement *--> StatementType
 enum QuestionType {
     Open
     MultipleChoice
-    ApplicationCode
+    ApplicationCodeCompare
 }
 enum StatementType {
     ClozeTest
     Definition
     Relation
-    JustifyApplication
+    Justify
 }
 
 'class Solution{
@@ -118,7 +117,8 @@ enum StatementType {
 class Answer {
     - correct : boolean
     - evaluated : boolean
-    - author: id_Student
+    - author: student
+    - content
 }
 
 @enduml
