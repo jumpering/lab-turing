@@ -24,7 +24,7 @@ Student o--> "*" ExerciseBattery.Application
 
 class Evaluator{
 }
-Evaluator --> QuestionExercise
+Evaluator --> ExerciseBattery.QuestionExercise
 
 class Itinerary {
 }
