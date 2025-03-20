@@ -1,10 +1,13 @@
 @startuml EducationPlatformDomain
 
-EducationPlatform *--> "+" User
-EducationPlatform *--> Topic
-EducationPlatform *--> Itinerary : predefined
-EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform *--> Evaluator
+EducationPlatform *-[#red]-> "+" User
+EducationPlatform *-[#red]-> Topic
+EducationPlatform *-[#red]-> Itinerary : predefined
+EducationPlatform o-[#red]-> "*" Itinerary : custom
+EducationPlatform *-[#red]-> Evaluator
+EducationPlatform o-[#red]-> "*" ExerciseBattery.Exercise
+EducationPlatform o-[#red]-> "*" ExerciseBattery.QuestionExercise
+EducationPlatform o-[#red]-> "*" ExerciseBattery.Domain
 
 abstract User{
 }
@@ -17,71 +20,26 @@ class Teacher{
 
 class Student{
 }
-Student *-[#red]-> "*" Application
+Student *--> "*" ExerciseBattery.Application
 
 class Evaluator{
 }
-Evaluator --> Question
+Evaluator --> QuestionExercise
 
 class Itinerary {
 }
 Itinerary o--> "+" Topic
 
 class Definition {
+    - correct : boolean
 }
+Definition *--> "*" Justification:[!correctable.correct]
 
 class Justification {
 }
 
-class Domain {
-    - name : String
-}
-Domain *-- "+" Version
-
-interface Applicable{
-}
-Applicable <|.. Version
-Applicable <|.. Question
-Applicable *-->"+" Application
-Applicable o-->"*" Application
-
-class Version{
-    - requirements : List<String>
-}
-
-abstract Exercise {
-    - statement : String
-}
-Exercise <|-down- Domain
-Exercise <|-down- Question
-
-abstract Question{
-}
-Question <|-- MultipleChoice
-Question <|-- Cloze
-Question <|-- Open
-
-class Cloze{
-    blankCount: int
-}
-  
-class MultipleChoice{
-}
-
-class Application{
-    - evaluated : boolean
-    - solution : String
-}
-
-interface Validatable{
-    - correct : boolean
-}
-Validatable <|.. Application
-Validatable <|.. Definition
-Validatable *--> "*" Justification:[!validatable.correct]
 
 abstract Topic{
-    + getConcepts()
 }
 Topic <|-- CompositeTopic
 Topic <|-- SimpleTopic
@@ -89,7 +47,7 @@ Topic *--> "*" Attachment
 
 class Attachment{
 }
-Attachment *-[#red]-> "+" Document
+Attachment *--> "+" Document
 
 class SimpleTopic{
 }
@@ -103,11 +61,9 @@ class Document{}
 
 class Concept{
 }
-Concept *-down-> "+" Definition : correct
-Concept *-down-> "*" Definition : incorrect
+Concept *-down-> "+" Definition
 Concept *-down-> "*" Relation : origin
-Concept *-down[#red]-> "*" Attachment
-Concept o-down[#red]-> "*" Exercise
+Concept *-down-> "*" Attachment
 
 class Relation {
 }
@@ -121,4 +77,52 @@ enum RelationType {
     Inheritance
     Aggregation
 } 
+
+package ExerciseBattery #yellow{
+
+    abstract Exercise {
+    }
+    Exercise <|-- QuestionExercise
+    Exercise <|-- DomainExercise
+
+    class DomainExercise{
+
+    }
+    DomainExercise --> "+" Domain
+    DomainExercise --> "+" SimpleTopic
+
+    class Domain{
+        versions : List<Domain>
+    }
+    Domain *-- "*" Domain
+    Domain *-- "+" ExerciseBattery.Application
+   
+    class QuestionExercise{
+        statement : String
+    }
+    QuestionExercise <|-- MultipleChoice
+    QuestionExercise <|-- Cloze
+    QuestionExercise <|-- Open
+    QuestionExercise --> "+" Concept
+    QuestionExercise *-left- "+" Answer
+
+    class Cloze{
+        blankCount: int
+    }
+    
+    class MultipleChoice{
+    }
+
+    class Application{
+        - correct : boolean
+        - evaluated : booleanean
+        - solution : String
+    }
+    Application *--> "*" Justification:[!correctable.correct]
+
+
+}
+
+
+
 @enduml
