@@ -38,7 +38,6 @@ Definition *--> "*" Justification:[!correctable.correct]
 class Justification {
 }
 
-
 abstract Topic{
 }
 Topic <|-- CompositeTopic
@@ -119,10 +118,5 @@ package ExerciseBattery #yellow{
         - solution : String
     }
     Application *--> "*" Justification:[!correctable.correct]
-
-
 }
-
-
-
 @enduml
