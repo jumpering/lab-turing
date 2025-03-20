@@ -103,10 +103,12 @@ package ExerciseBattery #yellow{
     QuestionExercise <|-- Cloze
     QuestionExercise <|-- Open
     QuestionExercise --> "+" Concept
-    QuestionExercise *-left- "+" Answer
+    Open *-down- "+" Answer
+    Student o-- "*" Answer
 
     class Answer{
-        correct : boolean
+        - correct : boolean
+        - evaluated : boolean
     }
     Answer *-- "*" Justification : [!answer.correct]
 
