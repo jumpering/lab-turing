@@ -20,7 +20,7 @@ class Teacher{
 
 class Student{
 }
-Student *--> "*" ExerciseBattery.Application
+Student o--> "*" ExerciseBattery.Application
 
 class Evaluator{
 }
@@ -33,7 +33,7 @@ Itinerary o--> "+" Topic
 class Definition {
     - correct : boolean
 }
-Definition *--> "*" Justification:[!correctable.correct]
+Definition *--> "*" Justification:[!justification.correct]
 
 class Justification {
 }
@@ -117,6 +117,6 @@ package ExerciseBattery #yellow{
         - evaluated : booleanean
         - solution : String
     }
-    Application *--> "*" Justification:[!correctable.correct]
+    Application *--> "*" Justification:[!application.correct]
 }
 @enduml
