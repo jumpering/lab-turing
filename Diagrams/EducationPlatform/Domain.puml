@@ -6,8 +6,8 @@ EducationPlatform *-[#red]-> Itinerary : predefined
 EducationPlatform o-[#red]-> "*" Itinerary : custom
 EducationPlatform *-[#red]-> Evaluator
 EducationPlatform o-[#red]-> "*" ExerciseBattery.Exercise
-EducationPlatform o-[#red]-> "*" ExerciseBattery.QuestionExercise
 EducationPlatform o-[#red]-> "*" ExerciseBattery.Domain
+EducationPlatform o-[#red]-> "*" ExerciseBattery.Application
 
 abstract User{
 }
@@ -33,7 +33,7 @@ Itinerary o--> "+" Topic
 class Definition {
     - correct : boolean
 }
-Definition *--> "*" Justification:[!justification.correct]
+Definition *--> "*" Justification:[!definition.correct]
 
 class Justification {
 }
@@ -81,7 +81,7 @@ package ExerciseBattery #yellow{
 
     abstract Exercise {
     }
-    Exercise <|-- QuestionExercise
+    Exercise <|-- ExerciseBattery.QuestionExercise
     Exercise <|-- DomainExercise
 
     class DomainExercise{
@@ -94,8 +94,8 @@ package ExerciseBattery #yellow{
         versions : List<Domain>
     }
     Domain *-- "*" Domain
-    Domain *-- "+" ExerciseBattery.Application
-   
+    'Domain *-- "+" ExerciseBattery.Application
+   ExerciseBattery.Application --> "*" Domain
     class QuestionExercise{
         statement : String
     }
@@ -104,6 +104,11 @@ package ExerciseBattery #yellow{
     QuestionExercise <|-- Open
     QuestionExercise --> "+" Concept
     QuestionExercise *-left- "+" Answer
+
+    class Answer{
+        correct : boolean
+    }
+    Answer *-- "*" Justification : [!answer.correct]
 
     class Cloze{
         blankCount: int
@@ -114,8 +119,7 @@ package ExerciseBattery #yellow{
 
     class Application{
         - correct : boolean
-        - evaluated : booleanean
-        - solution : String
+        - evaluated : boolean
     }
     Application *--> "*" Justification:[!application.correct]
 }
