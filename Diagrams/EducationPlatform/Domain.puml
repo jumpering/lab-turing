@@ -27,13 +27,6 @@ class Evaluator{
 }
 Evaluator --> ExerciseBattery.QuestionExercise
 
-
-class Document{}
-
-class Attachment{
-}
-Attachment *--> "+" Document
-
 class Justification {
 }
 
@@ -49,6 +42,12 @@ package ContentBattery #lightgreen{
     Topic <|-- SimpleTopic
     Topic *--> "*" Attachment
 
+    class Document{}
+
+    class Attachment{
+    }
+    Attachment *--> "+" Document
+
 
     class SimpleTopic{
     }
@@ -63,14 +62,13 @@ package KnowlegeBattery #lightblue{
 
     class ConceptGraph{
     }
-
     ConceptGraph *-- "+" KnowlegeBattery.Concept
 
     class Concept{
     }
     Concept *-down-> "+" Definition
     Concept *-down-> "*" Relation : origin
-    Concept *-down-> "*" Attachment
+    'Concept *-down-> "*" Attachment
 
     class Definition {
         - correct : boolean
