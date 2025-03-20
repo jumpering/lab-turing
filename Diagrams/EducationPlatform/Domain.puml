@@ -1,13 +1,14 @@
 @startuml EducationPlatformDomain
 
 EducationPlatform *-[#red]-> "+" User
-EducationPlatform *-[#red]-> Topic
-EducationPlatform *-[#red]-> Itinerary : predefined
-EducationPlatform o-[#red]-> "*" Itinerary : custom
+EducationPlatform *-[#red]-> ContentBattery.Topic
+EducationPlatform *-[#red]-> ContentBattery.Itinerary : predefined
+EducationPlatform o-[#red]-> "*" ContentBattery.Itinerary : custom
 EducationPlatform *-[#red]-> Evaluator
-EducationPlatform o-[#red]-> "*" ExerciseBattery.Exercise
-EducationPlatform o-[#red]-> "*" ExerciseBattery.Domain
-EducationPlatform o-[#red]-> "*" ExerciseBattery.Application
+EducationPlatform *-[#red]-> "*" ExerciseBattery.Exercise
+EducationPlatform *-[#red]-> "*" ExerciseBattery.Domain
+EducationPlatform *-[#red]-> "*" ExerciseBattery.Application
+EducationPlatform *-[#red]-> KnowlegeBattery.ConceptGraph
 
 abstract User{
 }
@@ -26,56 +27,72 @@ class Evaluator{
 }
 Evaluator --> ExerciseBattery.QuestionExercise
 
-class Itinerary {
-}
-Itinerary o--> "+" Topic
 
-class Definition {
-    - correct : boolean
-}
-Definition *--> "*" Justification:[!definition.correct]
-
-class Justification {
-}
-
-abstract Topic{
-}
-Topic <|-- CompositeTopic
-Topic <|-- SimpleTopic
-Topic *--> "*" Attachment
+class Document{}
 
 class Attachment{
 }
 Attachment *--> "+" Document
 
-class SimpleTopic{
+class Justification {
 }
-SimpleTopic o--> "+" Concept
 
-class CompositeTopic{
+package ContentBattery #lightgreen{
+
+    class Itinerary {
+    }
+    Itinerary o--> "+" ContentBattery.Topic
+
+    abstract Topic{
+    }
+    Topic <|-- CompositeTopic
+    Topic <|-- SimpleTopic
+    Topic *--> "*" Attachment
+
+
+    class SimpleTopic{
+    }
+    SimpleTopic o--> "+" KnowlegeBattery.Concept
+
+    class CompositeTopic{
+    }
+    CompositeTopic o--> "+" Topic
 }
-CompositeTopic o--> "+" Topic
 
-class Document{}
+package KnowlegeBattery #lightblue{
 
-class Concept{
+    class ConceptGraph{
+    }
+
+    ConceptGraph *-- "+" KnowlegeBattery.Concept
+
+    class Concept{
+    }
+    Concept *-down-> "+" Definition
+    Concept *-down-> "*" Relation : origin
+    Concept *-down-> "*" Attachment
+
+    class Definition {
+        - correct : boolean
+    }
+    Definition *--> "*" Justification:[!definition.correct]
+
+    class Relation {
+    }
+    Relation --> Concept : target
+    Relation *-down-> RelationType
+
+    enum RelationType {
+        Use
+        Association
+        Composition
+        Inheritance
+        Aggregation
+    }
+
 }
-Concept *-down-> "+" Definition
-Concept *-down-> "*" Relation : origin
-Concept *-down-> "*" Attachment
 
-class Relation {
-}
-Relation --> Concept : target
-Relation *-down-> RelationType
 
-enum RelationType {
-    Use
-    Association
-    Composition
-    Inheritance
-    Aggregation
-} 
 
 package ExerciseBattery #yellow{
 
@@ -94,8 +111,7 @@ package ExerciseBattery #yellow{
         versions : List<Domain>
     }
     Domain *-- "*" Domain
-    'Domain *-- "+" ExerciseBattery.Application
-   ExerciseBattery.Application --> "*" Domain
+    ExerciseBattery.Application --> "*" Domain
     class QuestionExercise{
         statement : String
     }
@@ -115,7 +131,7 @@ package ExerciseBattery #yellow{
     class Cloze{
         blankCount: int
     }
-    
+
     class MultipleChoice{
     }
 
