@@ -1,18 +1,26 @@
 @startuml EducationPlatformDomain
 
 EducationPlatform *-[#red]-> "+" User
-EducationPlatform *-[#red]-> ContentBattery.Topic
-EducationPlatform *-[#red]-> ContentBattery.Itinerary : predefined
-EducationPlatform o-[#red]-> "*" ContentBattery.Itinerary : custom
+EducationPlatform *-[#red]-> content.Topic
+EducationPlatform *-[#red]-> content.Itinerary : predefined
+EducationPlatform o-[#red]-> "*" content.Itinerary : custom
 EducationPlatform *-[#red]-> Evaluator
-EducationPlatform *-[#red]-> "*" ExerciseBattery.Exercise
-EducationPlatform *-[#red]-> "*" ExerciseBattery.Domain
-EducationPlatform *-[#red]-> "*" ExerciseBattery.Application
-EducationPlatform *-[#red]-> KnowlegeBattery.ConceptGraph
+EducationPlatform *-[#red]-> "*" question_battery.Question
+EducationPlatform *-[#red]-> "*" Domain
+EducationPlatform *-[#red]-> "*" Solution
+EducationPlatform *-[#red]-> knowledge_base.KnowledgeBase
+
+abstract Solution {
+    - correct : boolean
+    - evaluated : boolean
+}
+Solution <|--  Application
+Solution <|-- Answer
+Solution --> Student
+Solution *--> "*" Justification:[!solution.correct]
 
 abstract User{
 }
-
 User <|-- Teacher
 User <|-- Student
 
@@ -21,48 +29,38 @@ class Teacher{
 
 class Student{
 }
-Student o--> "*" ExerciseBattery.Application
-
-class Evaluator{
-}
-Evaluator --> ExerciseBattery.QuestionExercise
 
 class Justification {
 }
 
-package ContentBattery #lightgreen{
+package content #lightgreen{
 
     class Itinerary {
     }
-    Itinerary o--> "+" ContentBattery.Topic
+    Itinerary o--> "+" Topic
 
     abstract Topic{
     }
     Topic <|-- CompositeTopic
     Topic <|-- SimpleTopic
-    Topic *--> "*" Attachment
+    Topic *--> "*" Document
 
-    class Document{}
-
-    class Attachment{
-    }
-    Attachment *--> "+" Document
-
+    class Document #red {}
 
     class SimpleTopic{
     }
-    SimpleTopic o--> "+" KnowlegeBattery.Concept
+    SimpleTopic o--> "+" knowledge_base.Concept
 
     class CompositeTopic{
     }
     CompositeTopic o--> "+" Topic
 }
 
-package KnowlegeBattery #lightblue{
+package knowledge_base #lightblue{
 
-    class ConceptGraph{
+    class KnowledgeBase #red{
     }
-    ConceptGraph *-- "+" KnowlegeBattery.Concept
+    KnowledgeBase *-- "+" Concept
 
     class Concept{
     }
@@ -90,41 +88,27 @@ package KnowlegeBattery #lightblue{
 
 }
 
+class Domain{
+    category
+}
+Domain --> "+" SimpleTopic
+Domain *-- "*" Domain
 
+class Application{
+  
+}
+Application --> "*" Domain
 
-package ExerciseBattery #yellow{
+package question_battery #yellow{
 
-    abstract Exercise {
-    }
-    Exercise <|-- ExerciseBattery.QuestionExercise
-    Exercise <|-- DomainExercise
-
-    class DomainExercise{
-
-    }
-    DomainExercise --> "+" Domain
-    DomainExercise --> "+" SimpleTopic
-
-    class Domain{
-        versions : List<Domain>
-    }
-    Domain *-- "*" Domain
-    ExerciseBattery.Application --> "*" Domain
-    class QuestionExercise{
-        statement : String
-    }
-    QuestionExercise <|-- MultipleChoice
-    QuestionExercise <|-- Cloze
-    QuestionExercise <|-- Open
-    QuestionExercise --> "+" Concept
-    Open *-down- "+" Answer
-    Student o-- "*" Answer
-
-    class Answer{
-        - correct : boolean
-        - evaluated : boolean
-    }
-    Answer *-- "*" Justification : [!answer.correct]
+    class Question{
+            statement : String
+        }
+    Question <|-- MultipleChoice
+    Question <|-- Cloze
+    Question <|-- Open
+    Question --> "+" Concept
+    'Open *-down- "+" Answer
 
     class Cloze{
         blankCount: int
@@ -132,11 +116,15 @@ package ExerciseBattery #yellow{
 
     class MultipleChoice{
     }
-
-    class Application{
-        - correct : boolean
-        - evaluated : boolean
-    }
-    Application *--> "*" Justification:[!application.correct]
 }
+
+class Answer{
+}
+Answer --> Question
+
+class Evaluator{
+}
+Evaluator --> question_battery.Question
+Evaluator --> "*" Answer
+
 @enduml
