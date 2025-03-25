@@ -1,161 +1,130 @@
 @startuml EducationPlatformDomain
 
-class Itinerary {
-    - custom : boolean
-    + Edit()
-}
+EducationPlatform *-[#red]-> "+" User
+EducationPlatform *-[#red]-> content.Topic
+EducationPlatform *-[#red]-> content.Itinerary : predefined
+EducationPlatform o-[#red]-> "*" content.Itinerary : custom
+EducationPlatform *-[#red]-> Evaluator
+EducationPlatform *-[#red]-> "*" question_battery.Question
+EducationPlatform *-[#red]-> "*" Domain
+EducationPlatform *-[#red]-> "*" Solution
+EducationPlatform *-[#red]-> knowledge_base.KnowledgeBase
 
-interface Topic{
-    + getTableOfContents()
-    + getSyllabus() : Concepts
-    + Edit()
-    + Read()
-}
-
-
-class SimpleTopic{
-}
-
-class CompositeTopic{
-    - topics : List<Topic> 
-}
-
-abstract Excercise {
-}
-
-class Domain {
-}
-
-class Application {
-    - correct : boolean
-    - Version
-}
-
-class Question {
-    - statement : StatementType
-}
-
-enum StatementType {
-    ClozeTest
-    Definition
-    Relation
-    JustifyApplication
-}
-
-class Text {
-    - TableOfContents
-}
-
-class Concept {
-}
-
-class Definition {
-    - correct : boolean
-}
-
-class Justification {
-    - correct : boolean
-}
-
-class Multimedia {
-
-}
-
-class Answer{
+abstract Solution {
     - correct : boolean
     - evaluated : boolean
 }
+Solution <|--  Application
+Solution <|-- Answer
+Solution --> Student
+Solution *--> "*" Justification:[!solution.correct]
 
-EducationPlatform *--> "+" Teacher
-EducationPlatform *--> "+" Student
-EducationPlatform *--> Topic
-EducationPlatform *--> Itinerary : predefined
-EducationPlatform o--> "*" Itinerary : custom
-EducationPlatform o--> Chat
-Chat o--> "+" Excercise
+abstract User{
+}
+User <|-- Teacher
+User <|-- Student
 
-
-
-'Student <..> Chat : topic
-Student ..> Chat 
-Answer ..> Student
-
-Excercise <|-- Domain
-Excercise <|-- Question 
-
-Domain *-->"*" Application: requirements
-Application -->"+" Concept
-
-'Application <|-- Correct
-'Application <|-- Incorrect
-
-Question -->"+" Concept
-Question -->"*" Application
-
-Question *--> StatementType
-Question *--> "*" Answer
-Answer <|-- Open
-Answer <|-- MultipleChoice
-Answer o--> "?" Justification : correct = false
-
-'Teacher ..> Open : review
-
-Teacher ..> Topic : editor
-Teacher ..> Itinerary : editor
-Student ...> Itinerary : editor
-note left of Student
-    Editor only
-    for custom 
-    itineraries
-    end note
-'Student ...> Custom : editor
-
-
-Topic <|.. CompositeTopic
-Topic <|.. SimpleTopic
-CompositeTopic o--> "+" Topic
-
-'Itinerary <|-- Custom
-'Itinerary <|-- Predefined
-
-Itinerary o--> "+" Topic
-'Predefined o--> "+" Topic
-
-
-SimpleTopic o--> "+" Concept
-Topic o--> "+" Multimedia
-Concept *--> "+" Definition : correct
-Concept *--> "*" Definition : incorrect
-Relation *-right-> RelationType
-Concept *--> "*" Relation : origin
-
-enum RelationType {
-    Use
-    Association
-    Composition
-    Inheritance
-    Aggregation
-} 
-
-class Relation {
-    - type : RelationType
+class Teacher{
 }
 
+class Student{
+}
 
-Relation --> "+" Concept : target
-Definition o-->"*" Justification
+class Justification {
+}
 
-'Justification o-->"+" Justification
+package content #lightgreen{
 
+    class Itinerary {
+    }
+    Itinerary o--> "+" Topic
 
-Multimedia <|-- Podcast
-Multimedia <|-- Video
+    abstract Topic{
+    }
+    Topic <|-- CompositeTopic
+    Topic <|-- SimpleTopic
+    Topic *--> "*" Document
 
-Podcast o--> Text : transcript
-Video o--> Text : transcript
+    class Document #red {}
 
-Multimedia <|-- Text
+    class SimpleTopic{
+    }
+    SimpleTopic o--> "+" knowledge_base.Concept
 
-Text -->"*" Concept
+    class CompositeTopic{
+    }
+    CompositeTopic o--> "+" Topic
+}
+
+package knowledge_base #lightblue{
+
+    class KnowledgeBase #red{
+    }
+    KnowledgeBase *-- "+" Concept
+
+    class Concept{
+    }
+    Concept *-down-> "+" Definition
+    Concept *-down-> "*" Relation : origin
+    'Concept *-down-> "*" Attachment
+
+    class Definition {
+        - correct : boolean
+    }
+    Definition *--> "*" Justification:[!definition.correct]
+
+    class Relation {
+    }
+    Relation --> Concept : target
+    Relation *-down-> RelationType
+
+    enum RelationType {
+        Use
+        Association
+        Composition
+        Inheritance
+        Aggregation
+    }
+
+}
+
+class Domain{
+    category
+}
+Domain --> "+" SimpleTopic
+Domain *-- "*" Domain
+
+class Application{
+  
+}
+Application --> "*" Domain
+
+package question_battery #yellow{
+
+    class Question{
+            statement : String
+        }
+    Question <|-- MultipleChoice
+    Question <|-- Cloze
+    Question <|-- Open
+    Question --> "+" Concept
+    'Open *-down- "+" Answer
+
+    class Cloze{
+        blankCount: int
+    }
+
+    class MultipleChoice{
+    }
+}
+
+class Answer{
+}
+Answer --> Question
+
+class Evaluator{
+}
+Evaluator --> question_battery.Question
+Evaluator --> "*" Answer
 
 @enduml
