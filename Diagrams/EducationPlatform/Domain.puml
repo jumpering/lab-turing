@@ -1,14 +1,14 @@
 @startuml EducationPlatformDomain
 
-EducationPlatform *-[#red]-> "+" User
-EducationPlatform *-[#red]-> content.Topic
-EducationPlatform *-[#red]-> content.Itinerary : predefined
-EducationPlatform o-[#red]-> "*" content.Itinerary : custom
-EducationPlatform *-[#red]-> Evaluator
-EducationPlatform *-[#red]-> "*" question_battery.Question
-EducationPlatform *-[#red]-> "*" Domain
-EducationPlatform *-[#red]-> "*" Solution
-EducationPlatform *-[#red]-> knowledge_base.KnowledgeBase
+EducationPlatform *-[#green]-> "+" User
+EducationPlatform *-[#green]-> content.Topic
+EducationPlatform *-[#green]-> content.Itinerary : predefined
+EducationPlatform o-[#green]-> "*" content.Itinerary : custom
+EducationPlatform *-[#green]-> Evaluator
+EducationPlatform *-[#green]-> "*" question_battery.Question
+EducationPlatform *-[#green]-> "*" Domain
+EducationPlatform *-[#green]-> "*" Solution
+EducationPlatform *-[#green]-> knowledge_base.KnowledgeBase
 
 abstract Solution {
     - correct : boolean
@@ -125,6 +125,6 @@ Answer --> Question
 class Evaluator{
 }
 Evaluator --> question_battery.Question
-Evaluator --> "*" Answer
+Evaluator --> Answer
 
 @enduml
