@@ -6,7 +6,7 @@ EducationPlatform *-[#green]-> content.Itinerary : predefined
 EducationPlatform o-[#green]-> "*" content.Itinerary : custom
 EducationPlatform *-[#green]-> Evaluator
 EducationPlatform *-[#green]-> "*" question_battery.Question
-EducationPlatform *-[#green]-> "*" Domain
+EducationPlatform *-[#green]-> "*" Category
 EducationPlatform *-[#green]-> "*" Solution
 EducationPlatform *-[#green]-> knowledge_base.KnowledgeBase
 
@@ -88,14 +88,24 @@ package knowledge_base #lightblue{
 
 }
 
-class Domain{
-    category
+abstract Category {
+
 }
+Category <|-- CompositeCategory
+CompositeCategory *--> Category
+Category <|-- SimpleCategory
+
+class Domain{
+    version
+}
+Domain o--> "*" Category
 Domain --> "+" SimpleTopic
 Domain *-- "*" Domain
 
+
+
 class Application{
-  
+  requirements
 }
 Application --> "*" Domain
 
@@ -124,7 +134,7 @@ Answer --> Question
 
 class Evaluator{
 }
-Evaluator --> question_battery.Question
-Evaluator --> Answer
+Evaluator ..> question_battery.Question
+Evaluator ..> Answer
 
 @enduml
