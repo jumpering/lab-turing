@@ -4,38 +4,56 @@ EducationPlatform *-[#green]-> "+" User
 EducationPlatform *-[#green]-> content.Topic
 EducationPlatform *-[#green]-> content.Itinerary : predefined
 EducationPlatform o-[#green]-> "*" content.Itinerary : custom
-EducationPlatform *-[#green]-> Evaluator
 EducationPlatform *-[#green]-> "*" question_battery.Question
-EducationPlatform *-[#green]-> "*" Category
 EducationPlatform *-[#green]-> "*" Solution
-EducationPlatform *-[#green]-> knowledge_base.KnowledgeBase
+EducationPlatform *-[#green]-> corpus.Corpus
 
 abstract Solution {
     - correct : boolean
     - evaluated : boolean
+    - createdDate : Date
+    - evaluatedDate : Date
+    - owner : User
 }
 Solution <|--  Application
 Solution <|-- Answer
-Solution --> Student
+Solution --> User
 Solution *--> "*" Justification:[!solution.correct]
 
+class Answer{
+    - content : String
+}
+Answer --> Question
+
 abstract User{
+    - name : String
 }
 User <|-- Teacher
 User <|-- Student
 
 class Teacher{
+    
 }
 
 class Student{
+
 }
+Student o-->"*" Progress
+
+class Progress {
+    - elapsedTime: Time
+    - percentageCompleted: Integer
+}
+Progress --> content.Itinerary
 
 class Justification {
+    - content : String
 }
 
 package content #lightgreen{
 
     class Itinerary {
+   
     }
     Itinerary o--> "+" Topic
 
@@ -45,28 +63,42 @@ package content #lightgreen{
     Topic <|-- SimpleTopic
     Topic *--> "*" Document
 
-    class Document #red {}
+    class CompositeTopic {
+        - topic[] : Topic
+    }
+
+    class Document {
+        - TYPE: DocumentType
+        - date : Date
+    }
+    Document --> DocumentType
+
+    enum DocumentType {
+        TextWithImagesAndURLs
+        Video
+        Audio
+    }
 
     class SimpleTopic{
     }
-    SimpleTopic o--> "+" knowledge_base.Concept
+    SimpleTopic o--> "+" corpus.Concept
 
     class CompositeTopic{
     }
     CompositeTopic o--> "+" Topic
 }
 
-package knowledge_base #lightblue{
+package corpus #lightblue{
 
-    class KnowledgeBase #red{
+    class Corpus {
     }
-    KnowledgeBase *-- "+" Concept
+    Corpus *-- "+" Concept
 
     class Concept{
+        - name : String
     }
     Concept *-down-> "+" Definition
     Concept *-down-> "*" Relation : origin
-    'Concept *-down-> "*" Attachment
 
     class Definition {
         - correct : boolean
@@ -88,24 +120,15 @@ package knowledge_base #lightblue{
 
 }
 
-abstract Category {
-
+class Domain {
+   - version : Version
+   - description: String
 }
-Category <|-- CompositeCategory
-CompositeCategory *--> Category
-Category <|-- SimpleCategory
-
-class Domain{
-    version
-}
-Domain o--> "*" Category
 Domain --> "+" SimpleTopic
 Domain *-- "*" Domain
 
-
-
 class Application{
-  requirements
+  
 }
 Application --> "*" Domain
 
@@ -113,28 +136,31 @@ package question_battery #yellow{
 
     class Question{
             statement : String
-        }
+    }
     Question <|-- MultipleChoice
     Question <|-- Cloze
     Question <|-- Open
     Question --> "+" Concept
-    'Open *-down- "+" Answer
 
     class Cloze{
-        blankCount: int
+       - blankCount: int
+       - blankWords[] : String
     }
 
     class MultipleChoice{
     }
-}
+    MultipleChoice *--"2..n" Option
+    MultipleChoice *-- Correct
+    MultipleChoice *--"1..n" Incorrect
 
-class Answer{
-}
-Answer --> Question
+    abstract Option
+    Option <|-- Incorrect
+    Option <|-- Correct
 
-class Evaluator{
+    class Correct
+
+    class Incorrect
+
 }
-Evaluator ..> question_battery.Question
-Evaluator ..> Answer
 
 @enduml
