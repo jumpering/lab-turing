@@ -1,5 +1,9 @@
 # Dominios
 
+[Atrás](../README.md)
+
+Ver dominios en [USantaTecla-0-domains](https://github.com/USantaTecla-0-domains/0-simpleDomains/tree/master/docs) y en [USantaTecla-0-general](https://github.com/USantaTecla-0-general/0-domains)
+
 ## Numeros Primos
 
 ## Máquina de Turing
@@ -10,4 +14,6 @@
 
 ## Educational platform domain model
 
-![image info](../out/Diagrams/1.8.-Modelado/Diagrams/EducationPlatform/Domain/EducationPlatformDomain.svg)
+[Ver UML](./Diagrams/EducationPlatform/README.md)
+
+## Menús
