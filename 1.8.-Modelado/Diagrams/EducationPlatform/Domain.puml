@@ -5,6 +5,7 @@ EducationPlatform *-[#green]-> content.Topic
 EducationPlatform *-[#green]-> content.Itinerary : predefined
 EducationPlatform o-[#green]-> "*" content.Itinerary : custom
 EducationPlatform *-[#green]-> "*" question_battery.Question
+EducationPlatform *-[#green]-> "*" Domain
 EducationPlatform *-[#green]-> "*" Solution
 EducationPlatform *-[#green]-> corpus.Corpus
 
@@ -125,7 +126,8 @@ class Domain {
    - description: String
 }
 Domain --> "+" SimpleTopic
-Domain *-- "*" Domain
+Domain *--> "*" Domain
+Domain o--> "+" content.Document : Requirement
 
 class Application{
   
