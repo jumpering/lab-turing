@@ -127,7 +127,7 @@ class Domain {
 }
 Domain --> "+" SimpleTopic
 Domain *--> "*" Domain
-Domain o--> "+" content.Document : Requirement
+Domain o--> "+" content.Document : requirement
 
 class Application{
   
