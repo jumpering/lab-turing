@@ -1,7 +1,5 @@
 package main.es.labturing.utils.views;
 
-import main.es.labturing.utils.views.MessageManager;
-
 public abstract class IntDialog {
     protected String key;
     public String errorMessageKey;

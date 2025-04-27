@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 
-import main.es.labturing.utils.views.Language;
-import main.es.labturing.utils.views.Console;
-
 public class MessageManager {
 
     private Language language;
@@ -32,7 +29,7 @@ public class MessageManager {
     }
 
     private void readFile() throws FileNotFoundException, IOException {
-        String path = "tech-java-orientadoObjetos/src/main/es/labturing/connect4/resources/";
+        String path = "MPDS-Java-40-POO/src/main/es/labturing/ServiceContractManagement/resources/";
         BufferedReader input = new BufferedReader(new FileReader(path+this.language.getFileName()));
         String line;
         while ((line = input.readLine()) != null) {
