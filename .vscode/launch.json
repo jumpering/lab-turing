@@ -2,6 +2,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "IntervalApp",
+            "request": "launch",
+            "mainClass": "app.dialog.IntervalApp",
+            "projectName": "samples"
+        },
+        {
+            "type": "java",
+            "name": "TimeApp",
+            "request": "launch",
+            "mainClass": "app.dialog.TimeApp",
+            "projectName": "samples"
+        },
+        {
+            "type": "java",
+            "name": "FractionApp",
+            "request": "launch",
+            "mainClass": "app.dialog.FractionApp",
+            "projectName": "samples"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "app.menu.App",
+            "projectName": "samples"
+        },
+        {
+            "type": "java",
+            "name": "ServiceApp",
+            "request": "launch",
+            "mainClass": "app.service.ServiceApp",
+            "projectName": "samples"
+        },
+        {
+            "type": "java",
             "name": "App",
             "request": "launch",
             "mainClass": "app.menu.App",

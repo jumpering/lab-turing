@@ -2,7 +2,6 @@ package util.view.dialog.collection.list;
 
 import util.collection.Iterator;
 import util.collection.list.LinkedList;
-import util.functional.Predicate;
 import util.values.Time;
 import util.view.dialog.values.TimeDialog;
 
