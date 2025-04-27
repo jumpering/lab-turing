@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "app.menu.App",
+            "projectName": "lab-turing_ebebb310"
+        },
+        {
+            "type": "java",
+            "name": "ServiceApp",
+            "request": "launch",
+            "mainClass": "app.service.ServiceApp",
+            "projectName": "lab-turing_ebebb310"
+        },
+        {
+            "type": "java",
             "name": "ServiceContractManagement",
             "request": "launch",
             "mainClass": "main.es.labturing.ServiceContractManagement.ServiceContractManagement",

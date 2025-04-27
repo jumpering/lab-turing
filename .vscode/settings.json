@@ -1,8 +1,8 @@
 {
     "java.project.sourcePaths": [
         "src",
-        "2.1.4.4.8.-Java Funcional/src",
-        "MPDS-Java-40-POO/src"
+        "MPDS-Java-40-POO/src",
+        "2.1.4.4.8.-JavaFuncional/t5methodReference/v1/src/main/java",
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
