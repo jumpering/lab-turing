@@ -45,7 +45,7 @@ public class Menu {
         boolean ok;
         do {
             answer = Console.instance().readInt("Opción? [1-" + this.options.size() + "]: ") - 1;
-            ok = 0 <= answer && answer < this.options.size();
+            ok = 0 <= answer && answer < this.options.size(); //Intervalo
             if (!ok) {
                 Console.instance().writeln("Error!!!");
             }
