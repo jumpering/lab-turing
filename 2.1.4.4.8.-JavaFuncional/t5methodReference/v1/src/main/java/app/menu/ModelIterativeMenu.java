@@ -38,7 +38,7 @@ class ModelIterativeMenu extends IterativeMenu {
                 } while (string.trim().equals(""));
                 model.add(string.trim());
             });
-        this.add("Eliminar", new ModelDynamicMenu(model));
+        this.add("Menu Eliminar", new ModelDynamicMenu(model));
     }
     
 }

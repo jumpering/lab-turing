@@ -15,6 +15,7 @@ class ModelDynamicMenu extends DynamicMenu implements Option {
 
     protected void addOptions() {
         for (int i = 0; i < this.model.size(); i++) {
+            //Error listar nombres
             final int index = i;
             this.add("Eliminar: " + this.model.get(index), new ModelOption(this.model) {
         

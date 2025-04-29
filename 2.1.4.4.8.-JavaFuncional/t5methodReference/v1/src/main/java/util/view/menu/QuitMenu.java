@@ -15,6 +15,7 @@ public class QuitMenu {
     }
 
     protected void showTitles() {
+        //
         this.addQuitOption();
         this.delegated.showTitles();
     }
