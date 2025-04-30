@@ -21,15 +21,26 @@ public class Console {
 		if (Console.console == null){
 			Console.console = new Console();
 		}
-		return Console.console;
+		return Console.private static String getMainClassName() {
+	for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+		if ("main".equals(element.getMethodName())) {
+			return element.getClassName();
+		}
 	}
+	return "unknown";
+
+ private static final String mainClassName = getMainClassName();
+ private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
+ private static final String logFolderName = mainClassSimpleName;
 
 	static final String CHAR_regExp = "c";
 	public static final String INTEGER_regExp = "-?\\d+";
 	public static final String DOUBLE_regExp = "-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)";
 	
 	private static final String EXTENSION = ".log";
-	private static final String HEAD_PATH = "bin/resources/logs/";
+	private static final String BASE_PATH = System.getProperty("user.dir");
+ private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/" ;
+
 	private static String TAIL_PATH = "-"
 			+ LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-"
 			+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH-mm-ss")) + EXTENSION;
@@ -93,6 +104,10 @@ public class Console {
 		String string = "";
 		this.write(title);
 		try {
+   File logDir = new File(HEAD_PATH);
+   if (!logDir.exists()) {
+	    logDir.mkdirs();
+   } 
 			string = Console.input.readLine();
 			Console.inputLog.println(string);
 			Console.inputOutputLog.println(string);
