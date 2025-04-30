@@ -5,7 +5,7 @@ import util.values.Pair;
 import util.view.dialog.primitive.Dialog;
 
 public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
-
+//Revisar expresión regular y hacerla humana
   private static final String PREFIX = "<";
   private static final String SEPARATOR = "\\|";
   private static final String POSTFIX = ">";

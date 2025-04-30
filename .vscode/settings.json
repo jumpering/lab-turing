@@ -1,6 +1,5 @@
 {
     "java.project.sourcePaths": [
-        "src",
         "MPDS-Java-40-POO/src",
         "2.1.4.4.8.-JavaFuncional/src",
         "2.1.4.4.8.-JavaFuncional/t5methodReference/v1/src/main/java",

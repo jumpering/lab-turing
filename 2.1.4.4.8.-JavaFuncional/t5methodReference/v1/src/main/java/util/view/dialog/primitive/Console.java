@@ -33,9 +33,9 @@ public class Console {
 	 return "unknown";
  }
 
- private static final String mainClassName = getMainClassName();
- private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
- private static final String logFolderName = mainClassSimpleName;
+	private static final String mainClassName = getMainClassName();
+	private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
+	private static final String logFolderName = mainClassSimpleName;
 
 	static final String CHAR_regExp = "c";
 	public static final String INTEGER_regExp = "-?\\d+";
@@ -43,7 +43,7 @@ public class Console {
 	
 	private static final String EXTENSION = ".log";
 	private static final String BASE_PATH = System.getProperty("user.dir");
- private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/" ;
+ 	private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/" ;
 
 	private static String TAIL_PATH = "-"
 			+ LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-"
