@@ -1,7 +1,6 @@
 @startuml
 class ServicesContract
 abstract class Menu
-abstract class DynamicMenu
 abstract class IterativeMenu
 abstract class QuitMenu
 class ServicesContractMenu
@@ -53,9 +52,6 @@ abstract class IterativeMenu {
  +interact()
 }
 
-abstract class DynamicMenu {
- +interact()
-}
 
 abstract class Option {
  +title
@@ -106,24 +102,14 @@ QuitMenu --> QuitOption
 
 Menu <|-- QuitMenu
 QuitMenu <|-- IterativeMenu
-IterativeMenu <|-- DynamicMenu
-DynamicMenu <|-- ServicesContractMenu 
+IterativeMenu <|-- ServicesContractMenu 
 Option <|-- QuitOption
 
 Menu o--"*" Option
 ServicesContractMenu --> ServicesContract
 ServicesContractOption --> ServicesContract
 
-ServicesContract ..> Console
-Menu ..> Console
-CancelServicesContractOption ..> Console
-CostServicesContractOption ..> Console
-EnlargeServicesContractOption ..> Console
-ListServicesContractOption ..> Console
-Option ..> Console
-ShiftServicesContractOption ..> Console
-Interval ..> Console
-Date ..> Console
+ServicesContractOption ..> Console
 
 ServicesContract *--> Interval
 
