@@ -21,13 +21,17 @@ public class Console {
 		if (Console.console == null){
 			Console.console = new Console();
 		}
-		return Console.private static String getMainClassName() {
-	for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-		if ("main".equals(element.getMethodName())) {
-			return element.getClassName();
-		}
-	}
-	return "unknown";
+		return Console.console;
+ }
+
+ private static String getMainClassName() {
+	 for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+		 if ("main".equals(element.getMethodName())) {
+			 return element.getClassName();
+		 }
+	 }
+	 return "unknown";
+ }
 
  private static final String mainClassName = getMainClassName();
  private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
@@ -55,6 +59,10 @@ public class Console {
 		Console.input = new BufferedReader(new InputStreamReader(System.in));
 		Console.output = System.out;
 		try {
+   File logDir = new File(HEAD_PATH);
+   if (!logDir.exists()) {
+	    logDir.mkdirs();
+   } 
 			Console.inputLog = new PrintWriter(INPUT_PATH);
 			Console.inputOutputLog = new PrintWriter(INPUT_OUTPUT_PATH);
 		} catch (FileNotFoundException exception) {
@@ -104,10 +112,6 @@ public class Console {
 		String string = "";
 		this.write(title);
 		try {
-   File logDir = new File(HEAD_PATH);
-   if (!logDir.exists()) {
-	    logDir.mkdirs();
-   } 
 			string = Console.input.readLine();
 			Console.inputLog.println(string);
 			Console.inputOutputLog.println(string);
