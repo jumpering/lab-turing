@@ -27,7 +27,16 @@ public class ServiceMenu extends IterativeMenu {
     this.add("Añadir", new ServiceOption(target) {
 
       public void interact() {
-        ServiceDialog serviceDialog = new ServiceDialog("Servicio");
+        ServiceDialog serviceDialog = new ServiceDialog("Nuevo Servicio a registrar: \r\n" + //
+                    "[   Formato correcto de entrada:  ]\r\n" + //
+                    "----------------------------------\r\n" + //
+                    "Fecha  -> aaaa/m/d  (Ej: 2025/7/1)\r\n" + //
+                    "Tiempo -> HH:mm:ss  (Ej: [22:30:0,23:30:0])\r\n" + //
+                    "Separador entre fecha y tiempo: \"|\"\r\n" + //
+                    "----------------------------------\r\n" + //
+                    "Ejemplo de entrada correcta:\r\n" + //
+                    "<2025/7/1|[22:30:0,23:30:0]>\r\n" + //
+                    "como se ve perfectamente en esta expresión regular:\r\n ");
         Service service = (Service) serviceDialog.read();
         this.getTarget().put(service.getKey(), service.getValue());
       }
