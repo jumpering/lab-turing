@@ -234,10 +234,10 @@ public class Console {
 		this.write(value + "\n");
 	}
 
-	private void writeError(String regExpKey) {
-		regExpKey = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + regExpKey;
-		Console.output.println(regExpKey);
-		Console.inputOutputLog.println(regExpKey);
+	private void writeError(String patternString) {
+		patternString = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + patternString;
+		Console.output.println(patternString);
+		Console.inputOutputLog.println(patternString);
 	}
 
 	public void write(Object object) {
