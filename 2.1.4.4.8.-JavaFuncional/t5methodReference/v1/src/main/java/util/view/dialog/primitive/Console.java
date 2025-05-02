@@ -19,32 +19,33 @@ public class Console {
 	private static Console console;
 
 	public static Console instance() {
-		if (Console.console == null){
+		if (Console.console == null) {
 			Console.console = new Console();
 		}
 		return Console.console;
- }
+	}
 
- private static String getMainClassName() {
-	 for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-		 if ("main".equals(element.getMethodName())) {
-			 return element.getClassName();
-		 }
-	 }
-	 return "unknown";
- }
+	private static String getMainClassName() {
+		for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+			if ("main".equals(element.getMethodName())) {
+				return element.getClassName();
+			}
+		}
+		return "unknown";
+	}
 
 	private static final String mainClassName = getMainClassName();
 	private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
 	private static final String logFolderName = mainClassSimpleName;
 
-	static final Pair<String,String> CHAR_regExpPair = new Pair<String,String> ("CHAR" ,"c");
-	public static final Pair<String,String> INTEGER_regExpPair = new Pair<String,String> ("INTEGER" ,"-?\\d+");
-	public static final Pair<String,String> DOUBLE_regExpPair = new Pair<String,String> ( "DOUBLE" ,"-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)");
-	
+	static final Pair<String, String> CHAR_regExpPair = new Pair<String, String>("CHAR", "c");
+	public static final Pair<String, String> INTEGER_regExpPair = new Pair<String, String>("INTEGER", "-?\\d+");
+	public static final Pair<String, String> DOUBLE_regExpPair = new Pair<String, String>("DOUBLE",
+			"-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)");
+
 	private static final String EXTENSION = ".log";
 	private static final String BASE_PATH = System.getProperty("user.dir");
- 	private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/" ;
+	private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/";
 
 	private static String TAIL_PATH = "-"
 			+ LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-"
@@ -60,10 +61,10 @@ public class Console {
 		Console.input = new BufferedReader(new InputStreamReader(System.in));
 		Console.output = System.out;
 		try {
-   File logDir = new File(HEAD_PATH);
-   if (!logDir.exists()) {
-	    logDir.mkdirs();
-   } 
+			File logDir = new File(HEAD_PATH);
+			if (!logDir.exists()) {
+				logDir.mkdirs();
+			}
 			Console.inputLog = new PrintWriter(INPUT_PATH);
 			Console.inputOutputLog = new PrintWriter(INPUT_OUTPUT_PATH);
 		} catch (FileNotFoundException exception) {
@@ -71,7 +72,7 @@ public class Console {
 		}
 	}
 
-	public static void close(){
+	public static void close() {
 		Console.close("0");
 	}
 
@@ -93,14 +94,14 @@ public class Console {
 		if (oldInputLog.exists()) {
 			oldInputLog.delete();
 		}
-		if (oldInputOutputLog.exists()){
+		if (oldInputOutputLog.exists()) {
 			oldInputOutputLog.delete();
 		}
 		new File(INPUT_PATH).renameTo(oldInputLog);
 		new File(INPUT_OUTPUT_PATH).renameTo(oldInputOutputLog);
 	}
 
-	private Console(){
+	private Console() {
 	}
 
 	public String readString() {

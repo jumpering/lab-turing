@@ -8,5 +8,6 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ],
-    "plantuml.exportOutDir": "/"
+    "plantuml.exportOutDir": "/",
+    "java.inlayHints.parameterNames.enabled": "all"
 }
