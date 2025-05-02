@@ -1,22 +1,24 @@
 package util.view.dialog.primitive;
 
+import util.values.Pair;
+
 public abstract class Dialog<T> {
 
     private String title;
     private String content;
-    private String regExp;
+    private Pair<String,String> regExp;
 
-    protected Dialog(String regExp) {
+    protected Dialog( Pair<String,String> regExp) {
         this.title = "";
         this.regExp = regExp;
     }
 
-    protected Dialog(String title, String regExp) {
+    protected Dialog(String title,  Pair<String,String> regExp) {
         this.title = title;
         this.regExp = regExp;
     }
 
-    public String regExp(){
+    public  Pair<String,String> regExp(){
         return this.regExp;
     }
 
@@ -24,7 +26,7 @@ public abstract class Dialog<T> {
         String input;
         boolean valid;
         do {
-            Console.instance().write(this.title + " (" + this.regExp + "): ");
+            Console.instance().write(this.title + " (" + this.regExp.getKey() + "): ");
             input = Console.instance().readString();
             valid = this.isValid(input);
             if (!valid) {
@@ -39,7 +41,7 @@ public abstract class Dialog<T> {
         if (!errorSemanticMsg.isBlank()) {
             errorSemanticMsg = " o ";
         }
-        return "Al no respetar el formato \"" + this.regExp + "\""
+        return "Al no respetar el formato \"" + this.regExp.getKey() + "\""
                 + errorSemanticMsg;
     }
 
@@ -50,7 +52,7 @@ public abstract class Dialog<T> {
     private boolean isValid(String string) {
         assert string != null;
 
-        return string.matches(this.regExp) &&  this.isSemanticValid(string);
+        return string.matches(this.regExp.getValue()) &&  this.isSemanticValid(string);
     }
 
     protected boolean isSemanticValid(String string) {

@@ -2,6 +2,7 @@ package util.view.dialog.values;
 
 import util.collection.Iterator;
 import util.collection.list.LinkedList;
+import util.values.Pair;
 import util.values.Time;
 import util.view.dialog.primitive.IntDialog;
 import util.view.dialog.primitive.SecuenceDialog;
@@ -11,7 +12,7 @@ public class TimeDialog extends SecuenceDialog<Time> {
     private static String SEPARATOR = ":";
 
     public TimeDialog(String title) {
-        super(title, "", new IntDialog().regExp(), SEPARATOR, "");
+        super(title, new Pair<String,String> ("",""), new IntDialog().regExp(), SEPARATOR, new Pair<String,String> ("",""));
     }
 
     public TimeDialog() {

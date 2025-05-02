@@ -13,11 +13,11 @@ public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
   private static final String POSTFIX = ">";
   private static final String FIXES = "[" + PREFIX + POSTFIX + "]";
 
-  protected PairDialog(String title, String keyRegExp, String valueRegExp) {
-    super(title, PREFIX + "(" + keyRegExp + ")" + SEPARATOR + "(" + valueRegExp + ")" + POSTFIX);
+  protected PairDialog(String title, Pair<String,String> keyRegExp, Pair<String,String> valueRegExp) {
+    super(title, new Pair<String,String> (PREFIX  + keyRegExp.getKey() + "|"  + valueRegExp.getKey() + POSTFIX , PREFIX + "(" + keyRegExp.getValue() + ")" + SEPARATOR + "(" + valueRegExp.getValue() + ")" + POSTFIX));
   }
 
-  protected PairDialog(String keyRegExp, String valueRegExp) {
+  protected PairDialog(Pair<String,String> keyRegExp, Pair<String,String> valueRegExp) {
     this("", keyRegExp, valueRegExp);
   }
 

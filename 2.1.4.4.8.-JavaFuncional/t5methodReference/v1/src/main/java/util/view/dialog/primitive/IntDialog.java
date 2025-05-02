@@ -3,7 +3,7 @@ package util.view.dialog.primitive;
 public class IntDialog extends Dialog<Integer> {
 
     public IntDialog(String title) {
-        super(title, Console.INTEGER_regExp);
+        super(title, Console.INTEGER_regExpPair);
     }
 
     public IntDialog() {

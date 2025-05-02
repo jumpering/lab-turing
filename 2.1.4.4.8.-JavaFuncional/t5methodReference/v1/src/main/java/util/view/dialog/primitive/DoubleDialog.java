@@ -3,7 +3,7 @@ package util.view.dialog.primitive;
 public class DoubleDialog extends Dialog<Double> {
 
     public DoubleDialog(String title) {
-        super(title, Console.DOUBLE_regExp);
+        super(title, Console.DOUBLE_regExpPair);
     }
 
     public DoubleDialog() {

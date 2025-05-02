@@ -1,5 +1,6 @@
 package util.view.dialog.primitive;
 
+import util.values.Pair;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -37,9 +38,9 @@ public class Console {
 	private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
 	private static final String logFolderName = mainClassSimpleName;
 
-	static final String CHAR_regExp = "c";
-	public static final String INTEGER_regExp = "-?\\d+";
-	public static final String DOUBLE_regExp = "-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)";
+	static final Pair<String,String> CHAR_regExpPair = new Pair<String,String> ("CHAR" ,"c");
+	public static final Pair<String,String> INTEGER_regExpPair = new Pair<String,String> ("INTEGER" ,"-?\\d+");
+	public static final Pair<String,String> DOUBLE_regExpPair = new Pair<String,String> ( "DOUBLE" ,"-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)");
 	
 	private static final String EXTENSION = ".log";
 	private static final String BASE_PATH = System.getProperty("user.dir");
@@ -144,7 +145,7 @@ public class Console {
 		assert title != null;
 
 		String string = "";
-		final Pattern charPattern = Pattern.compile(CHAR_regExp);
+		final Pattern charPattern = Pattern.compile(CHAR_regExpPair.getValue());
 		char characterInput = ' ';
 		boolean ok;
 		do {
@@ -176,7 +177,7 @@ public class Console {
 		assert title != null;
 
 		String string = "";
-		final Pattern intPattern = Pattern.compile(INTEGER_regExp);
+		final Pattern intPattern = Pattern.compile(INTEGER_regExpPair.getValue());
 		int intInput = ' ';
 		boolean ok;
 		do {
@@ -209,7 +210,7 @@ public class Console {
 
 		String string = "";
 		final Pattern doublePattern = Pattern
-				.compile(DOUBLE_regExp);
+				.compile(DOUBLE_regExpPair.getValue());
 		double doubleInput = ' ';
 		boolean ok;
 		do {
@@ -233,10 +234,10 @@ public class Console {
 		this.write(value + "\n");
 	}
 
-	private void writeError(String regExp) {
-		regExp = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + regExp;
-		Console.output.println(regExp);
-		Console.inputOutputLog.println(regExp);
+	private void writeError(String regExpKey) {
+		regExpKey = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + regExpKey;
+		Console.output.println(regExpKey);
+		Console.inputOutputLog.println(regExpKey);
 	}
 
 	public void write(Object object) {

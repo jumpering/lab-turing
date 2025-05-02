@@ -3,6 +3,7 @@ package util.view.dialog.values;
 import util.collection.Iterator;
 import util.collection.list.LinkedList;
 import util.values.Fraction;
+import util.values.Pair;
 import util.view.dialog.primitive.IntDialog;
 import util.view.dialog.primitive.SecuenceDialog;
 
@@ -11,7 +12,7 @@ public class FractionDialog extends SecuenceDialog<Fraction> {
     private static final String SEPARATOR = "/";
 
     public FractionDialog(String title) {
-        super(title, "", new IntDialog().regExp(), SEPARATOR, "");
+        super(title, new Pair<String,String> ("",""), new IntDialog().regExp(), SEPARATOR, new Pair<String,String> ("",""));
     }
 
     public FractionDialog() {
