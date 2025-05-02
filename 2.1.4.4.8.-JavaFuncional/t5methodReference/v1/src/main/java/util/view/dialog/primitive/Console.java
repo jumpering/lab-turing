@@ -18,21 +18,22 @@ public class Console {
 	private static Console console;
 
 	public static Console instance() {
-		if (Console.console == null){
+		if (Console.console == null) {
 			Console.console = new Console();
 		}
 		return Console.console;
- }
+	}
 
- private static String getMainClassName() {
-	 for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-		 if ("main".equals(element.getMethodName())) {
-			 return element.getClassName();
-		 }
-	 }
-	 return "unknown";
- }
+	private static String getMainClassName() {
+		for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+			if ("main".equals(element.getMethodName())) {
+				return element.getClassName();
+			}
+		}
+		return "unknown";
+	}
 
+	private static final boolean LOG = false;
 	private static final String mainClassName = getMainClassName();
 	private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
 	private static final String logFolderName = mainClassSimpleName;
@@ -40,10 +41,10 @@ public class Console {
 	static final String CHAR_regExp = "c";
 	public static final String INTEGER_regExp = "-?\\d+";
 	public static final String DOUBLE_regExp = "-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)";
-	
+
 	private static final String EXTENSION = ".log";
 	private static final String BASE_PATH = System.getProperty("user.dir");
- 	private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/" ;
+	private static final String HEAD_PATH = BASE_PATH + "/resources/logs/" + logFolderName + "/";
 
 	private static String TAIL_PATH = "-"
 			+ LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-"
@@ -58,48 +59,54 @@ public class Console {
 	static {
 		Console.input = new BufferedReader(new InputStreamReader(System.in));
 		Console.output = System.out;
-		try {
-   File logDir = new File(HEAD_PATH);
-   if (!logDir.exists()) {
-	    logDir.mkdirs();
-   } 
-			Console.inputLog = new PrintWriter(INPUT_PATH);
-			Console.inputOutputLog = new PrintWriter(INPUT_OUTPUT_PATH);
-		} catch (FileNotFoundException exception) {
-			exception.printStackTrace();
+		if (LOG) {
+			try {
+				File logDir = new File(HEAD_PATH);
+				if (!logDir.exists()) {
+					logDir.mkdirs();
+				}
+				Console.inputLog = new PrintWriter(INPUT_PATH);
+				Console.inputOutputLog = new PrintWriter(INPUT_OUTPUT_PATH);
+			} catch (FileNotFoundException exception) {
+				exception.printStackTrace();
+			}
 		}
 	}
 
-	public static void close(){
-		Console.close("0");
+	public static void close() {
+		if (LOG) {
+			Console.close("0");
+		}
 	}
 
 	public static void close(String suffix) {
-		try {
-			if (Console.inputLog != null) {
-				Console.inputLog.close();
+		if (LOG) {
+			try {
+				if (Console.inputLog != null) {
+					Console.inputLog.close();
+				}
+				if (Console.inputOutputLog != null) {
+					Console.inputOutputLog.close();
+				}
+			} catch (Exception exception) {
+				exception.printStackTrace();
 			}
-			if (Console.inputOutputLog != null) {
-				Console.inputOutputLog.close();
+			String inputLogPath = HEAD_PATH + "input-scenario-" + suffix + EXTENSION;
+			String inputOutputLogPath = HEAD_PATH + "inputOutput-scenario-" + suffix + EXTENSION;
+			File oldInputLog = new File(inputLogPath);
+			File oldInputOutputLog = new File(inputOutputLogPath);
+			if (oldInputLog.exists()) {
+				oldInputLog.delete();
 			}
-		} catch (Exception exception) {
-			exception.printStackTrace();
+			if (oldInputOutputLog.exists()) {
+				oldInputOutputLog.delete();
+			}
+			new File(INPUT_PATH).renameTo(oldInputLog);
+			new File(INPUT_OUTPUT_PATH).renameTo(oldInputOutputLog);
 		}
-		String inputLogPath = HEAD_PATH + "input-scenario-" + suffix + EXTENSION;
-		String inputOutputLogPath = HEAD_PATH + "inputOutput-scenario-" + suffix + EXTENSION;
-		File oldInputLog = new File(inputLogPath);
-		File oldInputOutputLog = new File(inputOutputLogPath);
-		if (oldInputLog.exists()) {
-			oldInputLog.delete();
-		}
-		if (oldInputOutputLog.exists()){
-			oldInputOutputLog.delete();
-		}
-		new File(INPUT_PATH).renameTo(oldInputLog);
-		new File(INPUT_OUTPUT_PATH).renameTo(oldInputOutputLog);
 	}
 
-	private Console(){
+	private Console() {
 	}
 
 	public String readString() {
@@ -113,8 +120,11 @@ public class Console {
 		this.write(title);
 		try {
 			string = Console.input.readLine();
-			Console.inputLog.println(string);
-			Console.inputOutputLog.println(string);
+			if (LOG) {
+				Console.inputLog.println(string);
+				Console.inputOutputLog.println(string);
+			}
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -125,7 +135,10 @@ public class Console {
 		assert string != null;
 
 		Console.output.print(string);
-		Console.inputOutputLog.print(string);
+		if (LOG) {
+			Console.inputOutputLog.print(string);
+		}
+
 	}
 
 	public void writeln(String string) {
@@ -161,7 +174,10 @@ public class Console {
 
 	public void write(char character) {
 		Console.output.print(character);
-		Console.inputOutputLog.print(character);
+		if (LOG) {
+			Console.inputOutputLog.print(character);
+
+		}
 	}
 
 	public void writeln(char character) {
@@ -193,7 +209,10 @@ public class Console {
 
 	public void write(int value) {
 		Console.output.print(value);
-		Console.inputOutputLog.print(value);
+		if (LOG) {
+			Console.inputOutputLog.print(value);
+
+		}
 	}
 
 	public void writeln(int value) {
@@ -226,7 +245,10 @@ public class Console {
 
 	public void write(double value) {
 		Console.output.print(value);
-		Console.inputOutputLog.print(value);
+		if (LOG) {
+			Console.inputOutputLog.print(value);
+
+		}
 	}
 
 	public void writeln(double value) {
@@ -236,12 +258,18 @@ public class Console {
 	private void writeError(String regExp) {
 		regExp = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + regExp;
 		Console.output.println(regExp);
-		Console.inputOutputLog.println(regExp);
+		if (LOG) {
+			Console.inputOutputLog.println(regExp);
+
+		}
 	}
 
 	public void write(Object object) {
 		Console.output.print(object);
-		Console.inputOutputLog.print(object);
+		if (LOG) {
+			Console.inputOutputLog.print(object);
+
+		}
 	}
 
 	public void writeln(Object object) {
