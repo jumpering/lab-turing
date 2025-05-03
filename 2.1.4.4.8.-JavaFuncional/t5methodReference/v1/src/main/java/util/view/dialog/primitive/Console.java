@@ -1,6 +1,5 @@
 package util.view.dialog.primitive;
 
-import util.values.Pair;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import java.util.regex.Pattern;
 
 public class Console {
 
@@ -37,11 +35,6 @@ public class Console {
 	private static final String mainClassName = getMainClassName();
 	private static final String mainClassSimpleName = mainClassName.substring(mainClassName.lastIndexOf('.') + 1);
 	private static final String logFolderName = mainClassSimpleName;
-
-	static final Pair<String, String> CHAR_regExpPair = new Pair<String, String>("CHAR", "c");
-	public static final Pair<String, String> INTEGER_regExpPair = new Pair<String, String>("INTEGER", "-?\\d+");
-	public static final Pair<String, String> DOUBLE_regExpPair = new Pair<String, String>("DOUBLE",
-			"-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)");
 
 	private static final String EXTENSION = ".log";
 	private static final String BASE_PATH = System.getProperty("user.dir");
@@ -146,16 +139,15 @@ public class Console {
 		assert title != null;
 
 		String string = "";
-		final Pattern charPattern = Pattern.compile(CHAR_regExpPair.getValue());
 		char characterInput = ' ';
 		boolean ok;
 		do {
 			string = this.readString(title);
-			ok = charPattern.matcher(string).find();
+			ok = RegexRule.CHAR_RULE.getPattern().matcher(string).find();
 			if (ok) {
 				characterInput = string.charAt(0);
 			} else {
-				this.writeError(charPattern.toString());
+				this.writeError(RegexRule.CHAR_RULE.getDisplayName());
 			}
 		} while (!ok);
 		return characterInput;
@@ -178,16 +170,15 @@ public class Console {
 		assert title != null;
 
 		String string = "";
-		final Pattern intPattern = Pattern.compile(INTEGER_regExpPair.getValue());
 		int intInput = ' ';
 		boolean ok;
 		do {
 			string = this.readString(title);
-			ok = intPattern.matcher(string.trim()).find();
+			ok = RegexRule.INTEGER_RULE.getPattern().matcher(string.trim()).find();
 			if (ok) {
 				intInput = Integer.parseInt(string);
 			} else {
-				this.writeError(intPattern.toString());
+				this.writeError(RegexRule.INTEGER_RULE.getDisplayName());
 			}
 		} while (!ok);
 		return intInput;
@@ -210,17 +201,15 @@ public class Console {
 		assert title != null;
 
 		String string = "";
-		final Pattern doublePattern = Pattern
-				.compile(DOUBLE_regExpPair.getValue());
 		double doubleInput = ' ';
 		boolean ok;
 		do {
 			string = this.readString(title);
-			ok = doublePattern.matcher(string.trim()).find();
+			ok = RegexRule.DOUBLE_RULE.getPattern().matcher(string.trim()).find();
 			if (ok) {
 				doubleInput = Integer.parseInt(string);
 			} else {
-				this.writeError(doublePattern.toString());
+				this.writeError(RegexRule.DOUBLE_RULE.getDisplayName());
 			}
 		} while (!ok);
 		return doubleInput;
@@ -235,10 +224,10 @@ public class Console {
 		this.write(value + "\n");
 	}
 
-	private void writeError(String patternString) {
-		patternString = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + patternString;
-		Console.output.println(patternString);
-		Console.inputOutputLog.println(patternString);
+	private void writeError(String regexDisplayname) {
+		regexDisplayname = "Fallo!!! Por tu error al aplicar defectuasamente el formato " + regexDisplayname;
+		Console.output.println(regexDisplayname);
+		Console.inputOutputLog.println(regexDisplayname);
 	}
 
 	public void write(Object object) {

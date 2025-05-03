@@ -1,18 +1,18 @@
 package util.view.dialog.values;
 
+import java.util.regex.Pattern;
+
 import util.collection.Iterator;
 import util.collection.list.LinkedList;
 import util.values.Date;
-import util.values.Pair;
 import util.view.dialog.primitive.IntDialog;
-import util.view.dialog.primitive.SecuenceDialog;
+import util.view.dialog.primitive.RegexRule;
+import util.view.dialog.primitive.SequenceDialog;
 
-public class DateDialog extends SecuenceDialog<Date> {
+public class DateDialog extends SequenceDialog<Date> {
 
-    private static String SEPARATOR = "/";
-  
     public DateDialog(String title) {
-        super(title, new Pair<String,String> ("",""), new IntDialog().regExp(),  SEPARATOR, new Pair<String,String> ("",""));
+        super(title, RegexRule.EMPTY, new IntDialog().regExp(),  new RegexRule("/", Pattern.compile("/")), RegexRule.EMPTY);
     }
 
     public DateDialog() {

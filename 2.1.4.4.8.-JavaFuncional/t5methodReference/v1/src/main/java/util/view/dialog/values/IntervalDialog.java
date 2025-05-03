@@ -2,13 +2,14 @@ package util.view.dialog.values;
 
 import util.collection.list.LinkedList;
 import util.values.Interval;
-import util.values.Pair;
-import util.view.dialog.primitive.SecuenceDialog;
+import util.view.dialog.primitive.RegexRule;
+import util.view.dialog.primitive.SequenceDialog;
 
-public abstract class IntervalDialog<T extends Comparable<T>> extends SecuenceDialog<Interval<T>> {
+public abstract class IntervalDialog<T extends Comparable<T>> extends SequenceDialog<Interval<T>> {
 
-    protected IntervalDialog(String title, Pair<String,String> regExp) {
-        super(title,  new Pair<String,String> ("[","\\[") , regExp , "," , new Pair<String,String> ("]","\\]"));
+    protected IntervalDialog(String title, RegexRule regExp) {
+        super(title, RegexRule.OPEN_BRACKET, regExp, RegexRule.COMMA, RegexRule.CLOSE_BRACKET
+        );
     }
 
     protected boolean isSemanticValid(String string){
@@ -18,7 +19,7 @@ public abstract class IntervalDialog<T extends Comparable<T>> extends SecuenceDi
 
     protected abstract LinkedList<T> values(String string);
 
-    protected IntervalDialog(Pair<String,String> regExp) {
+    protected IntervalDialog(RegexRule regExp) {
         this("", regExp);
     }
 

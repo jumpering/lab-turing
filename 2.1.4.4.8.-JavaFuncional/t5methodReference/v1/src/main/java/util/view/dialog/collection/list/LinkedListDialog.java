@@ -1,12 +1,14 @@
 package util.view.dialog.collection.list;
 
-import util.values.Pair;
-import util.view.dialog.primitive.SecuenceDialog;
+import java.util.regex.Pattern;
 
-public abstract class LinkedListDialog<T> extends SecuenceDialog<T> {
+import util.view.dialog.primitive.RegexRule;
+import util.view.dialog.primitive.SequenceDialog;
 
-    protected LinkedListDialog(String title, Pair<String,String> regExp) {
-        super(title, new Pair<String,String> ("{","\\{"), regExp, ",",  new Pair<String,String> ("}","\\}"));
+public abstract class LinkedListDialog<T> extends SequenceDialog<T> {
+
+    protected LinkedListDialog(String title, RegexRule regExp) {
+        super(title, new RegexRule("{",Pattern.compile("\\{")), regExp, RegexRule.COMMA,  new RegexRule("}",Pattern.compile("\\}")));
     }
 
 }

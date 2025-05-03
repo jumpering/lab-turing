@@ -1,24 +1,31 @@
 package util.view.dialog.values;
 
+import java.util.regex.Pattern;
+
 import util.collection.list.LinkedList;
 import util.values.Pair;
 import util.view.dialog.primitive.Dialog;
+import util.view.dialog.primitive.RegexRule;
 
 public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
-// Añadir string con traducción humana
-// Cambiar las *RegExp de String a un nuevo tipo PairRegExp<String,String>
-// para tener la clave humana y el valor   
-  private static final String PREFIX = "<";
-  private static final String SEPARATOR = "\\|";
-  private static final String POSTFIX = ">";
-  private static final String FIXES = "[" + PREFIX + POSTFIX + "]";
 
-  protected PairDialog(String title, Pair<String,String> keyRegExp, Pair<String,String> valueRegExp) {
-    super(title, new Pair<String,String> (PREFIX  + keyRegExp.getKey() + "|"  + valueRegExp.getKey() + POSTFIX , PREFIX + "(" + keyRegExp.getValue() + ")" + SEPARATOR + "(" + valueRegExp.getValue() + ")" + POSTFIX));
+  private static final RegexRule PREFIX_RULE    = new RegexRule("<", Pattern.compile("\\<"));
+  private static final RegexRule POSTFIX_RULE   = new RegexRule(">", Pattern.compile("\\>"));
+  private static final RegexRule SEPARATOR_RULE = new RegexRule("|", Pattern.compile("\\|"));
+  private static final String FIXES = "[" + PREFIX_RULE.getDisplayName() + POSTFIX_RULE.getDisplayName() + "]";
+
+  protected PairDialog(String title, RegexRule keyRule, RegexRule valueRule) {
+    super(title, RegexRule.sequence(
+      PREFIX_RULE,
+      keyRule,
+      SEPARATOR_RULE,
+      valueRule,
+      POSTFIX_RULE
+  ));
   }
 
-  protected PairDialog(Pair<String,String> keyRegExp, Pair<String,String> valueRegExp) {
-    this("", keyRegExp, valueRegExp);
+  protected PairDialog(RegexRule keyRule, RegexRule valueRule) {
+    this("", keyRule, valueRule);
   }
 
   protected boolean isSemanticValid(String string) {
@@ -34,7 +41,7 @@ public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
     if (string.isBlank()) {
       return strings;
     }
-    for (String element : string.split(SEPARATOR)) {
+    for (String element : string.split(SEPARATOR_RULE.getDisplayName())) {
       strings.add(element);
     }
     return strings;

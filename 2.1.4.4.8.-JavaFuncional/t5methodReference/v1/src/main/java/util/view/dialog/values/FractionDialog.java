@@ -1,18 +1,23 @@
 package util.view.dialog.values;
 
+import java.util.regex.Pattern;
+
 import util.collection.Iterator;
 import util.collection.list.LinkedList;
 import util.values.Fraction;
-import util.values.Pair;
 import util.view.dialog.primitive.IntDialog;
-import util.view.dialog.primitive.SecuenceDialog;
+import util.view.dialog.primitive.RegexRule;
+import util.view.dialog.primitive.SequenceDialog;
 
-public class FractionDialog extends SecuenceDialog<Fraction> {
-
-    private static final String SEPARATOR = "/";
+public class FractionDialog extends SequenceDialog<Fraction> {
 
     public FractionDialog(String title) {
-        super(title, new Pair<String,String> ("",""), new IntDialog().regExp(), SEPARATOR, new Pair<String,String> ("",""));
+        super(title,
+        RegexRule.EMPTY,
+        RegexRule.INTEGER_RULE,
+        new RegexRule("/", Pattern.compile("/")),
+        RegexRule.EMPTY
+        );
     }
 
     public FractionDialog() {
