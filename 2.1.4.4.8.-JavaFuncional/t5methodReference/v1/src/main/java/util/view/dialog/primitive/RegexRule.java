@@ -23,39 +23,67 @@ public final class RegexRule {
         return pattern;
     }
 
-    private static RegexRule compose(String displayName, String regex) {
+    public static RegexRule sequence(
+        RegexRule prefix,
+        RegexRule element,
+        RegexRule separator,
+        RegexRule postfix
+    ) {
+        String displayName = prefix.getDisplayName()
+                        + element.getDisplayName()
+                        + "(" + separator.getDisplayName() + element.getDisplayName() + ")*"
+                        + postfix.getDisplayName();
+
+        String regex = prefix.getPattern().pattern()
+                    + element.getPattern().pattern()
+                    + "(" + Pattern.quote(separator.getPattern().pattern())
+                    + element.getPattern().pattern() + ")*?"
+                    + postfix.getPattern().pattern();
+
         return new RegexRule(displayName, Pattern.compile(regex));
     }
 
-    public static RegexRule sequence(RegexRule... parts) {
-        String displayName = Arrays.stream(parts)
-                .map(RegexRule::getDisplayName)
-                .collect(Collectors.joining());
-        String regex = Arrays.stream(parts)
-                .map(r -> r.getPattern().pattern())
-                .collect(Collectors.joining());
-        return compose(displayName, regex);
+    public static RegexRule interval(
+        RegexRule prefix,
+        RegexRule element,
+        RegexRule separator,
+        RegexRule postfix
+    ) {
+        String displayName = prefix.getDisplayName()
+                        + element.getDisplayName()
+                        + separator.getDisplayName()
+                        + element.getDisplayName()
+                        + postfix.getDisplayName();
+
+        String regex = prefix.getPattern().pattern()
+                    + element.getPattern().pattern()
+                    + Pattern.quote(separator.getPattern().pattern())
+                    + element.getPattern().pattern()
+                    + postfix.getPattern().pattern();
+
+        return new RegexRule(displayName, Pattern.compile(regex));
     }
 
-    public static RegexRule interval(
-            RegexRule elementRule,
-            RegexRule separatorRule,
-            RegexRule openBracketRule,
-            RegexRule closeBracketRule) {
-        String displayName = openBracketRule.getDisplayName()
-                + elementRule.getDisplayName()
-                + separatorRule.getDisplayName()
-                + elementRule.getDisplayName()
-                + closeBracketRule.getDisplayName();
+    public static RegexRule pair(
+        RegexRule prefix,
+        RegexRule keyElement,
+        RegexRule separator,
+        RegexRule valueElement,
+        RegexRule postfix
+    ) {
+        String displayName = prefix.getDisplayName()
+                        + keyElement.getDisplayName()
+                        + separator.getDisplayName()
+                        + valueElement.getDisplayName()
+                        + postfix.getDisplayName();
 
-        String regexPattern = openBracketRule.getPattern().pattern()
-                + "(" + elementRule.getPattern().pattern()
-                + "(" + separatorRule.getPattern().pattern()
-                + elementRule.getPattern().pattern()
-                + ")*)?"
-                + closeBracketRule.getPattern().pattern();
+        String regex = prefix.getPattern().pattern()
+                    + keyElement.getPattern().pattern()
+                    + Pattern.quote(separator.getPattern().pattern())
+                    + valueElement.getPattern().pattern()
+                    + postfix.getPattern().pattern();
 
-        return compose(displayName, regexPattern);
+        return new RegexRule(displayName, Pattern.compile(regex));
     }
 
     public static final RegexRule EMPTY = new RegexRule(
@@ -74,18 +102,6 @@ public final class RegexRule {
             "DOUBLE", Pattern.compile(
                     "-?(\\d+(\\.\\d+)?([eE][+-]?\\d+)?|\\.\\d+([eE][+-]?\\d+)?)")
                     );
-
-    public static final RegexRule OPEN_BRACKET = new RegexRule(
-            "[", Pattern.compile("\\[")
-    );
-
-    public static final RegexRule CLOSE_BRACKET = new RegexRule(
-            "]", Pattern.compile("\\]")
-    );
-
-    public static final RegexRule COMMA = new RegexRule(
-            ",", Pattern.compile(",")
-    );
 
     @Override
     public String toString() {

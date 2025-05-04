@@ -15,7 +15,7 @@ public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
   private static final String FIXES = "[" + PREFIX_RULE.getDisplayName() + POSTFIX_RULE.getDisplayName() + "]";
 
   protected PairDialog(String title, RegexRule keyRule, RegexRule valueRule) {
-    super(title, RegexRule.sequence(
+    super(title, RegexRule.pair(
       PREFIX_RULE,
       keyRule,
       SEPARATOR_RULE,
