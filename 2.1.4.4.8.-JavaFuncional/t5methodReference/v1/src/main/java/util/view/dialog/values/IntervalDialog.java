@@ -20,8 +20,14 @@ public abstract class IntervalDialog<T extends Comparable<T>> extends Dialog<Int
 
     protected boolean isSemanticValid(String string){
         LinkedList<T> values = this.values(string);
-        return values.size() != 2;
+        return values.size() == 2;
     }
+
+    @Override
+    protected String errorSemanticMsg() {
+    return "Intervalo debe contener exactamente 2 valores";
+    }
+
 
     protected LinkedList<String> strings(String string) {
         LinkedList<String> strings = new LinkedList<String>();
