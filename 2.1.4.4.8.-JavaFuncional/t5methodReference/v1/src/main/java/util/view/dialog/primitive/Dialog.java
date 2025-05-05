@@ -49,7 +49,7 @@ public abstract class Dialog<T> {
 
     private boolean isValid(String string) {
         assert string != null;
-        boolean syntaxOk  = regExp.getPattern().asMatchPredicate().test(string);
+        boolean syntaxOk  = string.matches(this.regExp.getPattern().toString());
         boolean semanticOk = this.isSemanticValid(string);
         return syntaxOk && semanticOk;
     }

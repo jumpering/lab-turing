@@ -12,7 +12,7 @@ public abstract class IntervalDialog<T extends Comparable<T>> extends Dialog<Int
     private static final RegexRule PREFIX_RULE    = new RegexRule("[", Pattern.compile("\\["));
     private static final RegexRule POSTFIX_RULE   = new RegexRule("]", Pattern.compile("\\]"));
     private static final RegexRule SEPARATOR_RULE = new RegexRule(",", Pattern.compile("\\,"));
-    private static final String FIXES = "[" + PREFIX_RULE.getDisplayName() + POSTFIX_RULE.getDisplayName() + "]";
+    private static final String FIXES = "[" + PREFIX_RULE.getPattern().toString() + POSTFIX_RULE.getPattern().toString() + "]";
 
     protected IntervalDialog(String title, RegexRule regExp) {
         super(title, RegexRule.interval( PREFIX_RULE, regExp, SEPARATOR_RULE, POSTFIX_RULE));
@@ -37,7 +37,7 @@ public abstract class IntervalDialog<T extends Comparable<T>> extends Dialog<Int
         if (string.isBlank()) {
             return strings;
         }
-        for (String element : string.split(SEPARATOR_RULE.getDisplayName())) {
+        for (String element : string.split(SEPARATOR_RULE.getPattern().toString())) {
             strings.add(element);
         }
         return strings;

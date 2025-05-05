@@ -14,25 +14,17 @@ public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
   private static final RegexRule SEPARATOR_RULE = new RegexRule("|", Pattern.compile("\\|"));
   private static final String FIXES = "[" + PREFIX_RULE.getDisplayName() + POSTFIX_RULE.getDisplayName() + "]";
 
-  protected PairDialog(String title, RegexRule keyRule, RegexRule valueRule) {
-    super(title, RegexRule.pair(
-      PREFIX_RULE,
-      keyRule,
-      SEPARATOR_RULE,
-      valueRule,
-      POSTFIX_RULE
-  ));
+  protected PairDialog(String title, RegexRule keyRegExp, RegexRule valueRegExp) {
+    super(title, RegexRule.pair(PREFIX_RULE , keyRegExp , SEPARATOR_RULE , valueRegExp , POSTFIX_RULE));
   }
 
-  protected PairDialog(RegexRule keyRule, RegexRule valueRule) {
-    this("", keyRule, valueRule);
+  protected PairDialog(RegexRule keyRegExp, RegexRule valueRegExp) {
+    this("", keyRegExp, valueRegExp);
   }
 
   protected boolean isSemanticValid(String string) {
     LinkedList<String> values = this.strings(string);
-    return values.size() == 2 
-        && new DateDialog().isSemanticValid(values.get(0))
-        && new TimeIntervalDialog().isSemanticValid(values.get(1));
+    return values.size() == 2;
   }
 
   protected LinkedList<String> strings(String string) {
@@ -41,7 +33,7 @@ public abstract class PairDialog<K, V> extends Dialog<Pair<K, V>> {
     if (string.isBlank()) {
       return strings;
     }
-    for (String element : string.split(SEPARATOR_RULE.getDisplayName())) {
+    for (String element : string.split(SEPARATOR_RULE.getPattern().toString())) {
       strings.add(element);
     }
     return strings;
