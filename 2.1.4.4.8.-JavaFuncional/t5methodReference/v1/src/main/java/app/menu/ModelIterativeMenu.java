@@ -1,5 +1,7 @@
 package app.menu;
 
+import java.util.stream.IntStream;
+
 import util.view.dialog.primitive.Console;
 import util.view.menu.IterativeMenu;
 
@@ -8,15 +10,16 @@ class ModelIterativeMenu extends IterativeMenu {
     public ModelIterativeMenu(Model model) {
         super("Model Iterative Menu");
         this.add("Listar", () -> {
-                for (int i = 0; i < model.size(); i++) {
-                    Console.instance().writeln((i + 1) + ". " + model.get(i));
-                }
+                IntStream.range(0,model.size())
+                .mapToObj((i) -> (i + 1) + ". " + model.get(i)).
+                forEach(Console.instance()::writeln);
+
                 Console.instance().writeln();
             });
         this.add("Listar inverso", () -> {
-                for (int i = model.size() - 1; i >= 0; i--) {
-                    Console.instance().writeln((i + 1) + ". " + model.get(i));
-                }
+                IntStream.rangeClosed( model.size() - 1,0)
+                .mapToObj((i) -> (i + 1) + ". " + model.get(i))
+                .forEach(Console.instance()::writeln);
                 Console.instance().writeln();
             });
         this.add("Buscar", () -> {
